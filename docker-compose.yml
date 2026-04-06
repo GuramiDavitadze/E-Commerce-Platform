@@ -10,6 +10,9 @@ services:
     depends_on:
      - postgres
     restart: unless-stopped
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
   postgres:
     image: postgres:16-alpine
     ports:
