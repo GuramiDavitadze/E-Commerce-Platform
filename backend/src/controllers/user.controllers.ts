@@ -12,7 +12,10 @@ const registerController = async (req: Request, res: Response) => {
     res
       .status(200)
       .json({ message: "User registered successfully", token: token });
-  } catch (error) {
+  } catch (error:any) {
+    if (error.code === "P2002") {
+      return res.status(409).json({message:"Email already exist!"})
+    }    
     return res.status(500).json({ message: "Internal Server error" });
   }
 };
