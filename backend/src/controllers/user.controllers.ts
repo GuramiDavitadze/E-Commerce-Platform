@@ -6,8 +6,7 @@ const registerController = async (req: Request, res: Response) => {
   try {
     const { fullname, email, password, image, role } = req.body;
     const hashedPassword = await hashPassword(password);
-
-    const data = { fullname, email, password: hashedPassword, image, role };
+    const data = { fullname, email, password: hashedPassword,image,role};
     const resp = await userRegisterService(data);
     const token = generateToken({ id: resp.id, role: resp.role });
     res

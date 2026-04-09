@@ -4,6 +4,6 @@ import { registerMiddleware } from "../middlewares/user.middlewares";
 
 const router = express.Router();
 
-router.get("/auth/register", registerMiddleware, registerController);
+router.post("/auth/register", registerMiddleware, registerController);
 
 export default router;
