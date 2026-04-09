@@ -12,41 +12,60 @@ datasource db {
   provider = "postgresql"
 }
 
-model Users {
+enum Role {
+  ADMIN
+  CUSTOMER
+}
+
+model User {
   id         String   @id @default(uuid())
   fullname   String
   email      String   @unique
-  role       String
+  role       Role     @default(CUSTOMER)
   image      String
   password   String
   isActive   Boolean  @default(true)
   created_at DateTime @default(now())
+
+  products Product[]
+  comments Comment[]
 }
 
-model Products {
-  product_id  String   @id @default(uuid())
+model Product {
+  id          String   @id @default(uuid())
   name        String
   description String
-  admin_id    String
   image       String
   price       Decimal
-  category_id String
   quantity    Int
   status      Boolean  @default(true)
   update_at   DateTime @default(now())
   created_at  DateTime @default(now())
+
+  admin    User   @relation(fields: [admin_id], references: [id])
+  admin_id String
+
+  category    Category @relation(fields: [category_id], references: [id])
+  category_id String
+
+  comments Comment[]
 }
 
 model Category {
-  category_id   String @id @default(uuid())
+  id            String    @id @default(uuid())
   content       String
-  category_slug String @unique
+  category_slug String    @unique
+  products      Product[]
 }
 
-model Comments {
-  comment_id String   @id @default(uuid())
+model Comment {
+  id         String   @id @default(uuid())
   text       String
-  author_id  String
-  product_id String
   created_at DateTime @default(now())
+
+  author    User   @relation(fields: [author_id], references: [id])
+  author_id String
+
+  product    Product @relation(fields: [product_id], references: [id])
+  product_id String
 }
