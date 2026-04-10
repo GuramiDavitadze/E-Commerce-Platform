@@ -18,3 +18,14 @@ export const userLoginService = async (email: string) => {
     },
   });
 };
+
+export const getMeService = async (userId: string) => {
+  return await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    omit: {
+      password: true,
+    },
+  });
+};

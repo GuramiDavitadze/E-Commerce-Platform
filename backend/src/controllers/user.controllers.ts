@@ -59,4 +59,8 @@ const loginController = async (req: Request, res: Response) => {
   }
 };
 
-export { registerController, loginController };
+const getMeController = async (req: Request, res: Response) => {
+  
+}
+
+export { registerController, loginController,getMeController };
