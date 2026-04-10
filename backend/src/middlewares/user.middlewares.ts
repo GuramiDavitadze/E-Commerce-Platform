@@ -1,13 +1,15 @@
 import type { NextFunction, Request, Response } from "express";
 import { isEmailValid, isPasswordValid } from "../utils/validators";
-import { json } from "node:stream/consumers";
 const registerMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   const { fullname, email, password } = req.body;
-  if (!req.body || !fullname || !email || !password) {
+  if (!req.body) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+  if ( !fullname || !email || !password) {
     return res.status(400).json({ message: "All fields are required" });
   }
   if (fullname.trim() === "" || email.trim() === "" || password.trim() === "") {
