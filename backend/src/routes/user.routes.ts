@@ -12,7 +12,7 @@ import {
 
 const router = express.Router();
 
-router.post("/auth/register", registerMiddleware, registerController);
-router.post("/auth/login", loginMiddleware, loginController);
-router.get("/auth/me", authMiddleware, getMeController);
+router.post("/register", registerMiddleware, registerController);
+router.post("/login", loginMiddleware, loginController);
+router.get("/me", authMiddleware, getMeController);
 export default router;

@@ -11,7 +11,7 @@ app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
-app.use("/api", userRouter);
+app.use("/api/auth", userRouter);
 app.listen(PORT, () => {
   console.log("It's working perfectly");
 });
