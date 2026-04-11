@@ -33,7 +33,7 @@ const getAllProductsService = async () => {
       admin_id: true,
       category_id: true,
       update_at: true,
-      created_at:true
+      created_at: true,
     },
     include: {
       category: {
@@ -44,4 +44,31 @@ const getAllProductsService = async () => {
     },
   });
 };
-export { productCreationService, getAllProductsService };
+
+const getProductsByCategoryService = async (category_slug: string) => {
+  return await prisma.product.findMany({
+    where: {
+      category: {
+        category_slug,
+      },
+    },
+    omit: {
+      admin_id: true,
+      category_id: true,
+      update_at: true,
+      created_at: true,
+    },
+    include: {
+      category: {
+        select: {
+          content: true,
+        },
+      },
+    },
+  });
+};
+export {
+  productCreationService,
+  getAllProductsService,
+  getProductsByCategoryService,
+};

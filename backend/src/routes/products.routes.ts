@@ -10,4 +10,5 @@ router.post(
   controller.productCreationController,
 );
 router.get("/", controller.getAllProductsController);
+router.get("/category/:category_slug", controller.getAllProductsByCategoryController);
 export default router;
