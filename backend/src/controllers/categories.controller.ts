@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { categoryCreationService } from "../services";
+import { categoryCreationService, getAllCategoriesService } from "../services";
 
 const categoryCreationController = async (req: Request, res: Response) => {
   try {
@@ -21,4 +21,13 @@ const categoryCreationController = async (req: Request, res: Response) => {
   }
 };
 
-export { categoryCreationController };
+const getAllCategoriesController = async (req: Request, res: Response) => {
+  try {
+    const resp = await getAllCategoriesService();
+    res.status(200).json({ data: resp });
+  } catch {
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export { categoryCreationController, getAllCategoriesController };
