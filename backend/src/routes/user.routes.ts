@@ -1,18 +1,20 @@
 import express from "express";
-import {
-  getMeController,
-  loginController,
-  registerController,
-} from "../controllers/user.controllers";
-import {
-    authMiddleware,
-  loginMiddleware,
-  registerMiddleware,
-} from "../middlewares/user.middlewares";
+import * as UserControler from "../controllers";
+import * as UserMiddleware from "../middlewares";
 
 const router = express.Router();
 
-router.post("/register", registerMiddleware, registerController);
-router.post("/login", loginMiddleware, loginController);
-router.get("/me", authMiddleware, getMeController);
+router.post(
+  "/register",
+  UserMiddleware.registerMiddleware,
+  UserControler.registerController,
+);
+
+router.post(
+  "/login",
+  UserMiddleware.loginMiddleware,
+  UserControler.loginController,
+);
+
+router.get("/me", UserMiddleware.authMiddleware, UserControler.getMeController);
 export default router;

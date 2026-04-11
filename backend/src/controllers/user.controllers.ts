@@ -1,9 +1,5 @@
 import { Request, Response } from "express";
-import {
-  getMeService,
-  userLoginService,
-  userRegisterService,
-} from "../services/user.services";
+import * as UserServices from "../services";
 import jwt from "jsonwebtoken";
 import { comparePassword, hashPassword } from "../utils/passwdHelper";
 import { generateToken } from "../utils/jwtHelper";
@@ -12,7 +8,7 @@ const registerController = async (req: Request, res: Response) => {
     const { fullname, email, password, image, role } = req.body;
     const hashedPassword = await hashPassword(password);
     const data = { fullname, email, password: hashedPassword, image, role };
-    const resp = await userRegisterService(data);
+    const resp = await UserServices.userRegisterService(data);
     const token = generateToken({ id: resp.id, role: resp.role });
     res
       .status(201)
@@ -28,7 +24,7 @@ const registerController = async (req: Request, res: Response) => {
 const loginController = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    const resp = await userLoginService(email);
+    const resp = await UserServices.userLoginService(email);
     if (!resp) {
       return res.status(400).json({
         message: "Invalid cridentials",
@@ -64,7 +60,7 @@ const getMeController = async (req: Request, res: Response) => {
   try {
     const user = req.user;
 
-    const data = await getMeService(user?.id);
+    const data = await UserServices.getMeService(user?.id);
     res.status(200).json(data);
   } catch (error) {
     console.log(error);

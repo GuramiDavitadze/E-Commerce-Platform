@@ -4,5 +4,5 @@ import categoryRouter from "./categories.routes";
 const rootRouter = Router();
 
 rootRouter.use("/auth", userRouter);
-rootRouter.use("/category", categoryRouter);
+// rootRouter.use("/category", categoryRouter);
 export { rootRouter };
