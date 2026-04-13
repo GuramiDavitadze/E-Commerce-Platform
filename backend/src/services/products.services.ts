@@ -55,6 +55,10 @@ const getAllProductsService = async (limit: number, skip: number) => {
   });
 };
 
+const getSingleProductService = async (product_id:string) => {
+  
+}
+
 const getProductsByCategoryService = async (category_slug: string) => {
   return await prisma.product.findMany({
     where: {
