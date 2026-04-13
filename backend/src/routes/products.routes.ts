@@ -18,6 +18,7 @@ router.get(
 router.patch(
   "/:product_id",
   middleware.checkUser,
+  middleware.productUpdateMiddleware,
   controller.updateProductByIdController,
 );
 

@@ -68,9 +68,14 @@ const getAllProductsByCategoryController = async (
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
+// name        String
+//   description String
+//   image       String?
+//   price       Decimal  @db.Decimal(10, 2)
+//   quantity    Int      @default(1)
+//   status      Boolean  @default(true)
 const updateProductByIdController = async (req: Request, res: Response) => {
-  
+  const {description,name,image,quantity,status,price} = req.body
 }
 
 const deleteProductByIdController = async (req: Request, res: Response) => {
