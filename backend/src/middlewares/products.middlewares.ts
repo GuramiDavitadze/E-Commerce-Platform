@@ -52,30 +52,28 @@ const productUpdateMiddleware = async (
   }
   const { description, name, image, price, quantity, status } = req.body;
   if (!name && !description && !image && !price && !quantity && !status) {
+    return res.status(400).json({
+      message: "Request body is empty! please provide data you want to update",
+    });
+  }
+
+  if ((price && isNaN(price)) || (quantity && isNaN(quantity))) {
     return res
       .status(400)
-      .json({
-        message:
-          "Request body is empty! please provide data you want to update",
-      });
+      .json({ message: "Price and Quantity must be valid numbers" });
   }
-   if (isNaN(price) || isNaN(quantity)) {
-     return res
-       .status(400)
-       .json({ message: "Price and Quantity must be valid numbers" });
-   }
-   if (Number(price) <= 0) {
-     return res
-       .status(400)
-       .json({ message: "The price cannot be less than or equal to zero" });
-   }
-   if (Number(quantity) < 0) {
-     return res
-       .status(400)
-       .json({ message: "The quantity cannot be less than zero" });
-   }
+  if (price && Number(price) <= 0) {
+    return res
+      .status(400)
+      .json({ message: "The price cannot be less than or equal to zero" });
+  }
+  if (quantity && Number(quantity) < 0) {
+    return res
+      .status(400)
+      .json({ message: "The quantity cannot be less than zero" });
+  }
   if (!name.trim() && !description.trim() && !image.trim()) {
-    return res.status(400).json({message:"Value of data cannot be empty!"})
+    return res.status(400).json({ message: "Value of data cannot be empty!" });
   }
   next();
 };
