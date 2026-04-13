@@ -55,9 +55,11 @@ const getAllProductsService = async (limit: number, skip: number) => {
   });
 };
 
-const getSingleProductService = async (product_id:string) => {
-  
-}
+const getSingleProductService = async (product_id: string) => {
+  return await prisma.product.findUnique({
+    where: { id: product_id },
+  });
+};
 
 const getProductsByCategoryService = async (category_slug: string) => {
   return await prisma.product.findMany({
@@ -88,8 +90,8 @@ const updateProductByIdService = async (
 ) => {
   return await prisma.product.update({
     where: { id: product_id },
-    data
-  })
+    data,
+  });
 };
 
 const deleteProductByIdService = async (product_id: string) => {
@@ -106,6 +108,7 @@ const getCountOfProductsService = async () => {
 export {
   productCreationService,
   getAllProductsService,
+  getSingleProductService,
   getProductsByCategoryService,
   deleteProductByIdService,
   getCountOfProductsService,

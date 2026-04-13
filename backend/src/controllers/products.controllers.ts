@@ -4,6 +4,7 @@ import {
   getAllProductsService,
   getCountOfProductsService,
   getProductsByCategoryService,
+  getSingleProductService,
   productCreationService,
   updateProductByIdService,
 } from "../services";
@@ -59,7 +60,21 @@ const getAllProductsController = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
-const getSingleProductController = async (req: Request, res: Response) => {};
+const getSingleProductController = async (req: Request, res: Response) => {
+  try {
+    const { product_id } = req.params;
+    const resp = await getSingleProductService(product_id as string);
+    if (!resp) {
+      return res.status(404).json({ message: "Product Not Found" });
+    }
+    res.status(200).json({ data: resp });
+  } catch (error: any) {
+    if (error.code === "P2025") {
+      return res.status(404).json({ message: "Product Not Found" });
+    }
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 const getAllProductsByCategoryController = async (
   req: Request,
   res: Response,
@@ -97,7 +112,6 @@ const updateProductByIdController = async (req: Request, res: Response) => {
     if (error.code === "P2025") {
       return res.status(404).json({ message: "Product Not Found" });
     }
-    console.log(error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
