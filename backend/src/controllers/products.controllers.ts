@@ -38,8 +38,9 @@ const productCreationController = async (req: Request, res: Response) => {
 
 const getAllProductsController = async (req: Request, res: Response) => {
   try {
-    const resp = await getAllProductsService();
-    res.status(200).json({ data: resp });
+    const limit = Number(req.query.limit) || 30
+    const resp = await getAllProductsService(limit);
+    res.status(200).json({ data: resp,limit });
   } catch (error: any) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
