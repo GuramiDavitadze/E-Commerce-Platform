@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import {
   deleteProductByIdService,
   getAllProductsService,
+  getCountOfProductsService,
   getProductsByCategoryService,
   productCreationService,
 } from "../services";
@@ -39,8 +40,12 @@ const productCreationController = async (req: Request, res: Response) => {
 const getAllProductsController = async (req: Request, res: Response) => {
   try {
     const limit = Number(req.query.limit) || 30
-    const resp = await getAllProductsService(limit);
-    res.status(200).json({ data: resp,limit });
+    const skip = Number(req.query.skip)|| 0
+    const [products, totalCount] = await Promise.all([
+      getAllProductsService(limit,skip),
+      getCountOfProductsService()
+    ])
+    res.status(200).json({ data: products,limit,total:totalCount,skip });
   } catch (error: any) {
     return res.status(500).json({ message: "Internal Server Error" });
   }

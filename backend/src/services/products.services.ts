@@ -27,7 +27,7 @@ const productCreationService = async (
   });
 };
 
-const getAllProductsService = async (limit: number) => {
+const getAllProductsService = async (limit: number,skip:number) => {
   return await prisma.product.findMany({
     omit: {
       admin_id: true,
@@ -35,6 +35,7 @@ const getAllProductsService = async (limit: number) => {
       update_at: true,
       created_at: true,
     },
+    skip,
     take: limit,
     include: {
       category: {
@@ -76,9 +77,14 @@ const deleteProductByIdService = async (product_id: string) => {
     },
   });
 };
+
+const getCountOfProductsService = async () => {
+  return await prisma.product.count()
+}
 export {
   productCreationService,
   getAllProductsService,
   getProductsByCategoryService,
   deleteProductByIdService,
+  getCountOfProductsService
 };
