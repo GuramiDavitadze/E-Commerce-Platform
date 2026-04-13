@@ -69,6 +69,10 @@ const getAllProductsByCategoryController = async (
   }
 };
 
+const updateProductByIdController = async (req: Request, res: Response) => {
+  
+}
+
 const deleteProductByIdController = async (req: Request, res: Response) => {
   try {
     const { product_id } = req.params;
@@ -87,5 +91,6 @@ export {
   productCreationController,
   getAllProductsController,
   getAllProductsByCategoryController,
+  updateProductByIdController,
   deleteProductByIdController,
 };

@@ -27,7 +27,7 @@ const productCreationService = async (
   });
 };
 
-const getAllProductsService = async (limit: number,skip:number) => {
+const getAllProductsService = async (limit: number, skip: number) => {
   return await prisma.product.findMany({
     omit: {
       admin_id: true,
@@ -70,6 +70,10 @@ const getProductsByCategoryService = async (category_slug: string) => {
   });
 };
 
+const updateProductByIdService = async () => {
+  // return
+};
+
 const deleteProductByIdService = async (product_id: string) => {
   return await prisma.product.delete({
     where: {
@@ -79,12 +83,13 @@ const deleteProductByIdService = async (product_id: string) => {
 };
 
 const getCountOfProductsService = async () => {
-  return await prisma.product.count()
-}
+  return await prisma.product.count();
+};
 export {
   productCreationService,
   getAllProductsService,
   getProductsByCategoryService,
   deleteProductByIdService,
-  getCountOfProductsService
+  getCountOfProductsService,
+  updateProductByIdService,
 };

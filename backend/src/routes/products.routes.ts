@@ -14,6 +14,13 @@ router.get(
   "/category/:category_slug",
   controller.getAllProductsByCategoryController,
 );
+
+router.patch(
+  "/:product_id",
+  middleware.checkUser,
+  controller.updateProductByIdController,
+);
+
 router.delete(
   "/:product_id",
   middleware.checkUser,
