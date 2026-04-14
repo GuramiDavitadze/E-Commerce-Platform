@@ -1,3 +1,3 @@
 export * from "./categories.controller";
-export * from "./user.controllers";
+export * from "./auth.controllers";
 export * from './products.controllers'
