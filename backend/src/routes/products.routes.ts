@@ -10,21 +10,27 @@ router.post(
   controller.productCreationController,
 );
 router.get("/", controller.getAllProductsController);
-router.get("/:product_id",controller.getSingleProductController)
+router.get("/product/:product_id", controller.getSingleProductController);
 router.get(
   "/category/:category_slug",
   controller.getAllProductsByCategoryController,
 );
 
+router.get(
+  "/search",
+  middleware.searchProductMiddleware,
+  controller.searchProductController,
+);
+
 router.patch(
-  "/:product_id",
+  "/product/:product_id",
   middleware.checkUser,
   middleware.productUpdateMiddleware,
   controller.updateProductByIdController,
 );
 
 router.delete(
-  "/:product_id",
+  "/product/:product_id",
   middleware.checkUser,
   controller.deleteProductByIdController,
 );

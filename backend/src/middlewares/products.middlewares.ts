@@ -77,4 +77,24 @@ const productUpdateMiddleware = async (
   }
   next();
 };
-export { productCreationMiddleware, productUpdateMiddleware };
+
+const searchProductMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  if (!req.query) {
+    return res.status(400).json({ message: "Query param is required" });
+  }
+  const { q } = req.query;
+
+  if (!q) {
+    return res.status(400).json({ message: "Search query is required" });
+  }
+  next();
+};
+export {
+  productCreationMiddleware,
+  productUpdateMiddleware,
+  searchProductMiddleware,
+};

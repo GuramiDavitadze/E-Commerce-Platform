@@ -105,6 +105,16 @@ const deleteProductByIdService = async (product_id: string) => {
 const getCountOfProductsService = async () => {
   return await prisma.product.count();
 };
+const searchProductService = async (query: string) => {
+  return await prisma.product.findMany({
+    where: {
+      name: {
+        contains: query,
+        mode: "insensitive",
+      },
+    },
+  });
+};
 export {
   productCreationService,
   getAllProductsService,
@@ -113,4 +123,5 @@ export {
   deleteProductByIdService,
   getCountOfProductsService,
   updateProductByIdService,
+  searchProductService,
 };

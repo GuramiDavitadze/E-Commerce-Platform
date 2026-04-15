@@ -7,6 +7,6 @@ const rootRouter = Router();
 
 rootRouter.use("/auth", authRouter);
 rootRouter.use("/category", categoryRouter);
-rootRouter.use("/product", productRouter);
+rootRouter.use("/products", productRouter);
 rootRouter.use("/user", userRouter);
 export { rootRouter };

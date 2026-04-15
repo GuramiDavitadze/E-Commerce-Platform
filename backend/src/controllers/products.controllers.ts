@@ -6,6 +6,7 @@ import {
   getProductsByCategoryService,
   getSingleProductService,
   productCreationService,
+  searchProductService,
   updateProductByIdService,
 } from "../services";
 type UpdateProductType = {
@@ -55,7 +56,7 @@ const getAllProductsController = async (req: Request, res: Response) => {
       getCountOfProductsService(),
     ]);
     res.status(200).json({ data: products, limit, total: totalCount, skip });
-  } catch  {
+  } catch {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -87,7 +88,7 @@ const getAllProductsByCategoryController = async (
       });
     }
     res.status(200).json({ data: resp });
-  } catch  {
+  } catch {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -127,6 +128,18 @@ const deleteProductByIdController = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+const searchProductController = async (req: Request, res: Response) => {
+  try {
+    const { q } = req.query;
+
+    const resp = await searchProductService(q as string);
+    res.status(200).json({ data: resp });
+  } catch (error: any) {
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 export {
   productCreationController,
   getAllProductsController,
@@ -134,4 +147,5 @@ export {
   getAllProductsByCategoryController,
   updateProductByIdController,
   deleteProductByIdController,
+  searchProductController,
 };
