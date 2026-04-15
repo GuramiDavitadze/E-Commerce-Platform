@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import {
   categoryCreationService,
+  deleteCategoryService,
   getAllCategoriesService,
   updateCategoryService,
 } from "../services";
@@ -58,8 +59,24 @@ const updateCategoryController = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+const deleteCategoryController = async (req: Request, res: Response) => {
+  try {
+    const { category_id } = req.params;
+    await deleteCategoryService(category_id as string);
+    res.status(200).json({ message: "Category Deleted Successfully!" });
+  } catch (error: any) {
+    if (error.code === "P2025")
+      return res.status(404).json({ message: "Category Not Found" });
+    if (!error.code)
+      return res.status(400).json({ message: error.message });
+
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 export {
   categoryCreationController,
   getAllCategoriesController,
   updateCategoryController,
+  deleteCategoryController,
 };

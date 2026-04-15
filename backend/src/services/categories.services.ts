@@ -27,8 +27,21 @@ const updateCategoryService = async (data: UpdateCategoryType) => {
   });
 };
 
+const deleteCategoryService = async (category_id: string) => {
+  const products = await prisma.product.count({
+    where: { category_id },
+  });
+  if (products > 0) {
+    throw new Error("Cannot delete category with existing products");
+  }
+  return await prisma.category.delete({
+    where: { id: category_id },
+  });
+};
+
 export {
   categoryCreationService,
   getAllCategoriesService,
   updateCategoryService,
+  deleteCategoryService,
 };

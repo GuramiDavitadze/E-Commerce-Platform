@@ -6,6 +6,7 @@ import {
 } from "../middlewares";
 import {
   categoryCreationController,
+  deleteCategoryController,
   getAllCategoriesController,
   updateCategoryController,
 } from "../controllers";
@@ -26,4 +27,5 @@ router.patch(
   updateCategoryMiddleware,
   updateCategoryController,
 );
+router.delete("/:category_id", checkUser, deleteCategoryController);
 export default router;
