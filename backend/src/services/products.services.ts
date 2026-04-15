@@ -35,7 +35,11 @@ const productCreationService = async (
   });
 };
 
-const getAllProductsService = async (limit: number, skip: number) => {
+const getAllProductsService = async (
+  limit: number,
+  skip: number,
+  order: string,
+) => {
   return await prisma.product.findMany({
     omit: {
       admin_id: true,
@@ -45,6 +49,9 @@ const getAllProductsService = async (limit: number, skip: number) => {
     },
     skip,
     take: limit,
+    orderBy: {
+      price: order === "desc" ? "desc" : "asc",
+    },
     include: {
       category: {
         select: {

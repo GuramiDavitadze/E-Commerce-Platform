@@ -93,8 +93,36 @@ const searchProductMiddleware = async (
   }
   next();
 };
+
+const productsFilterMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const sortBy = req.query.sortBy as string;
+  const order = req.query.order as string;
+  if (!sortBy) {
+    next();
+  }
+  if (!order) {
+    next();
+  }
+  if (sortBy.toLowerCase() !== "price") {
+    return res
+      .status(400)
+      .json({ message: "At this time we only have price sorting" });
+  }
+  if (order.toLowerCase() !== "asc" && order.toLowerCase() !== "desc") {
+    return res
+      .status(400)
+      .json({ message: "order has only 2 possible values. asc || desc" });
+  }
+  next();
+};
+
 export {
   productCreationMiddleware,
   productUpdateMiddleware,
   searchProductMiddleware,
+  productsFilterMiddleware,
 };

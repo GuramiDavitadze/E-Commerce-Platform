@@ -9,7 +9,11 @@ router.post(
   middleware.productCreationMiddleware,
   controller.productCreationController,
 );
-router.get("/", controller.getAllProductsController);
+router.get(
+  "/",
+  middleware.productsFilterMiddleware,
+  controller.getAllProductsController,
+);
 router.get("/product/:product_id", controller.getSingleProductController);
 router.get(
   "/category/:category_slug",
