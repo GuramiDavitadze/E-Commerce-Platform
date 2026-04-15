@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { isPasswordValid } from "../utils/validators";
 
 const userUpdateMiddleware = async (
   req: Request,
@@ -25,4 +26,41 @@ const userUpdateMiddleware = async (
 
   next();
 };
-export { userUpdateMiddleware };
+
+const changePasswordMiddleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  if (!req.body) {
+    return res.status(400).json({
+      message: "Passwords must be provided",
+    });
+  }
+  const { password, newPassword } = req.body;
+
+  if (!password || !newPassword) {
+    return res.status(400).json({
+      message: "Current and new passwords are required",
+    });
+  }
+  if (!isPasswordValid(newPassword)) {
+    return res.status(400).json({
+      message:
+        "Wrong password format. Password must be 8+ chars include a number, uppercase and lowercase letters",
+    });
+  }
+  if (!isPasswordValid(password)) {
+    return res.status(400).json({
+      message: "Password is not right",
+    });
+  }
+  if (newPassword === password) {
+    return res.status(400).json({
+      message: "Old password and new password cannot be same!",
+    });
+  }
+  next();
+};
+
+export { userUpdateMiddleware, changePasswordMiddleware };

@@ -8,5 +8,9 @@ router.patch(
   middlewares.userUpdateMiddleware,
   controller.updateUserController,
 );
-
+router.patch(
+  "/password",
+  middlewares.changePasswordMiddleware,
+  controller.changePasswordController,
+);
 export default router;
