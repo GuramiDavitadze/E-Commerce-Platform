@@ -32,6 +32,7 @@ const checkAuth = async (req: Request, res: Response, next: NextFunction) => {
   if (decoded.role !== "CUSTOMER") {
     return res.status(401).json({ message: "Unauthorized" });
   }
+  req.user = decoded;
   next();
 };
 

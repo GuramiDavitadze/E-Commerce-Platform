@@ -29,6 +29,7 @@ model User {
 
   products Product[]
   comments Comment[]
+  orders   Order[]
 }
 
 model Product {
@@ -36,10 +37,10 @@ model Product {
   name        String
   description String
   image       String?
-  price       Decimal
-  quantity    Int
+  price       Decimal  @db.Decimal(10, 2)
+  quantity    Int      @default(1)
   status      Boolean  @default(true)
-  update_at   DateTime @default(now())
+  updated_at  DateTime @default(now())
   created_at  DateTime @default(now())
 
   admin    User   @relation(fields: [admin_id], references: [id])
@@ -48,7 +49,8 @@ model Product {
   category    Category @relation(fields: [category_id], references: [id])
   category_id String
 
-  comments Comment[]
+  comments   Comment[]
+  orderItems OrderItem[]
 }
 
 model Category {
@@ -56,6 +58,34 @@ model Category {
   content       String
   category_slug String    @unique
   products      Product[]
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+model Order {
+  id          String      @id @default(uuid())
+  status      OrderStatus @default(PENDING)
+  created_at  DateTime    @default(now())
+  user_id     String
+  user        User        @relation(fields: [user_id], references: [id])
+  order_items OrderItem[]
+}
+
+model OrderItem {
+  id       String  @id @default(uuid())
+  quantity Int     @default(1)
+  price    Decimal @db.Decimal(10, 2)
+  order    Order   @relation(fields: [order_id], references: [id])
+  order_id String
+
+  product    Product @relation(fields: [product_id], references: [id])
+  product_id String
 }
 
 model Comment {

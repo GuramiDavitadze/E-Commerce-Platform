@@ -57,7 +57,9 @@ const getAllProductsController = async (req: Request, res: Response) => {
       getCountOfProductsService(),
     ]);
     res.status(200).json({ data: products, limit, total: totalCount, skip });
-  } catch {
+  } catch (error: any) {
+    console.log(error);
+    
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };

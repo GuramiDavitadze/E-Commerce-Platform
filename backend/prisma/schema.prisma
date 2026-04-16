@@ -49,7 +49,8 @@ model Product {
   category    Category @relation(fields: [category_id], references: [id])
   category_id String
 
-  comments Comment[]
+  comments   Comment[]
+  orderItems OrderItem[]
 }
 
 model Category {
@@ -77,11 +78,14 @@ model Order {
 }
 
 model OrderItem {
-  id       String  @id @default(uuid())
-  quanity  Int     @default(1)
-  price    Decimal @db.Decimal(10, 2)
-  order    Order?  @relation(fields: [order_id], references: [id])
-  order_id String?
+  id        String  @id @default(uuid())
+  quantity Int     @default(1)
+  price     Decimal @db.Decimal(10, 2)
+  order     Order   @relation(fields: [order_id], references: [id])
+  order_id  String
+
+  product    Product @relation(fields: [product_id], references: [id])
+  product_id String
 }
 
 model Comment {

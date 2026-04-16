@@ -139,7 +139,7 @@ exports.Prisma.ProductScalarFieldEnum = {
   price: 'price',
   quantity: 'quantity',
   status: 'status',
-  update_at: 'update_at',
+  updated_at: 'updated_at',
   created_at: 'created_at',
   admin_id: 'admin_id',
   category_id: 'category_id'
@@ -149,6 +149,21 @@ exports.Prisma.CategoryScalarFieldEnum = {
   id: 'id',
   content: 'content',
   category_slug: 'category_slug'
+};
+
+exports.Prisma.OrderScalarFieldEnum = {
+  id: 'id',
+  status: 'status',
+  created_at: 'created_at',
+  user_id: 'user_id'
+};
+
+exports.Prisma.OrderItemScalarFieldEnum = {
+  id: 'id',
+  quantity: 'quantity',
+  price: 'price',
+  order_id: 'order_id',
+  product_id: 'product_id'
 };
 
 exports.Prisma.CommentScalarFieldEnum = {
@@ -178,10 +193,20 @@ exports.Role = exports.$Enums.Role = {
   CUSTOMER: 'CUSTOMER'
 };
 
+exports.OrderStatus = exports.$Enums.OrderStatus = {
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  SHIPPED: 'SHIPPED',
+  DELIVERED: 'DELIVERED',
+  CANCELLED: 'CANCELLED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Product: 'Product',
   Category: 'Category',
+  Order: 'Order',
+  OrderItem: 'OrderItem',
   Comment: 'Comment'
 };
 

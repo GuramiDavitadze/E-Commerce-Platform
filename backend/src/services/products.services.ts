@@ -44,7 +44,7 @@ const getAllProductsService = async (
     omit: {
       admin_id: true,
       category_id: true,
-      update_at: true,
+      updated_at: true,
       created_at: true,
     },
     skip,
