@@ -11,4 +11,9 @@ router.post(
   controllers.createOrderController,
 );
 router.get("/", middlewares.checkAuth, controllers.getAllOrdersController);
+router.get(
+  "/admin",
+  middlewares.checkUser,
+  controllers.getAllOrdersForAdminController,
+);
 export default router;

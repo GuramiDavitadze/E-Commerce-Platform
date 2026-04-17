@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
-import { createOrderService, getAllOrdersService } from "../services";
+import {
+  createOrderService,
+  getAllOrdersForAdminService,
+  getAllOrdersService,
+} from "../services";
 const createOrderController = async (req: Request, res: Response) => {
   try {
     const { products } = req.body;
@@ -26,4 +30,17 @@ const getAllOrdersController = async (req: Request, res: Response) => {
   }
 };
 
-export { createOrderController, getAllOrdersController };
+const getAllOrdersForAdminController = async (req: Request, res: Response) => {
+  try {
+    const resp = await getAllOrdersForAdminService();
+    res.status(200).json({ data: resp });
+  } catch {
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export {
+  createOrderController,
+  getAllOrdersController,
+  getAllOrdersForAdminController,
+};
