@@ -16,4 +16,5 @@ router.get(
   middlewares.checkUser,
   controllers.getAllOrdersForAdminController,
 );
+router.patch("/:order_id/status",middlewares.checkUser,controllers.changeOrderStatusController)
 export default router;

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import {
+  changeOrderStatusService,
   createOrderService,
   getAllOrdersForAdminService,
   getAllOrdersService,
@@ -39,8 +40,27 @@ const getAllOrdersForAdminController = async (req: Request, res: Response) => {
   }
 };
 
+const changeOrderStatusController = async (req: Request, res: Response) => {
+  try {
+    const { order_id } = req.params;
+    const resp = await changeOrderStatusService(order_id as string);
+    res
+      .status(200)
+      .json({ message: "Status Updated Successfully", data: resp });
+  } catch (error: any) {
+    if (error.name === "AlreadyDelivered") {
+      return res.status(400).json({ message: error.message });
+    }
+    if (error.name === "NotFound") {
+      return res.status(404).json({ message: error.message });
+    }
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 export {
   createOrderController,
   getAllOrdersController,
   getAllOrdersForAdminController,
+  changeOrderStatusController,
 };
