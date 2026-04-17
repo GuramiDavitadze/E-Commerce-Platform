@@ -29,6 +29,15 @@ const getAllOrdersService = async (user_id: string) => {
   });
 };
 const getAllOrdersForAdminService = async () => {
-  return await prisma.order.findMany();
+  return await prisma.order.findMany({
+    include: {
+      order_items:true,
+      user: {
+        omit: {
+          password: true,
+        },
+      },
+    },
+  });
 };
 export { createOrderService, getAllOrdersService, getAllOrdersForAdminService };
