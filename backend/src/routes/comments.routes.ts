@@ -5,6 +5,7 @@ const router = Router();
 
 router.post(
   "/product/:product_id",
+  middlewares.checkAuth,
   middlewares.createCommentMiddleware,
   controllers.createCommentController,
 );
