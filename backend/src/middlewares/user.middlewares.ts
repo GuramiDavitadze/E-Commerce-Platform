@@ -6,10 +6,12 @@ const userUpdateMiddleware = async (
   res: Response,
   next: NextFunction,
 ) => {
-  if (!req.body) {
+  if (!req.body && !req.file) {
     return res.status(400).json({ message: "No Data Provided" });
   }
-  const { fullname, image, isActive } = req.body;
+
+  const { fullname, isActive } = req.body;
+  const image = req.file;
   const isIsActiveBoolean = isActive && typeof isActive !== "boolean";
   if (isIsActiveBoolean) {
     return res.status(400).json({ message: "isActive must be boolean" });
@@ -18,8 +20,7 @@ const userUpdateMiddleware = async (
   if (isBodyProvidedEmpty) {
     return res.status(400).json({ message: "No Data Provided" });
   }
-  const isFieldsEmpty =
-    !fullname?.trim() && !image?.trim() && isActive === undefined;
+  const isFieldsEmpty = !fullname?.trim() && !image && isActive === undefined;
   if (isFieldsEmpty) {
     return res.status(400).json({ message: "Fields should not be empty" });
   }

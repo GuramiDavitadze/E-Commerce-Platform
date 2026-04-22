@@ -1,7 +1,7 @@
 import prisma from "../config/prisma";
 type UpdateUserType = {
   fullname?: string;
-  image?: string;
+  image?: string | null;
   isActive?: boolean;
 };
 
@@ -38,7 +38,7 @@ const getUserByIdService = async (id: string) => {
     },
   });
 };
-  
+
 const getAllUsersService = async () => {
   return await prisma.user.findMany({
     omit: {

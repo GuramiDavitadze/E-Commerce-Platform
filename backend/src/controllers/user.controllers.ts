@@ -10,7 +10,7 @@ import {
 import { comparePassword, hashPassword } from "../utils/passwdHelper";
 type UpdateUserType = {
   fullname?: string;
-  image?: string;
+  image?: string | null;
   isActive?: boolean;
 };
 
@@ -27,10 +27,14 @@ const getUserProfileController = async (req: Request, res: Response) => {
 const updateUserController = async (req: Request, res: Response) => {
   try {
     const id = req.user!.id;
-    const { fullname, image, isActive } = req.body;
+    const image = req.file;
+    const imageUrl = image
+      ? `data:${image.mimetype};base64,${image.buffer.toString("base64")}`
+      : null;
+    const { fullname, isActive } = req.body;
     const data: UpdateUserType = {};
     if (fullname !== undefined) data.fullname = fullname;
-    if (image !== undefined) data.image = image;
+    if (image !== undefined) data.image = imageUrl;
     if (isActive !== undefined) data.isActive = isActive;
     const resp = updateUserService(id, data);
     res.status(200).json({ message: "User updated successfully", data: resp });
@@ -72,7 +76,7 @@ const getUserByIdController = async (req: Request, res: Response) => {
     const { user_id } = req.params;
     const resp = await getUserProfileService(user_id as string);
     if (!resp) {
-      return res.status(404).json({message:"User Not Found"})
+      return res.status(404).json({ message: "User Not Found" });
     }
     res.status(200).json({ data: resp });
   } catch (error: any) {

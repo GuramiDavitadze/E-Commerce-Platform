@@ -2,7 +2,7 @@ import { Router } from "express";
 import * as middlewares from "../middlewares";
 import * as controller from "../controllers";
 const router = Router();
-
+import { upload } from "../config/multer";
 router.get(
   "/profile",
   middlewares.authMiddleware,
@@ -11,6 +11,7 @@ router.get(
 
 router.patch(
   "/profile",
+  upload.single("image"),
   middlewares.authMiddleware,
   middlewares.userUpdateMiddleware,
   controller.updateUserController,
