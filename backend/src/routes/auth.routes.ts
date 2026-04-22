@@ -1,4 +1,5 @@
 import express from "express";
+import { upload } from "../config/multer";
 import * as controler from "../controllers";
 import * as middleware from "../middlewares";
 
@@ -6,6 +7,7 @@ const router = express.Router();
 
 router.post(
   "/register",
+  upload.single("image"),
   middleware.authLimiter,
   middleware.registerMiddleware,
   controler.registerController,

@@ -4,7 +4,7 @@ type user = {
   fullname: string;
   password: string;
   email: string;
-  image?: string | undefined;
+  image?: string | undefined | null;
   role: Role | undefined;
 };
 export const userRegisterService = async (data: user) => {

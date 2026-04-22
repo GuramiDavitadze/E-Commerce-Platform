@@ -5,9 +5,19 @@ import { comparePassword, hashPassword } from "../utils/passwdHelper";
 import { generateToken } from "../utils/jwtHelper";
 const registerController = async (req: Request, res: Response) => {
   try {
-    const { fullname, email, password, image, role } = req.body;
+    const { fullname, email, password, role } = req.body;
+    const image = req.file;
+    const imageUrl = image
+      ? `data:${image.mimetype};base64,${image.buffer.toString("base64")}`
+      : null;
     const hashedPassword = await hashPassword(password);
-    const data = { fullname, email, password: hashedPassword, image, role };
+    const data = {
+      fullname,
+      email,
+      password: hashedPassword,
+      image: imageUrl,
+      role,
+    };
     const resp = await UserServices.userRegisterService(data);
     const token = generateToken({ id: resp.id, role: resp.role });
     res
@@ -51,7 +61,7 @@ const loginController = async (req: Request, res: Response) => {
       maxAge: 24 * 60 * 60 * 1000,
     });
     res.status(200).json({ message: "Login successful", data });
-  } catch  {
+  } catch {
     return res.status(500).json({ message: "Internal Server error" });
   }
 };
@@ -62,7 +72,7 @@ const getMeController = async (req: Request, res: Response) => {
 
     const data = await UserServices.getMeService(user?.id);
     res.status(200).json(data);
-  } catch  {
+  } catch {
     return res.status(500).json({ message: "Internal Server error" });
   }
 };

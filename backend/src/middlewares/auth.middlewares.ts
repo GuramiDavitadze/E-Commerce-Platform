@@ -7,10 +7,11 @@ const registerMiddleware = (
   res: Response,
   next: NextFunction,
 ) => {
-  const { fullname, email, password } = req.body;
   if (!req.body) {
     return res.status(400).json({ message: "All fields are required" });
   }
+  const { fullname, email, password } = req.body;
+
   if (!fullname || !email || !password) {
     return res.status(400).json({ message: "All fields are required" });
   }
@@ -72,4 +73,4 @@ const authMiddleware = async (
   }
 };
 
-export { registerMiddleware, loginMiddleware ,authMiddleware};
+export { registerMiddleware, loginMiddleware, authMiddleware };
