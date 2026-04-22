@@ -69,13 +69,14 @@ const changeCommentTextService = async (
 const deleteCommentByIdService = async (
   user_id: string,
   comment_id: string,
+  role: string,
 ) => {
   const comment = await prisma.comment.findUnique({
     where: { id: comment_id },
     select: { author_id: true },
   });
 
-  if (comment?.author_id != user_id) {
+  if (role!=="ADMIN" && comment?.author_id != user_id) {
     const newError = new Error("You don't have permission to delete comment");
     newError.name = "Unauthorized";
     throw newError;

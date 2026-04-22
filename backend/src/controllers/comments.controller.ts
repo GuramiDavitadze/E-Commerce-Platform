@@ -8,7 +8,7 @@ import {
 const createCommentController = async (req: Request, res: Response) => {
   try {
     const { text } = req.body;
-    const id = req?.user?.id;
+    const id = req.user!.id;
     const { product_id } = req.params;
     const resp = await createCommentService(text, id, product_id as string);
     res
@@ -26,7 +26,7 @@ const getAllCommentsByProductIdController = async (
   res: Response,
 ) => {
   try {
-    const { product_id } = req?.params;
+    const { product_id } = req.params;
     const resp = await getAllCommentsByProductIdService(product_id as string);
     res.status(200).json({ data: resp });
   } catch (error: any) {
@@ -37,7 +37,7 @@ const getAllCommentsByProductIdController = async (
 const changeCommentTextController = async (req: Request, res: Response) => {
   try {
     const { text } = req.body;
-    const id = req.user?.id;
+    const id = req.user!.id;
     const comment_id = req.params?.comment_id as string;
     const resp = await changeCommentTextService(id, comment_id, text);
     res
@@ -56,9 +56,10 @@ const changeCommentTextController = async (req: Request, res: Response) => {
 
 const deleteCommentByIdController = async (req: Request, res: Response) => {
   try {
-    const id = req.user?.id;
+    const id = req.user!.id;
+    const role = req.user!.role;
     const { comment_id } = req.params;
-    await deleteCommentByIdService(id, comment_id as string);
+    await deleteCommentByIdService(id, comment_id as string, role);
     res.status(200).json({ message: "Comment Deleted Successfully!" });
   } catch (error: any) {
     if (error.code === "P2025") {
