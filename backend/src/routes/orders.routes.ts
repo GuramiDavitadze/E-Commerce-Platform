@@ -4,13 +4,13 @@ import * as controllers from "../controllers";
 const router = Router();
 
 router.post(
-  "/",
+  "/my-orders",
   middlewares.checkAuth,
   middlewares.checkOrderMiddleware,
   middlewares.transformData,
   controllers.createOrderController,
 );
-router.get("/", middlewares.checkAuth, controllers.getAllOrdersController);
+router.get("/my-orders", middlewares.checkAuth, controllers.getAllOrdersController);
 router.get(
   "/admin",
   middlewares.checkUser,
