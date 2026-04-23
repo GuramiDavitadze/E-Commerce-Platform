@@ -50,7 +50,7 @@ const updateCategoryController = async (req: Request, res: Response) => {
       .json({ message: "Category Updated Successfully", data: resp });
   } catch (error: any) {
     if (error.code === "P2025") {
-      return res.status(404).json({ message: "Product Not Founded" });
+      return res.status(404).json({ message: "Category Not Founded" });
     }
     return res.status(500).json({ message: "Internal Server Error" });
   }
