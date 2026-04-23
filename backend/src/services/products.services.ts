@@ -1,24 +1,6 @@
 import prisma from "../config/prisma";
-type ProductsType = {
-  name: string;
-  description: string;
-  price: number;
-  quantity: number;
-  status: boolean;
-  category_id: string;
-  image?: string | null;
-};
+import { ProductsType,ProductType,UpdateProductType } from "../types/product.types";
 
-type ProductType = Omit<ProductsType, "category_id">;
-
-type UpdateProductType = {
-  name?: string;
-  description?: string;
-  price?: number;
-  quantity?: number;
-  status?: boolean;
-  image?: string | null;
-};
 const productCreationService = async (
   data: ProductType,
   admin_id: string,

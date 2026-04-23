@@ -10,14 +10,12 @@ import {
   searchProductService,
   updateProductByIdService,
 } from "../services";
-type UpdateProductType = {
-  name?: string;
-  description?: string;
-  price?: number;
-  quantity?: number;
-  status?: boolean;
-  image?: string | null;
-};
+import {
+  UpdateProductType,
+  ProductType,
+  ProductsType,
+} from "../types/product.types";
+
 const productCreationController = async (req: Request, res: Response) => {
   try {
     const { name, description, price, quantity, category_id, status } =
@@ -53,18 +51,9 @@ const productCreationController = async (req: Request, res: Response) => {
   }
 };
 
-type ProductType = {
-  name: string;
-  description: string;
-  price: number;
-  quantity: number;
-  status: boolean;
-  image: string | null;
-  category_id: string;
-};
 const createManyProdcutsController = async (req: Request, res: Response) => {
   try {
-    let products: ProductType[] = Object.values(req.body);
+    let products: ProductsType[] = Object.values(req.body);
 
     const { user } = req;
     const admin_id = user?.id;
