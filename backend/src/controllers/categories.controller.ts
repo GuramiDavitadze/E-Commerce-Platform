@@ -5,7 +5,7 @@ import {
   getAllCategoriesService,
   updateCategoryService,
 } from "../services";
-
+import { CategoryType } from "../types/category.types";
 const categoryCreationController = async (req: Request, res: Response) => {
   try {
     const { content } = req.body;
@@ -34,19 +34,15 @@ const getAllCategoriesController = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
-type UpdateCategoryType = {
-  id: string;
-  content: string;
-  slug: string;
-};
+
 const updateCategoryController = async (req: Request, res: Response) => {
   try {
     const { content } = req.body;
     const { category_id } = req.params;
-    const data: UpdateCategoryType = {
+    const data: CategoryType = {
       id: category_id as string,
       content,
-      slug: content.toLowerCase().trim().split(" ").join("_"),
+      category_slug: content.toLowerCase().trim().split(" ").join("_"),
     };
     const resp = await updateCategoryService(data);
     res
