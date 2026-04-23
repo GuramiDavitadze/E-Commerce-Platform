@@ -37,7 +37,7 @@ const getAllCategoriesController = async (req: Request, res: Response) => {
 
 const updateCategoryController = async (req: Request, res: Response) => {
   try {
-    const { content } = req.body;
+    const content = req.body.content as string;
     const { category_id } = req.params;
     const data: CategoryType = {
       id: category_id as string,
@@ -64,8 +64,7 @@ const deleteCategoryController = async (req: Request, res: Response) => {
   } catch (error: any) {
     if (error.code === "P2025")
       return res.status(404).json({ message: "Category Not Found" });
-    if (!error.code)
-      return res.status(400).json({ message: error.message });
+    if (!error.code) return res.status(400).json({ message: error.message });
 
     return res.status(500).json({ message: "Internal Server Error" });
   }

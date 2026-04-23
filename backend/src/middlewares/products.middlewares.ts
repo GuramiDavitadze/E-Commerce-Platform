@@ -100,7 +100,7 @@ const productsFilterMiddleware = async (
   next: NextFunction,
 ) => {
   const sortBy = req.query.sortBy as string;
-  const order = req.query.order as string;
+  const order = (req.query.order as string)?.toLowerCase() ?? "asc";
   if (!sortBy) {
     next();
   }
