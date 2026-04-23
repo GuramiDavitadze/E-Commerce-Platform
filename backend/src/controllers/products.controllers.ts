@@ -75,7 +75,9 @@ const getAllProductsController = async (req: Request, res: Response) => {
       getAllProductsService(limit, skip, order),
       getCountOfProductsService(),
     ]);
-    res.status(200).json({ data: products, limit, total: totalCount, skip });
+    return res
+      .status(200)
+      .json({ data: products, limit, total: totalCount, skip });
   } catch (error: any) {
     return res.status(500).json({ message: "Internal Server Error" });
   }
@@ -87,7 +89,7 @@ const getSingleProductController = async (req: Request, res: Response) => {
     if (!resp) {
       return res.status(404).json({ message: "Product Not Found" });
     }
-    res.status(200).json({ data: resp });
+    return res.status(200).json({ data: resp });
   } catch (error: any) {
     if (error.code === "P2025") {
       return res.status(404).json({ message: "Product Not Found" });
@@ -107,7 +109,7 @@ const getAllProductsByCategoryController = async (
         message: `Products on category '${category_slug}' was not found`,
       });
     }
-    res.status(200).json({ data: resp });
+    return res.status(200).json({ data: resp });
   } catch {
     return res.status(500).json({ message: "Internal Server Error" });
   }
