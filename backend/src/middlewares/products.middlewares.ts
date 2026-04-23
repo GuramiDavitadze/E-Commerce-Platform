@@ -104,17 +104,17 @@ const productsFilterMiddleware = async (
   const sortBy = req.query.sortBy as string;
   const order: string = (req.query.order as string)?.toLowerCase() ?? "asc";
   if (!sortBy) {
-    next();
+    return next();
   }
   if (!order) {
-    next();
+    return next();
   }
   if ((sortBy as string).toLowerCase() !== "price") {
     return res
       .status(400)
       .json({ message: "At this time we only have price sorting" });
   }
-  next();
+  return next();
 };
 
 export {
