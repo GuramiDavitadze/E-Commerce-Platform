@@ -16,12 +16,16 @@ type UpdateProductType = {
   price?: number;
   quantity?: number;
   status?: boolean;
-  image?: string;
+  image?: string | null;
 };
 const productCreationController = async (req: Request, res: Response) => {
   try {
     const { name, description, price, quantity, category_id, status } =
       req.body;
+    const image = req.file;
+    const imageUrl = image
+      ? `data:${image.mimetype};base64,${image.buffer.toString("base64")}`
+      : null;
     const { user } = req;
 
     const data = {
@@ -30,6 +34,7 @@ const productCreationController = async (req: Request, res: Response) => {
       price,
       quantity,
       status,
+      image: imageUrl,
     };
 
     const admin_id = user?.id;
@@ -54,6 +59,7 @@ type ProductType = {
   price: number;
   quantity: number;
   status: boolean;
+  image: string | null;
   category_id: string;
 };
 const createManyProdcutsController = async (req: Request, res: Response) => {
@@ -67,7 +73,7 @@ const createManyProdcutsController = async (req: Request, res: Response) => {
     res
       .status(201)
       .json({ message: "Products Created Successfully", data: resp });
-  } catch{
+  } catch {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -120,11 +126,15 @@ const getAllProductsByCategoryController = async (
 
 const updateProductByIdController = async (req: Request, res: Response) => {
   try {
-    const { description, name, image, quantity, status, price } = req.body;
+    const { description, name, quantity, status, price } = req.body;
+    const image = req.file;
+    const imageUrl = image
+      ? `data:${image.mimetype};base64,${image.buffer.toString("base64")}`
+      : null;
     const { product_id } = req.params;
     const data: UpdateProductType = {};
     if (name !== undefined) data.name = name;
-    if (image !== undefined) data.image = image;
+    if (image !== undefined) data.image = imageUrl;
     if (quantity !== undefined) data.quantity = quantity;
     if (description !== undefined) data.description = description;
     if (status !== undefined) data.status = status;

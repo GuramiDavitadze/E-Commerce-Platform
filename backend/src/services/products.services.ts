@@ -6,6 +6,7 @@ type ProductsType = {
   quantity: number;
   status: boolean;
   category_id: string;
+  image?: string | null;
 };
 
 type ProductType = Omit<ProductsType, "category_id">;
@@ -16,7 +17,7 @@ type UpdateProductType = {
   price?: number;
   quantity?: number;
   status?: boolean;
-  image?: string;
+  image?: string | null;
 };
 const productCreationService = async (
   data: ProductType,

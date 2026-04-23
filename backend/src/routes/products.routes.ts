@@ -1,16 +1,24 @@
 import { Router } from "express";
 import * as middleware from "../middlewares";
 import * as controller from "../controllers";
+import { upload } from "../config/multer";
 const router = Router();
 
 router.post(
   "/",
   middleware.checkUser,
+  upload.single("image"),
+
   middleware.productCreationMiddleware,
   controller.productCreationController,
 );
 
-router.post("/many",middleware.checkUser,controller.createManyProdcutsController)
+router.post(
+  "/many",
+  middleware.checkUser,
+  upload.single("image"),
+  controller.createManyProdcutsController,
+);
 
 router.get(
   "/",
