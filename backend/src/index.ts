@@ -8,7 +8,7 @@ import { checkAPISecretKey, generalLimiter } from "./middlewares";
 import { Request, Response } from "express";
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 3008;
+const PORT = Number(process.env.PORT) || 3008;
 app.use(
   cors({
     credentials: true,
@@ -22,6 +22,6 @@ app.use("/api", checkAPISecretKey, rootRouter);
 app.use("/health", (req: Request, res: Response) => {
   res.status(200).json({ status: "ok" });
 });
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log("It's working perfectly");
 });
