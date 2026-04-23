@@ -1,10 +1,6 @@
-import { OrderStatus } from "../../generated/prisma";
 import prisma from "../config/prisma";
-type OrderType = {
-  product_id: string;
-  quantity: number;
-  price: number;
-};
+import { OrderType } from "../types/order.types";
+import { nextStatus } from "../types/order.types";
 const createOrderService = async (user_id: string, orders: OrderType[]) => {
   return await prisma.order.create({
     data: {
@@ -79,12 +75,6 @@ const getSingleOrderService = async (order_id: string, user_id: string) => {
       order_items: true,
     },
   });
-};
-
-const nextStatus: Record<string, OrderStatus> = {
-  PENDING: "PROCESSING",
-  PROCESSING: "SHIPPED",
-  SHIPPED: "DELIVERED",
 };
 
 const changeOrderStatusService = async (order_id: string) => {
