@@ -1,9 +1,5 @@
 import prisma from "../config/prisma";
-type UpdateUserType = {
-  fullname?: string;
-  image?: string | null;
-  isActive?: boolean;
-};
+import { UpdateUserType } from "../types/user.types";
 
 const getUserProfileService = async (user_id: string) => {
   return await prisma.user.findUnique({

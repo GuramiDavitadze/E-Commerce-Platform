@@ -8,11 +8,7 @@ import {
   getUserProfileService,
 } from "../services";
 import { comparePassword, hashPassword } from "../utils/passwdHelper";
-type UpdateUserType = {
-  fullname?: string;
-  image?: string | null;
-  isActive?: boolean;
-};
+import { UpdateUserType } from "../types/user.types";
 
 const getUserProfileController = async (req: Request, res: Response) => {
   try {
