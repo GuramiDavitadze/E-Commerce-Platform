@@ -6,7 +6,7 @@ const productCreationMiddleware = async (
   next: NextFunction,
 ) => {
   if (!req.body) {
-    res.status(400).json({ message: "Please fill all required fields!" });
+    return res.status(400).json({ message: "Please fill all required fields!" });
   }
   const { name, description, price, quantity, category_id } = req.body;
 
