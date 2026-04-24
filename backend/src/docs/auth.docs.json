@@ -1,48 +1,56 @@
 {
-  
-        "/api/auth/register": {
-            "post": {
-                "summary": "Regsiter a new user",
-                "tags": [
-                    "Auth"
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "required": [
-                                    "fullname",
-                                    "email",
-                                    "password"
-                                ],
-                                "properties": {
-                                    "fullname": {
-                                        "type": "string",
-                                        "example": "John Doe"
-                                    },
-                                    "email": {
-                                        "type": "string",
-                                        "example": "john@gmail.com"
-                                    },
-                                    "password": {
-                                        "type": "string",
-                                        "example": "!Password1234"
-                                    }
+    "/api/auth/register": {
+        "post": {
+            "summary": "Regsiter a new user",
+            "tags": [
+                "Auth"
+            ],
+            "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "fullname",
+                                "email",
+                                "password"
+                            ],
+                            "properties": {
+                                "image": {
+                                    "type": "string"
+                                },
+                                "fullname": {
+                                    "type": "string",
+                                    "example": "John Doe"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "john@gmail.com"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "!Password1234"
                                 }
                             }
                         }
                     }
+                }
+            },
+            "responses": {
+                "201": {
+                    "description": "User registered successfully"
                 },
-                "responses": {
-                    "201": {
-                        "description": "User registered successfully"
-                    },
-                    "400": {
-                        "description": "Validation error"
-                    }
+                "400": {
+                    "description": "Validation error"
+                },
+                "409": {
+                    "description": "Email already exist"
+                },
+                "500": {
+                    "description": "Internal Server Error!"
                 }
             }
         }
     }
+}
