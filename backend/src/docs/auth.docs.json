@@ -98,5 +98,24 @@
                 }
             }
         }
+    },
+    "/api/auth/me": {
+        "get": {
+            "summary": "Auth Using Cookies",
+            "tags": [
+                "Auth"
+            ],
+            "responses": {
+                "200": {
+                    "description": "Current user data"
+                },
+                "401": {
+                    "description": "Unauthorized"
+                },
+                "500": {
+                    "description": "Internal server error"
+                }
+            }
+        }
     }
 }
