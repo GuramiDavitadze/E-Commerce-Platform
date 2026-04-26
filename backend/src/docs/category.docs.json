@@ -1,44 +1,114 @@
 {
-    "/api/category":{
-        "post":{
-            "summary":"Create new category",
-            "tags":[
+    "/api/category": {
+        "post": {
+            "summary": "Create new category",
+            "tags": [
                 "Category"
             ],
-            "requestBody":{
-                "required":true,
-                "content":{
-                    "application/json":{
-                        "schema":{
+            "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
                             "type": "object",
                             "required": [
                                 "content"
                             ],
-                            "properties":{
-                                "content":{
-                                    "type":"string"
+                            "properties": {
+                                "content": {
+                                    "type": "string",
+                                    "example": "Phone Accessories"
                                 }
-
                             }
                         }
-
                     }
                 }
             },
-            "responses":{
-                "201":{
-                    "description":"Category Created Successfully"
+            "responses": {
+                "201": {
+                    "description": "Category Created Successfully"
                 },
-                "400":{
-                    "description":"Validation Error"
+                "400": {
+                    "description": "Validation Error"
                 },
-                "409":{
-                    "description":"Category already exist"
+                "409": {
+                    "description": "Category already exist"
                 },
-                "500":{
-                    "description":"Internal Server Error"
+                "500": {
+                    "description": "Internal Server Error"
                 }
-                
+            }
+        },
+        "get": {
+            "summary": "Get Categories",
+            "tags": [
+                "Category"
+            ],
+            "responses": {
+                "200": {
+                    "description": "Category List"
+                },
+                "500": {
+                    "description": "Internal Server Error"
+                }
+            }
+        }
+    },
+    "api/category/{id}": {
+        "patch": {
+            "summary": "Update Single Category By Id",
+            "tags": [
+                "Category"
+            ],
+            "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "content"
+                            ],
+                            "proeprties": {
+                                "content": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "Category Updated Successfully"
+                },
+                "400": {
+                    "description": "Validation Error"
+                },
+                "404": {
+                    "description": "Category Not Found"
+                },
+                "500": {
+                    "description": "Internal Server Error!"
+                }
+            }
+        },
+        "delete": {
+            "summary": "Delete Category By Id",
+            "tags": [
+                "Category"
+            ],
+            "responses": {
+                "200": {
+                    "description": "Category Deleted Successfully"
+                },
+                "400": {
+                    "description": "There are products on this category"
+                },
+                "404": {
+                    "description": "Category Not Found"
+                },
+                "500": {
+                    "description": "Internal Server Error"
+                }
             }
         }
     }
