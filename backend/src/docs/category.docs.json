@@ -54,7 +54,7 @@
             }
         }
     },
-    "api/category/{id}": {
+    "/api/category/{id}": {
         "patch": {
             "summary": "Update Single Category By Id",
             "tags": [
@@ -69,8 +69,11 @@
                             "required": [
                                 "content"
                             ],
-                            "proeprties": {
-                                "content": "string"
+                            "properties": {
+                                "content": {
+                                    "type": "string",
+                                    "example": "Phone Accessories"
+                                }
                             }
                         }
                     }
