@@ -1,3 +1,63 @@
 {
-    
+    "/api/orders/my-orders": {
+        "post": {
+            "summary": "Make New Order",
+            "tags": [
+                "Orders"
+            ],
+            "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "products"
+                            ],
+                            "properties": {
+                                "products": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "required": [
+                                            "product_id",
+                                            "price"
+                                        ],
+                                        "properties": {
+                                            "product_id": {
+                                                "type": "string",
+                                                "example": "16934584-990d-459b-bf95-0ec233cf3eab"
+                                            },
+                                            "price": {
+                                                "type": "number",
+                                                "example": 99.99
+                                            },
+                                            "quanity": {
+                                                "type": "number",
+                                                "example": 1
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "201": {
+                    "description": "Order Created Successfully"
+                },
+                "400":{
+                    "description":"Validation Error"
+                },
+                "404":{
+                    "description":"Product Not Found"
+                },
+                "500":{
+                    "description":"Internal Server Error"
+                }
+            }
+        }
+    }
 }
