@@ -3,6 +3,7 @@ import swaggerUi from "swagger-ui-express";
 import { Express } from "express";
 import authDoc from "../docs/auth.docs.json";
 import categoryDoc from "../docs/category.docs.json";
+import commentsDoc from "../docs/comment.doc.json";
 const options: swaggerJSDoc.Options = {
   definition: {
     openapi: "3.0.0",
@@ -38,6 +39,7 @@ export const swaggerSpec = {
   paths: {
     ...authDoc,
     ...categoryDoc,
+    ...commentsDoc,
   },
 };
 
