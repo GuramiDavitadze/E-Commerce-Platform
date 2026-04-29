@@ -96,6 +96,26 @@
                     "description": "Internal Server Error"
                 }
             }
+        },
+        "delete": {
+            "summary": "Delete Comment By Comment Id",
+            "tags": [
+                "Comments"
+            ],
+            "responses": {
+                "200": {
+                    "description": "Comment Deleted Successfully"
+                },
+                "401": {
+                    "description": "Unauthorized"
+                },
+                "404": {
+                    "description": "Comment Not Found"
+                },
+                "500": {
+                    "description": "Internal Server Error"
+                }
+            }
         }
     }
 }
