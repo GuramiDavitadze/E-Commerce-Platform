@@ -32,7 +32,7 @@
                                                 "type": "number",
                                                 "example": 99.99
                                             },
-                                            "quanity": {
+                                            "quantity": {
                                                 "type": "number",
                                                 "example": 1
                                             }
