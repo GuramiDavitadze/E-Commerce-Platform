@@ -32,7 +32,7 @@ const options: swaggerJSDoc.Options = {
 
     security: [{ apiKey: [] }],
   },
-  apis: ["./src/routes/*.ts"],
+  apis: [],
 };
 
 export const swaggerSpec = {

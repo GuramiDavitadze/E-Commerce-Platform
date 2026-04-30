@@ -100,6 +100,17 @@
         }
     },
     "/api/orders/{id}/status": {
+        "parameters": [
+            {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "16934584-990d-459b-bf95-0ec233cf3eab"
+            }
+        ],
         "patch": {
             "summary": "Update Order Status",
             "tags": [
@@ -125,6 +136,17 @@
         }
     },
     "/api/orders/{id}": {
+        "parameters": [
+            {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                },
+                "example": "16934584-990d-459b-bf95-0ec233cf3eab"
+            }
+        ],
         "patch": {
             "summary": "Cancell Order",
             "tags": [
@@ -143,8 +165,11 @@
                 "404": {
                     "description": "Order Not Found"
                 },
-                "500":{
-                    "description":"Internal Server Error"
+                "409": {
+                    "description": "Order Cannot be Cancelled"
+                },
+                "500": {
+                    "description": "Internal Server Error"
                 }
             }
         }
