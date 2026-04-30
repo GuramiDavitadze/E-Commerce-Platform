@@ -123,5 +123,30 @@
                 }
             }
         }
+    },
+    "/api/orders/{id}": {
+        "patch": {
+            "summary": "Cancell Order",
+            "tags": [
+                "Orders"
+            ],
+            "responses": {
+                "200": {
+                    "description": "Order Cancelled successfully"
+                },
+                "401": {
+                    "description": "Unauthorized"
+                },
+                "403": {
+                    "description": "Don't have permission to Cancell"
+                },
+                "404": {
+                    "description": "Order Not Found"
+                },
+                "500":{
+                    "description":"Internal Server Error"
+                }
+            }
+        }
     }
 }
