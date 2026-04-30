@@ -48,14 +48,31 @@
                 "201": {
                     "description": "Order Created Successfully"
                 },
-                "400":{
-                    "description":"Validation Error"
+                "400": {
+                    "description": "Validation Error"
                 },
-                "404":{
-                    "description":"Product Not Found"
+                "404": {
+                    "description": "Product Not Found"
                 },
-                "500":{
-                    "description":"Internal Server Error"
+                "500": {
+                    "description": "Internal Server Error"
+                }
+            }
+        },
+        "get": {
+            "summary": "Get All Orders",
+            "tags": [
+                "Orders"
+            ],
+            "responses": {
+                "200": {
+                    "description": "Get All Orders"
+                },
+                "400": {
+                    "description": "Validation Error"
+                },
+                "500": {
+                    "description": "Internal Server Error"
                 }
             }
         }
