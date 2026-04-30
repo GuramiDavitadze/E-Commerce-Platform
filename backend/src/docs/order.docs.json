@@ -76,5 +76,25 @@
                 }
             }
         }
+    },
+    "/api/orders/admin": {
+        "summary": "All Orders of all users",
+        "tags": [
+            "Orders"
+        ],
+        "responses": {
+            "200": {
+                "description": "Get All Orders"
+            },
+            "400": {
+                "description": "Validation Error"
+            },
+            "403":{
+                "description":"Access Denided"
+            },
+            "500": {
+                "description": "Internal Server Error"
+            }
+        }
     }
 }
