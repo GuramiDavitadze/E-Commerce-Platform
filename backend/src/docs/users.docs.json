@@ -134,6 +134,40 @@
         }
     },
     "/api/user/{id}": {
+        "parameters": [
+            {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "4576865c-b2af-41aa-b839-2af57e1cb44c"
+                }
+            }
+        ],
+        "get": {
+            "summary": "Get Single User (Admin Only)",
+            "tags": [
+                "User"
+            ],
+            "responses": {
+                "200": {
+                    "description": "User Deleted Successfully"
+                },
+                "401": {
+                    "description": "Unauthorized"
+                },
+                "403": {
+                    "description": "Access Denied"
+                },
+                "404": {
+                    "description": "User Not Found"
+                },
+                "500": {
+                    "description": "Internal Server Error"
+                }
+            }
+        },
         "delete": {
             "summary": "Delete User",
             "tags": [
