@@ -86,9 +86,9 @@
                                     "type": "string",
                                     "example": "!Password1234"
                                 },
-                                "newPassword":{
-                                    "type":"string",
-                                    "example":"!NewPassword1234"
+                                "newPassword": {
+                                    "type": "string",
+                                    "example": "!NewPassword1234"
                                 }
                             }
                         }
@@ -104,6 +104,28 @@
                 },
                 "401": {
                     "description": "Unauthorized"
+                },
+                "500": {
+                    "description": "Internal Server Error"
+                }
+            }
+        }
+    },
+    "/api/user/all": {
+        "get": {
+            "summary": "Get All Users (Only For Admin)",
+            "tags": [
+                "User"
+            ],
+            "responses": {
+                "200": {
+                    "description": "Get All Users List"
+                },
+                "401": {
+                    "description": "Unauthorized"
+                },
+                "403": {
+                    "description": "Access Denied"
                 },
                 "500": {
                     "description": "Internal Server Error"
