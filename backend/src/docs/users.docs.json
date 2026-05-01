@@ -1,0 +1,51 @@
+{
+    "/api/user/profile": {
+        "patch": {
+            "summary": "Update User Profile",
+            "tags": [
+                "User"
+            ],
+            "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "image": {
+                                    "type": "string"
+                                },
+                                "fullname": {
+                                    "type": "string",
+                                    "example": "John Doe"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "john@gmail.com"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "!Password1234"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "User Updated Successfully"
+                },
+                "400": {
+                    "description": "Validation Error"
+                },
+                "401": {
+                    "description": "Unauthorized"
+                },
+                "500": {
+                    "description": "Internal Server Error"
+                }
+            }
+        }
+    }
+}
