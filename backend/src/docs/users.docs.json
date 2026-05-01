@@ -132,5 +132,30 @@
                 }
             }
         }
+    },
+    "/api/user/{id}": {
+        "delete": {
+            "summary": "Delete User",
+            "tags": [
+                "User"
+            ],
+            "responses": {
+                "200": {
+                    "description": "User Deleted Successfully"
+                },
+                "401": {
+                    "description": "Unauthorized"
+                },
+                "403": {
+                    "description": "Access Denied"
+                },
+                "404": {
+                    "description": "User Not Found"
+                },
+                "500": {
+                    "description": "Internal Server Error"
+                }
+            }
+        }
     }
 }
