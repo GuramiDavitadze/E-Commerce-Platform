@@ -1,0 +1,405 @@
+{
+    "/api/products": {
+        "post": {
+            "summary": "Create a new product",
+            "tags": [
+                "Products"
+            ],
+            "requestBody": {
+                "required": true,
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "name",
+                                "description",
+                                "price",
+                                "quantity",
+                                "category_id"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "iPhone 15"
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "example": "Latest Apple iPhone"
+                                },
+                                "price": {
+                                    "type": "number",
+                                    "example": 999.99
+                                },
+                                "quantity": {
+                                    "type": "number",
+                                    "example": 50
+                                },
+                                "category_id": {
+                                    "type": "string",
+                                    "example": "16934584-990d-459b-bf95-0ec233cf3eab"
+                                },
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "image": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "201": {
+                    "description": "Product created successfully"
+                },
+                "400": {
+                    "description": "Validation Error"
+                },
+                "401": {
+                    "description": "Unauthorized"
+                },
+                "403": {
+                    "description": "Access Denied - Admin only"
+                },
+                "404": {
+                    "description": "Category with this id does not exist"
+                },
+                "500": {
+                    "description": "Internal Server Error"
+                }
+            }
+        },
+        "get": {
+            "summary": "Get all products",
+            "tags": [
+                "Products"
+            ],
+            "parameters": [
+                {
+                    "name": "limit",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "number",
+                        "example": 30
+                    },
+                    "description": "Number of products to return (default: 30)"
+                },
+                {
+                    "name": "skip",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "number",
+                        "example": 0
+                    },
+                    "description": "Number of products to skip (default: 0)"
+                },
+                {
+                    "name": "order",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "string",
+                        "enum": [
+                            "asc",
+                            "desc"
+                        ],
+                        "example": "asc"
+                    },
+                    "description": "Sort order (default: asc)"
+                },
+                {
+                    "name": "sortBy",
+                    "in": "query",
+                    "required": false,
+                    "schema": {
+                        "type": "string",
+                        "example": "price"
+                    },
+                    "description": "Sort by field (currently only 'price' is supported)"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "List of products with pagination info"
+                },
+                "400": {
+                    "description": "Invalid sort field"
+                },
+                "500": {
+                    "description": "Internal Server Error"
+                }
+            }
+        }
+    },
+    "/api/products/many": {
+        "post": {
+            "summary": "Create many products at once",
+            "tags": [
+                "Products"
+            ],
+            "requestBody": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "products"
+                            ],
+                            "properties": {
+                                "products": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "required": [
+                                            "name",
+                                            "description",
+                                            "price",
+                                            "quantity",
+                                            "category_id"
+                                        ],
+                                        "properties": {
+                                            "name": {
+                                                "type": "string",
+                                                "example": "iPhone 15"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": "Latest Apple iPhone"
+                                            },
+                                            "price": {
+                                                "type": "number",
+                                                "example": 999.99
+                                            },
+                                            "quantity": {
+                                                "type": "number",
+                                                "example": 50
+                                            },
+                                            "category_id": {
+                                                "type": "string",
+                                                "example": "16934584-990d-459b-bf95-0ec233cf3eab"
+                                            },
+                                            "status": {
+                                                "type": "boolean",
+                                                "example": true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "201": {
+                    "description": "Products Created Successfully"
+                },
+                "401": {
+                    "description": "Unauthorized"
+                },
+                "403": {
+                    "description": "Access Denied - Admin only"
+                },
+                "500": {
+                    "description": "Internal Server Error"
+                }
+            }
+        }
+    },
+    "/api/products/search": {
+        "get": {
+            "summary": "Search products by name",
+            "tags": [
+                "Products"
+            ],
+            "parameters": [
+                {
+                    "name": "q",
+                    "in": "query",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "example": "iPhone"
+                    },
+                    "description": "Search query"
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "Search results"
+                },
+                "400": {
+                    "description": "Search query is required"
+                },
+                "500": {
+                    "description": "Internal Server Error"
+                }
+            }
+        }
+    },
+    "/api/products/category/{category_slug}": {
+        "get": {
+            "summary": "Get products by category slug",
+            "tags": [
+                "Products"
+            ],
+            "parameters": [
+                {
+                    "name": "category_slug",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "example": "smartphones"
+                    }
+                }
+            ],
+            "responses": {
+                "200": {
+                    "description": "List of products in category"
+                },
+                "404": {
+                    "description": "Products on this category was not found"
+                },
+                "500": {
+                    "description": "Internal Server Error"
+                }
+            }
+        }
+    },
+    "/api/products/{product_id}": {
+        "parameters": [
+            {
+                "name": "product_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "16934584-990d-459b-bf95-0ec233cf3eab"
+                }
+            }
+        ],
+        "get": {
+            "summary": "Get single product by ID",
+            "tags": [
+                "Products"
+            ],
+            "responses": {
+                "200": {
+                    "description": "Product data"
+                },
+                "404": {
+                    "description": "Product Not Found"
+                },
+                "500": {
+                    "description": "Internal Server Error"
+                }
+            }
+        }
+    },
+    "/api/products/product/{product_id}": {
+        "parameters": [
+            {
+                "name": "product_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "example": "16934584-990d-459b-bf95-0ec233cf3eab"
+                }
+            }
+        ],
+        "patch": {
+            "summary": "Update product by ID",
+            "tags": [
+                "Products"
+            ],
+            "requestBody": {
+                "required": true,
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "iPhone 15 Pro"
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "example": "Updated description"
+                                },
+                                "price": {
+                                    "type": "number",
+                                    "example": 1199.99
+                                },
+                                "quantity": {
+                                    "type": "number",
+                                    "example": 30
+                                },
+                                "status": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "image": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "responses": {
+                "200": {
+                    "description": "Product updated successfully"
+                },
+                "400": {
+                    "description": "Validation Error"
+                },
+                "401": {
+                    "description": "Unauthorized"
+                },
+                "403": {
+                    "description": "Access Denied - Admin only"
+                },
+                "404": {
+                    "description": "Product Not Found"
+                },
+                "500": {
+                    "description": "Internal Server Error"
+                }
+            }
+        },
+        "delete": {
+            "summary": "Delete product by ID",
+            "tags": [
+                "Products"
+            ],
+            "responses": {
+                "200": {
+                    "description": "Product Deleted Successfully"
+                },
+                "401": {
+                    "description": "Unauthorized"
+                },
+                "403": {
+                    "description": "Access Denied - Admin only"
+                },
+                "404": {
+                    "description": "Product Not Found"
+                },
+                "500": {
+                    "description": "Internal Server Error"
+                }
+            }
+        }
+    }
+}
