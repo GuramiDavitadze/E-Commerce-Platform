@@ -6,6 +6,7 @@ import categoryDoc from "../docs/category.docs.json";
 import commentsDoc from "../docs/comment.doc.json";
 import orderDoc from "../docs/order.docs.json";
 import productDoc from "../docs/products.docs.json";
+import userDoc from "../docs/users.docs.json";
 const options: swaggerJSDoc.Options = {
   definition: {
     openapi: "3.0.0",
@@ -44,6 +45,7 @@ export const swaggerSpec = {
     ...commentsDoc,
     ...orderDoc,
     ...productDoc,
+    ...userDoc,
   },
 };
 
