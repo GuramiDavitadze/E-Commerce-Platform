@@ -30,7 +30,7 @@ docker-compose.override.yml
 /coverage
 
 # next.js
-/.next/
+.next/
 /out/
 
 # production
