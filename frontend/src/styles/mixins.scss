@@ -2,5 +2,5 @@
 @use 'variables' as *;
 
 @mixin tablet{
-    @media(max-width:768px){@content;}
+    @media(max-width:1000px){@content;}
 }
