@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import '@/styles/global.scss'
 import Navbar from "@/components/layout/Navbar/Navbar";
 import Footer from "@/components/layout/Footer/Footer";
+import styles from "./layout.module.scss"
+import '@/styles/global.scss'
 
 export const metadata: Metadata = {
   title: "E-Commerce",
@@ -17,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Navbar />
-        <main>
+        <main className={styles.main}>
           {children}
         </main>
         <Footer/>
