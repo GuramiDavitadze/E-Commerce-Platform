@@ -1,5 +1,5 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { api, buildUrl, ApiClientError } from "@/lib/api";
+import { useQuery } from "@tanstack/react-query";
+import { api, buildUrl } from "@/lib/api";
 import type {
   ProductsResponse,
   ProductResponse,
