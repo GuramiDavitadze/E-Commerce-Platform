@@ -1,0 +1,202 @@
+@use '@/styles/variables' as *;
+
+.page {
+    min-height: 100vh;
+    background: $background;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.card {
+    width: 100%;
+    max-width: 420px;
+    background: $surface;
+    border-radius: 16px;
+    box-shadow: $box-shadow;
+    padding: 2.5rem;
+}
+
+// ─── Header ───────────────────────────────────────────────────────────────────
+
+.header {
+    margin-bottom: 2rem;
+}
+
+.backLink {
+    display: inline-flex;
+    align-items: center;
+    color: $secondary-color;
+    font-size: 0.8rem;
+    text-decoration: none;
+    margin-bottom: 1.5rem;
+    transition: color 0.15s ease;
+
+    &:hover {
+        color: $primary-color;
+    }
+}
+
+.title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: $primary-color;
+    margin: 0 0 0.375rem;
+    letter-spacing: -0.02em;
+}
+
+.subtitle {
+    font-size: 0.875rem;
+    color: $secondary-color;
+    margin: 0;
+}
+
+// ─── Error banner ─────────────────────────────────────────────────────────────
+
+.errorBanner {
+    margin-bottom: 1.25rem;
+    padding: 0.75rem 1rem;
+    background: rgba(220, 38, 38, 0.08);
+    border: 1px solid rgba(220, 38, 38, 0.2);
+    border-radius: 8px;
+    color: #dc2626;
+    font-size: 0.875rem;
+}
+
+// ─── Form ─────────────────────────────────────────────────────────────────────
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+}
+
+.labelRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: $primary-color;
+    letter-spacing: 0.01em;
+}
+
+.input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid rgba($primary-color, 0.15);
+    border-radius: 10px;
+    font-size: 0.9375rem;
+    color: $primary-color;
+    background: $background;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    outline: none;
+    box-sizing: border-box;
+
+    &::placeholder {
+        color: rgba($secondary-color, 0.5);
+    }
+
+    &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.08);
+        background: $surface;
+    }
+
+    &.inputError {
+        border-color: #dc2626;
+
+        &:focus {
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.08);
+        }
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+.fieldError {
+    font-size: 0.75rem;
+    color: #dc2626;
+}
+
+.submitBtn {
+    margin-top: 0.5rem;
+    width: 100%;
+    padding: 0.875rem;
+    background: $primary-color;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background 0.15s ease, transform 0.1s ease;
+
+    &:hover:not(:disabled) {
+        background: $secondary-color;
+        transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+        transform: translateY(0);
+    }
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+}
+
+// ─── Spinner ──────────────────────────────────────────────────────────────────
+
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// ─── Footer ───────────────────────────────────────────────────────────────────
+
+.footer {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: $secondary-color;
+}
+
+.footerLink {
+    color: $primary-color;
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

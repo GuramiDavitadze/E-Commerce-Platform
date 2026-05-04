@@ -1,27 +1,31 @@
-import type { Metadata } from "next";
-import Navbar from "@/components/layout/Navbar/Navbar";
-import Footer from "@/components/layout/Footer/Footer";
-import styles from "./layout.module.scss"
-import '@/styles/global.scss'
-
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import { Providers } from '@/components/Providers/Providers';
+import  Navbar  from '@/components/layout/Navbar/Navbar';
+import '@/styles/global.scss';
+ 
+const inter = Inter({ subsets: ['latin'] });
+ 
 export const metadata: Metadata = {
-  title: "E-Commerce",
-  description: "E-Commerce Platform",
+  title: {
+    default: 'Shop',
+    template: '%s | Shop',
+  },
+  description: 'A modern e-commerce platform',
 };
-
+ 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body>
-        <Navbar />
-        <main className={styles.main}>
-          {children}
-        </main>
-        <Footer/>
+      <body className={inter.className}>
+        <Providers>
+          <Navbar />
+          <main>{children}</main>
+        </Providers>
       </body>
     </html>
   );

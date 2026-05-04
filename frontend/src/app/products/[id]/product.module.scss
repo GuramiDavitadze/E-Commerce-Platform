@@ -1,0 +1,514 @@
+@use '@/styles/variables' as *;
+
+.page {
+    background: $background;
+    min-height: 100vh;
+    padding: 2rem 0 5rem;
+}
+
+.container {
+    width: $width;
+    max-width: $max-width;
+    margin: 0 auto;
+}
+
+// ─── Breadcrumb ───────────────────────────────────────────────────────────────
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.75rem;
+    font-size: 0.8rem;
+    color: $secondary-color;
+
+    span {
+        color: rgba($secondary-color, 0.5);
+    }
+}
+
+.breadcrumbLink {
+    color: $secondary-color;
+    text-decoration: none;
+
+    &:hover {
+        color: $primary-color;
+    }
+}
+
+.breadcrumbCurrent {
+    color: $primary-color;
+    font-weight: 500;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+// ─── Product layout ───────────────────────────────────────────────────────────
+
+.product {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    margin-bottom: 4rem;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+.imageWrap {
+    border-radius: 16px;
+    overflow: hidden;
+    background: $surface;
+    box-shadow: $box-shadow;
+    aspect-ratio: 1;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.imagePlaceholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba($secondary-color, 0.4);
+    font-size: 0.875rem;
+}
+
+// ─── Info ─────────────────────────────────────────────────────────────────────
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+}
+
+.category {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: $accent;
+}
+
+.name {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: $primary-color;
+    margin: 0;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.ratingRow {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+.ratingText {
+    font-size: 0.875rem;
+    color: $secondary-color;
+}
+
+.price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: $primary-color;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.description {
+    font-size: 0.9375rem;
+    color: $secondary-color;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.stock {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.inStock {
+    color: #16a34a;
+}
+
+.outOfStock {
+    color: #dc2626;
+}
+
+// ─── Actions ──────────────────────────────────────────────────────────────────
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.qtyControl {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    border: 1.5px solid rgba($primary-color, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.qtyBtn {
+    width: 40px;
+    height: 44px;
+    background: $background;
+    border: none;
+    font-size: 1.25rem;
+    color: $primary-color;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover:not(:disabled) {
+        background: rgba($primary-color, 0.08);
+    }
+
+    &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+}
+
+.qtyValue {
+    min-width: 44px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    color: $primary-color;
+}
+
+.addBtn {
+    flex: 1;
+    padding: 0.75rem 1.5rem;
+    background: $primary-color;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
+
+    &:hover:not(:disabled) {
+        background: $secondary-color;
+        transform: translateY(-1px);
+    }
+
+    &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+}
+
+.addedBtn {
+    background: #16a34a !important;
+}
+
+.viewCartLink {
+    font-size: 0.875rem;
+    color: $secondary-color;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+        color: $primary-color;
+    }
+}
+
+// ─── Stars ────────────────────────────────────────────────────────────────────
+
+.stars {
+    display: inline-flex;
+    gap: 2px;
+}
+
+.starFilled {
+    color: $accent;
+    font-size: 1rem;
+}
+
+.starEmpty {
+    color: rgba($secondary-color, 0.3);
+    font-size: 1rem;
+}
+
+// ─── Reviews section ──────────────────────────────────────────────────────────
+
+.reviews {
+    border-top: 1px solid rgba($primary-color, 0.08);
+    padding-top: 3rem;
+}
+
+.reviewsTitle {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: $primary-color;
+    margin: 0 0 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+}
+
+.reviewsCount {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 6px;
+    background: rgba($primary-color, 0.08);
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: $secondary-color;
+}
+
+// ─── Review form ──────────────────────────────────────────────────────────────
+
+.reviewForm {
+    background: $surface;
+    border-radius: 12px;
+    box-shadow: $box-shadow;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.reviewFormTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: $primary-color;
+    margin: 0;
+}
+
+.ratingPicker {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.ratingPickerLabel {
+    font-size: 0.875rem;
+    color: $secondary-color;
+    font-weight: 500;
+}
+
+.starBtn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: rgba($secondary-color, 0.3);
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.15s ease, transform 0.1s ease;
+
+    &:hover,
+    &.starActive {
+        color: $accent;
+    }
+
+    &:hover {
+        transform: scale(1.15);
+    }
+}
+
+.reviewTextarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid rgba($primary-color, 0.15);
+    border-radius: 10px;
+    font-size: 0.9375rem;
+    color: $primary-color;
+    background: $background;
+    resize: vertical;
+    font-family: inherit;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease;
+
+    &:focus {
+        border-color: $primary-color;
+    }
+
+    &::placeholder {
+        color: rgba($secondary-color, 0.5);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+    }
+}
+
+.reviewError {
+    font-size: 0.8rem;
+    color: #dc2626;
+}
+
+.reviewSubmitBtn {
+    align-self: flex-start;
+    padding: 0.625rem 1.25rem;
+    background: $primary-color;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover:not(:disabled) {
+        background: $secondary-color;
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+.loginPrompt {
+    font-size: 0.875rem;
+    color: $secondary-color;
+    margin-bottom: 1.5rem;
+
+    a {
+        color: $primary-color;
+        font-weight: 600;
+        text-decoration: none;
+    }
+}
+
+.noReviews {
+    color: $secondary-color;
+    font-size: 0.875rem;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+// ─── Comment list ─────────────────────────────────────────────────────────────
+
+.commentList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.comment {
+    background: $surface;
+    border-radius: 12px;
+    box-shadow: $box-shadow;
+    padding: 1.25rem;
+}
+
+.commentHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.commentAvatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba($primary-color, 0.1);
+    color: $primary-color;
+    font-weight: 700;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.commentMeta {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.commentAuthor {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $primary-color;
+}
+
+.commentDate {
+    font-size: 0.75rem;
+    color: rgba($secondary-color, 0.7);
+}
+
+.commentText {
+    font-size: 0.9rem;
+    color: $secondary-color;
+    margin: 0;
+    line-height: 1.6;
+}
+
+// ─── Skeleton ─────────────────────────────────────────────────────────────────
+
+.skeletonBlock {
+    background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: 8px;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+// ─── Error ────────────────────────────────────────────────────────────────────
+
+.errorPage {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    h2 {
+        color: $primary-color;
+        margin: 0;
+    }
+}
+
+.backLink {
+    color: $secondary-color;
+    text-decoration: none;
+    font-size: 0.9rem;
+
+    &:hover {
+        color: $primary-color;
+    }
+}
