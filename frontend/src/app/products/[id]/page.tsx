@@ -113,7 +113,7 @@ export default function ProductPage() {
               </div>
             )}
  
-            <p className={styles.price}>${product.price.toFixed(2)}</p>
+            <p className={styles.price}>${Number(product.price).toFixed(2)}</p>
             <p className={styles.description}>{product.description}</p>
  
             {/* Stock */}

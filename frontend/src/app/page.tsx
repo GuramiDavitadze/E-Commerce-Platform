@@ -10,11 +10,12 @@ import styles from './home.module.scss';
 // ─── Page ─────────────────────────────────────────────────────────────────────
  
 export default function HomePage() {
-  const { data: productsData } = useProducts({ limit: 8, sortBy: 'created_at', sortOrder: 'desc' });
+  const { data: productsData } = useProducts({ limit: 8, sortBy: 'price', order: 'desc' });
+  
   const { data: categoriesData } = useCategories();
   const addItem = useCartStore((s) => s.addItem);
  
-  const products = productsData?.data.products ?? [];
+  const products = productsData?.data ?? [];
   const categories = categoriesData?.data ?? [];
  
   return (
@@ -307,7 +308,7 @@ function ProductCard({
         )}
         <h3 className={styles.productCardName}>{product.name}</h3>
         <div className={styles.productCardFooter}>
-          <span className={styles.productCardPrice}>${product.price.toFixed(2)}</span>
+          <span className={styles.productCardPrice}>${Number(product.price).toFixed(2)}</span>
           <button
             className={`${styles.productCardBtn} ${added ? styles.productCardBtnAdded : ''}`}
             onClick={handleAdd}

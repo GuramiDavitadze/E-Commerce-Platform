@@ -28,18 +28,19 @@ export function useProducts(filters: ProductFilters = {}) {
     queryKey: productKeys.list(filters),
     queryFn: () => {
       const url = buildUrl("/products", {
-        search: filters.search,
-        category: filters.category,
-        minPrice: filters.minPrice,
-        maxPrice: filters.maxPrice,
-        status: filters.status,
-        page: filters.page ?? 1,
+        // search: filters.search,
+        // category: filters.category,
+        // minPrice: filters.minPrice,
+        // maxPrice: filters.maxPrice,
+        // status: filters.status,
+        skip: filters.skip ?? 0,
         limit: filters.limit ?? 12,
         sortBy: filters.sortBy,
-        sortOrder: filters.sortOrder,
+        order: filters.order,
       });
       return api.get<ProductsResponse>(url);
     },
+
     staleTime: 1000 * 60, // 1 min
   });
 }
@@ -57,7 +58,7 @@ export function useProduct(id: string) {
 export function useCategories() {
   return useQuery({
     queryKey: categoryKeys.all,
-    queryFn: () => api.get<CategoriesResponse>("/categories"),
+    queryFn: () => api.get<CategoriesResponse>("/category"),
     staleTime: 1000 * 60 * 10, // 10 min — rarely changes
   });
 }

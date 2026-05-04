@@ -12,6 +12,7 @@ const app = express();
 const PORT = Number(process.env.PORT) || 3008;
 app.use(
   cors({
+    origin: process.env.NEXT_BASE_URL,
     credentials: true,
   }),
 );
@@ -20,7 +21,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(generalLimiter);
 setupSwagger(app);
-app.use("/api", checkAPISecretKey,rootRouter);
+app.use("/api", checkAPISecretKey, rootRouter);
 app.use("/health", (req: Request, res: Response) => {
   res.status(200).json({ status: "ok" });
 });

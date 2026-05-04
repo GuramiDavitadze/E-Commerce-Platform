@@ -52,11 +52,10 @@ export interface Product {
 }
 
 export interface ProductsResponse {
-  success: boolean;
-  data: {
-    products: Product[];
-    pagination: Pagination;
-  };
+  data: Product[];
+  limit: number;
+  total: number;
+  skip: number;
 }
 
 export interface ProductResponse {
@@ -164,10 +163,10 @@ export interface ProductFilters {
   minPrice?: number;
   maxPrice?: number;
   status?: ProductStatus;
-  page?: number;
+  skip?: number;
   limit?: number;
   sortBy?: string;
-  sortOrder?: "asc" | "desc";
+  order?: "asc" | "desc";
 }
 
 // ─── Cart (client-side only) ──────────────────────────────────────────────────

@@ -22,10 +22,10 @@ export default function ProductsPage() {
     maxPrice: searchParams.get('maxPrice')
       ? Number(searchParams.get('maxPrice'))
       : undefined,
-    page: searchParams.get('page') ? Number(searchParams.get('page')) : 1,
+    skip: searchParams.get('page') ? Number(searchParams.get('page')) : 1,
     limit: 12,
-    sortBy: searchParams.get('sortBy') || 'created_at',
-    sortOrder: (searchParams.get('sortOrder') as 'asc' | 'desc') || 'desc',
+    sortBy: searchParams.get('sortBy') || 'price',
+    order: (searchParams.get('order') as 'asc' | 'desc') || 'desc',
   });
  
   const [searchInput, setSearchInput] = useState(filters.search || '');
@@ -34,9 +34,11 @@ export default function ProductsPage() {
   const { data: categoriesData } = useCategories();
   const addItem = useCartStore((s) => s.addItem);
  
-  const products = data?.data.products ?? [];
-  const pagination = data?.data.pagination;
+  const products = data?.data ?? [];
+  // const pagination = data?.data.pagination;
   const categories = categoriesData?.data ?? [];
+  console.log(data);
+  
  
   const updateFilter = useCallback(
     (updates: Partial<ProductFilters>) => {
@@ -49,7 +51,7 @@ export default function ProductsPage() {
       if (next.minPrice) params.set('minPrice', String(next.minPrice));
       if (next.maxPrice) params.set('maxPrice', String(next.maxPrice));
       if (next.sortBy) params.set('sortBy', next.sortBy);
-      if (next.sortOrder) params.set('sortOrder', next.sortOrder);
+      if (next.order) params.set('order', next.order);
       router.replace(`${pathname}?${params.toString()}`, { scroll: false });
     },
     [filters, pathname, router]
@@ -71,11 +73,11 @@ export default function ProductsPage() {
         {/* Page header */}
         <div className={styles.pageHeader}>
           <h1 className={styles.pageTitle}>Products</h1>
-          {pagination && (
+          {/* {pagination && (
             <span className={styles.count}>
               {pagination.total} item{pagination.total !== 1 ? 's' : ''}
             </span>
-          )}
+          )} */}
         </div>
  
         <div className={styles.layout}>
@@ -168,12 +170,12 @@ export default function ProductsPage() {
               <h3 className={styles.filterTitle}>Sort by</h3>
               <select
                 className={styles.select}
-                value={`${filters.sortBy}-${filters.sortOrder}`}
+                value={`${filters.sortBy}-${filters.order}`}
                 onChange={(e) => {
-                  const [sortBy, sortOrder] = e.target.value.split('-');
+                  const [sortBy, order] = e.target.value.split('-');
                   updateFilter({
                     sortBy,
-                    sortOrder: sortOrder as 'asc' | 'desc',
+                    order: order as 'asc' | 'desc',
                   });
                 }}
               >
@@ -196,10 +198,10 @@ export default function ProductsPage() {
                 onClick={() => {
                   setSearchInput('');
                   setFilters({
-                    page: 1,
+                    skip: 0,
                     limit: 12,
                     sortBy: 'created_at',
-                    sortOrder: 'desc',
+                    order: 'desc',
                   });
                   router.replace(pathname);
                 }}
@@ -249,12 +251,12 @@ export default function ProductsPage() {
             )}
  
             {/* Pagination */}
-            {pagination && pagination.totalPages > 1 && (
+            {/* {pagination && pagination.totalPages > 1 && (
               <div className={styles.pagination}>
                 <button
                   className={styles.pageBtn}
-                  onClick={() => handlePageChange(filters.page! - 1)}
-                  disabled={filters.page === 1}
+                  onClick={() => handlePageChange(filters.skip! - 1)}
+                  disabled={filters.skip === 1}
                 >
                   ← Previous
                 </button>
@@ -267,7 +269,7 @@ export default function ProductsPage() {
                       (p) =>
                         p === 1 ||
                         p === pagination.totalPages ||
-                        Math.abs(p - (filters.page ?? 1)) <= 1
+                        Math.abs(p - (filters.skip ?? 1)) <= 1
                     )
                     .reduce<(number | '...')[]>((acc, p, idx, arr) => {
                       if (idx > 0 && (arr[idx - 1] as number) < p - 1)
@@ -283,7 +285,7 @@ export default function ProductsPage() {
                       ) : (
                         <button
                           key={p}
-                          className={`${styles.pageNum} ${filters.page === p ? styles.pageNumActive : ''}`}
+                          className={`${styles.pageNum} ${filters.skip === p ? styles.pageNumActive : ''}`}
                           onClick={() => handlePageChange(p as number)}
                         >
                           {p}
@@ -293,13 +295,13 @@ export default function ProductsPage() {
                 </div>
                 <button
                   className={styles.pageBtn}
-                  onClick={() => handlePageChange(filters.page! + 1)}
-                  disabled={filters.page === pagination.totalPages}
+                  onClick={() => handlePageChange(filters.skip! + 1)}
+                  disabled={filters.skip === pagination.totalPages}
                 >
                   Next →
                 </button>
               </div>
-            )}
+            )} */}
           </main>
         </div>
       </div>
@@ -349,7 +351,7 @@ function ProductCard({
  
         <div className={styles.cardFooter}>
           <span className={styles.cardPrice}>
-            ${product.price.toFixed(2)}
+            ${product.price}
           </span>
           <button
             className={`${styles.addBtn} ${added ? styles.addedBtn : ''}`}

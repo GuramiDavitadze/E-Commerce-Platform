@@ -92,17 +92,17 @@ export default function OrderDetailPage() {
                         {item.product?.name ?? `Product #${item.product_id.slice(0, 6)}`}
                       </Link>
                       <span className={styles.itemQty}>Quantity: {item.quantity}</span>
-                      <span className={styles.itemUnit}>${item.price.toFixed(2)} each</span>
+                      <span className={styles.itemUnit}>${Number(item.price).toFixed(2)} each</span>
                     </div>
                     <span className={styles.itemTotal}>
-                      ${(item.price * item.quantity).toFixed(2)}
+                      ${(Number(item.price) * item.quantity)}
                     </span>
                   </div>
                 ))}
               </div>
               <div className={styles.orderTotal}>
                 <span>Total</span>
-                <span>${total.toFixed(2)}</span>
+                <span>${total}</span>
               </div>
             </div>
           </div>
