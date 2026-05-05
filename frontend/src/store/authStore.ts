@@ -37,7 +37,6 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
         try {
           const res = await api.post<AuthResponse>("/auth/login", payload);
-          
           set({ user: res.data, isLoading: false });
         } catch (err) {
           const message =
@@ -51,7 +50,7 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
         try {
           const res = await api.post<AuthResponse>("/auth/register", payload);
-          set({ user: res.data.user, isLoading: false });
+          set({ user: res.data, isLoading: false });
         } catch (err) {
           const message =
             err instanceof ApiClientError ? err.message : "Registration failed";
@@ -73,7 +72,7 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
         try {
           const res = await api.get<AuthResponse>("/auth/me");
-          set({ user: res.data.user, isLoading: false });
+          set({ user: res.data, isLoading: false });
         } catch {
           // Not authenticated — clear silently
           set({ user: null, isLoading: false });

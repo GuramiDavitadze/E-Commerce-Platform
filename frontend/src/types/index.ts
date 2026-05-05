@@ -15,9 +15,7 @@ export interface User {
 export interface AuthResponse {
   success: boolean;
   message: string;
-  data: {
-    user: User;
-  };
+  data: User;
 }
 
 export interface LoginPayload {
@@ -51,10 +49,11 @@ export interface Product {
 }
 
 export interface ProductsResponse {
-  data: Product[];
-  limit: number;
-  total: number;
-  skip: number;
+  success: boolean;
+  data: {
+    products: Product[];
+    pagination: Pagination;
+  };
 }
 
 export interface ProductResponse {
@@ -162,10 +161,10 @@ export interface ProductFilters {
   minPrice?: number;
   maxPrice?: number;
   status?: ProductStatus;
-  skip?: number;
+  page?: number;
   limit?: number;
   sortBy?: string;
-  order?: "asc" | "desc";
+  sortOrder?: "asc" | "desc";
 }
 
 // ─── Cart (client-side only) ──────────────────────────────────────────────────
