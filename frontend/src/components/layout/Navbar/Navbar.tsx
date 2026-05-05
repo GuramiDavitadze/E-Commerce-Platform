@@ -2,15 +2,16 @@
  
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useAuthStore, useUser, useIsAdmin } from '@/store/authStore';
+import { useAuthStore, useUser, useIsAdmin, useHasHydrated } from '@/store/authStore';
 import { useCartStore } from '@/store/cartStore';
 import styles from './Navbar.module.scss';
  
-function Navbar() {
+export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const user = useUser();
   const isAdmin = useIsAdmin();
+  const hasHydrated = useHasHydrated();
   const logout = useAuthStore((s) => s.logout);
   const totalItems = useCartStore((s) => s.totalItems());
  
@@ -20,6 +21,10 @@ function Navbar() {
   };
  
   const isActive = (href: string) => pathname === href;
+ 
+  // Don't render auth-dependent UI until Zustand has rehydrated from localStorage.
+  // This prevents the navbar from flashing "Login | Register" for a logged-in user.
+  const authReady = hasHydrated;
  
   return (
     <nav className={styles.navbar}>
@@ -54,7 +59,10 @@ function Navbar() {
  
         {/* Right side */}
         <div className={styles.actions}>
-          {user ? (
+          {!authReady ? (
+            // Hydration skeleton — prevents flash of wrong state
+            <div className={styles.authSkeleton} />
+          ) : user ? (
             <>
               {/* Cart */}
               <Link href="/cart" className={styles.cartBtn} aria-label="Cart">
@@ -118,7 +126,7 @@ function Navbar() {
     </nav>
   );
 }
-export default Navbar
+ 
 function CartIcon() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

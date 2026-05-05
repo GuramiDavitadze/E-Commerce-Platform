@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { persist, createJSONStorage } from "zustand/middleware";
 import { api, ApiClientError } from "@/lib/api";
 import type {
   User,
@@ -12,6 +12,7 @@ interface AuthState {
   user: User | null;
   isLoading: boolean;
   error: string | null;
+  _hasHydrated: boolean;
 
   // Actions
   login: (payload: LoginPayload) => Promise<void>;
@@ -19,6 +20,7 @@ interface AuthState {
   logout: () => Promise<void>;
   fetchMe: () => Promise<void>;
   clearError: () => void;
+  setHasHydrated: (val: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -27,12 +29,16 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       isLoading: false,
       error: null,
+      _hasHydrated: false,
+
+      setHasHydrated: (val) => set({ _hasHydrated: val }),
 
       login: async (payload) => {
         set({ isLoading: true, error: null });
         try {
           const res = await api.post<AuthResponse>("/auth/login", payload);
-          set({ user: res.data.user, isLoading: false });
+          
+          set({ user: res.data, isLoading: false });
         } catch (err) {
           const message =
             err instanceof ApiClientError ? err.message : "Login failed";
@@ -78,8 +84,13 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: "auth-store",
-      // Only persist the user object; auth is verified via cookie on fetchMe
+      storage: createJSONStorage(() => localStorage),
+      // Only persist user — never persist isLoading, error, or hydration flag
       partialize: (state) => ({ user: state.user }),
+      onRehydrateStorage: () => (state) => {
+        // Fired after localStorage is read and merged into the store
+        state?.setHasHydrated(true);
+      },
     },
   ),
 );
@@ -89,3 +100,4 @@ export const useAuthStore = create<AuthState>()(
 export const useUser = () => useAuthStore((s) => s.user);
 export const useIsAdmin = () => useAuthStore((s) => s.user?.role === "ADMIN");
 export const useIsAuthenticated = () => useAuthStore((s) => !!s.user);
+export const useHasHydrated = () => useAuthStore((s) => s._hasHydrated);
