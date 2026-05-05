@@ -173,3 +173,33 @@ export interface CartItem {
   product: Product;
   quantity: number;
 }
+
+// ─── Admin / Users ────────────────────────────────────────────────────────────
+
+export interface UsersResponse {
+  success: boolean;
+  data: User[];
+}
+
+export interface UserResponse {
+  success: boolean;
+  data: User;
+}
+
+export interface CreateProductPayload {
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  category_id: string;
+  status: ProductStatus;
+}
+
+export interface UpdateProductPayload extends Partial<CreateProductPayload> {}
+
+export interface CreateCategoryPayload {
+  content: string;
+  category_slug: string;
+}
+
+export interface UpdateCategoryPayload extends Partial<CreateCategoryPayload> {}
