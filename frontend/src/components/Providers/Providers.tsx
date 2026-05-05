@@ -1,19 +1,19 @@
 'use client';
  
-import { useEffect, useRef } from 'react';
+import { useEffect} from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useAuthStore } from '@/store/authStore';
+import { useAuthStore, useHasHydrated } from '@/store/authStore';
  
 function AuthInitializer() {
+  const hasHydrated = useHasHydrated()
   const fetchMe = useAuthStore((s) => s.fetchMe);
-  const initialized = useRef(false);
- 
+  
   useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
+    if (hasHydrated) {
       fetchMe();
+      
     }
-  }, [fetchMe]);
+  }, [hasHydrated]);
  
   return null;
 }

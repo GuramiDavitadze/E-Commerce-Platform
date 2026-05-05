@@ -2,7 +2,7 @@
  
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useAuthStore, useUser, useIsAdmin, useHasHydrated } from '@/store/authStore';
+import { useAuthStore, useUser, useIsAdmin, useHasHydrated, useIsAuthenticated } from '@/store/authStore';
 import { useCartStore } from '@/store/cartStore';
 import styles from './Navbar.module.scss';
  
@@ -12,18 +12,17 @@ export default function Navbar() {
   const user = useUser();
   const isAdmin = useIsAdmin();
   const hasHydrated = useHasHydrated();
+  const isUserAuth = useIsAuthenticated()
   const logout = useAuthStore((s) => s.logout);
   const totalItems = useCartStore((s) => s.totalItems());
- 
+  
   const handleLogout = async () => {
     await logout();
     router.push('/');
   };
  
   const isActive = (href: string) => pathname === href;
- 
-  // Don't render auth-dependent UI until Zustand has rehydrated from localStorage.
-  // This prevents the navbar from flashing "Login | Register" for a logged-in user.
+
   const authReady = hasHydrated;
  
   return (
