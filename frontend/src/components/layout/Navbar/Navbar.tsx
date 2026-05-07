@@ -64,12 +64,12 @@ export default function Navbar() {
           ) : user ? (
             <>
               {/* Cart */}
-              <Link href="/cart" className={styles.cartBtn} aria-label="Cart">
+              {!isAdmin && <Link href="/cart" className={styles.cartBtn} aria-label="Cart">
                 <CartIcon />
                 {totalItems > 0 && (
                   <span className={styles.cartBadge}>{totalItems}</span>
                 )}
-              </Link>
+              </Link>}
  
               {/* User menu */}
               <div className={styles.userMenu}>
