@@ -348,7 +348,7 @@ function TableView({
               </td>
               <td>
                 <span className={`${styles.statusPill} ${p.status === 'ACTIVE' ? styles.pillActive : styles.pillInactive}`}>
-                  {p.status === 'ACTIVE' ? '● Active' : '○ Inactive'}
+                  {p.status  ? '● Active' : '○ Inactive'}
                 </span>
               </td>
               <td className={styles.cellMuted}>

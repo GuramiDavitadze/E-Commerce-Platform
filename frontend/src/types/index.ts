@@ -161,10 +161,10 @@ export interface ProductFilters {
   minPrice?: number;
   maxPrice?: number;
   status?: ProductStatus;
-  page?: number;
+  skip?: number;
   limit?: number;
   sortBy?: string;
-  sortOrder?: "asc" | "desc";
+  order?: "asc" | "desc";
 }
 
 // ─── Cart (client-side only) ──────────────────────────────────────────────────
