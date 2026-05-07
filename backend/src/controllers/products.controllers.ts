@@ -129,7 +129,7 @@ const updateProductByIdController = async (req: Request, res: Response) => {
     if (quantity !== undefined) data.quantity = quantity;
     if (description !== undefined) data.description = description;
     if (status !== undefined) data.status = status;
-    if (price !== undefined) data.price = status;
+    if (price !== undefined) data.price = price;
     const resp = await updateProductByIdService(data, product_id as string);
     res
       .status(200)
