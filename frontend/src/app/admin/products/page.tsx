@@ -347,7 +347,7 @@ function TableView({
                 <StockBadge quantity={p.quantity} />
               </td>
               <td>
-                <span className={`${styles.statusPill} ${p.status === 'ACTIVE' ? styles.pillActive : styles.pillInactive}`}>
+                <span className={`${styles.statusPill} ${p.status ? styles.pillActive : styles.pillInactive}`}>
                   {p.status  ? '● Active' : '○ Inactive'}
                 </span>
               </td>
