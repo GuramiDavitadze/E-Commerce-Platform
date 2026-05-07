@@ -50,7 +50,7 @@ export default function AdminProductsPage() {
         !search ||
         p.name.toLowerCase().includes(search.toLowerCase()) ||
         p.description.toLowerCase().includes(search.toLowerCase());
-      const matchCat = !categoryFilter || p.category_id === categoryFilter;
+      const matchCat = !categoryFilter || p.category?.content.toLowerCase() === categoryFilter.toLowerCase();
       const matchStatus = typeof statusFilter !=="boolean" || p.status === statusFilter;
       return matchSearch && matchCat && matchStatus;
     })
@@ -155,7 +155,7 @@ export default function AdminProductsPage() {
           >
             <option value="">All categories</option>
             {categories.map((c) => (
-              <option key={c.id} value={c.id}>{c.content}</option>
+              <option key={c.id} value={c.content}>{c.content}</option>
             ))}
           </select>
  
