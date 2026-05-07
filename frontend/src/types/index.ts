@@ -31,7 +31,7 @@ export interface RegisterPayload {
 
 // ─── Products ─────────────────────────────────────────────────────────────────
 
-export type ProductStatus = "ACTIVE" | "INACTIVE";
+export type ProductStatus = boolean;
 
 export interface Product {
   id: string;

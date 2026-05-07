@@ -50,7 +50,7 @@ export function useUpdateProduct() {
     }: {
       id: string;
       payload: UpdateProductPayload;
-    }) => api.put<ProductResponse>(`/products/${id}`, payload),
+    }) => api.patch<ProductResponse>(`/products/product/${id}`, payload),
     onSuccess: (_, { id }) => {
       qc.invalidateQueries({ queryKey: productKeys.lists() });
       qc.invalidateQueries({ queryKey: productKeys.detail(id) });

@@ -22,7 +22,7 @@ const EMPTY_FORM: CreateProductPayload = {
   price: 0,
   quantity: 0,
   category_id: '',
-  status: 'ACTIVE',
+  status: true,
 };
  
 export default function AdminProductsPage() {
@@ -51,7 +51,7 @@ export default function AdminProductsPage() {
         p.name.toLowerCase().includes(search.toLowerCase()) ||
         p.description.toLowerCase().includes(search.toLowerCase());
       const matchCat = !categoryFilter || p.category_id === categoryFilter;
-      const matchStatus = !statusFilter || p.status === statusFilter;
+      const matchStatus = typeof statusFilter !=="boolean" || p.status === statusFilter;
       return matchSearch && matchCat && matchStatus;
     })
     .sort((a:any, b:any) => {
@@ -78,8 +78,8 @@ export default function AdminProductsPage() {
  
   // ─── Stats ────────────────────────────────────────────────────────────────
  
-  const totalActive   = products.filter((p:Product) => p.status === 'ACTIVE').length;
-  const totalInactive = products.filter((p:Product) => p.status === 'INACTIVE').length;
+  const totalActive   = products.filter((p:Product) => p.status).length;
+  const totalInactive = products.filter((p:Product) => !p.status).length;
   const outOfStock    = products.filter((p:Product) => p.quantity === 0).length;
   const lowStock      = products.filter((p:Product) => p.quantity > 0 && p.quantity <= 5).length;
  
@@ -162,16 +162,16 @@ export default function AdminProductsPage() {
           {/* Status filter */}
           <select
             className={styles.filterSelect}
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value as ProductStatus | '')}
+            value={String(statusFilter)}
+            onChange={(e) => setStatusFilter(e.target.value ===''?"":e.target.value ==="true")}
           >
             <option value="">All statuses</option>
-            <option value="ACTIVE">Active</option>
-            <option value="INACTIVE">Inactive</option>
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
           </select>
  
           {/* Clear filters */}
-          {(search || categoryFilter || statusFilter) && (
+          {(search || categoryFilter || typeof statusFilter ==="boolean" ) && (
             <button
               className={styles.clearBtn}
               onClick={() => { setSearch(''); setCategoryFilter(''); setStatusFilter(''); }}
@@ -391,7 +391,7 @@ function GridView({
             ) : (
               <div className={styles.cardImagePlaceholder}>📦</div>
             )}
-            <span className={`${styles.cardStatusBadge} ${p.status === 'ACTIVE' ? styles.cardBadgeActive : styles.cardBadgeInactive}`}>
+            <span className={`${styles.cardStatusBadge} ${p.status  ? styles.cardBadgeActive : styles.cardBadgeInactive}`}>
               {p.status}
             </span>
           </div>
@@ -595,11 +595,11 @@ function ProductModal({
                 <label className={styles.label}>Status</label>
                 <select
                   className={styles.input}
-                  value={form.status}
-                  onChange={(e) => set('status', e.target.value as ProductStatus)}
+                  value={String(form.status)}
+                  onChange={(e) => set('status', e.target.value==="true")}
                 >
-                  <option value="ACTIVE">Active — visible to customers</option>
-                  <option value="INACTIVE">Inactive — hidden from store</option>
+                  <option value="true">Active — visible to customers</option>
+                  <option value="false">Inactive — hidden from store</option>
                 </select>
               </div>
  
