@@ -96,7 +96,7 @@ export interface Order {
   status: OrderStatus;
   user_id: string;
   user?: User;
-  items: OrderItem[];
+  items: OrderItem[]; // may be empty array on list endpoints — always use (o.items ?? [])
   created_at: string;
 }
 

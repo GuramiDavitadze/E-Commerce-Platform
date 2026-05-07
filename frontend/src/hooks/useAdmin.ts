@@ -88,7 +88,7 @@ export function useUploadProductImage() {
 export function useAdminUsers() {
   return useQuery({
     queryKey: userKeys.list(),
-    queryFn: () => api.get<UsersResponse>("/users"),
+    queryFn: () => api.get<UsersResponse>("/user/all"),
   });
 }
 

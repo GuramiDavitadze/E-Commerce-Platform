@@ -36,7 +36,7 @@ export function useOrder(id: string) {
 export function useAdminOrders() {
   return useQuery({
     queryKey: orderKeys.admin(),
-    queryFn: () => api.get<OrdersResponse>("/orders/admin-orders"),
+    queryFn: () => api.get<OrdersResponse>("/orders/admin"),
   });
 }
 

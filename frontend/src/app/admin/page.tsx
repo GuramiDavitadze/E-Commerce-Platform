@@ -25,7 +25,7 @@ export default function AdminOverviewPage() {
  
   const revenue = orders
     .filter((o) => o.status !== 'CANCELLED')
-    .reduce((sum, o) => sum + o.items.reduce((s, i) => s + i.price * i.quantity, 0), 0);
+    .reduce((sum, o) => sum + (o.items ?? []).reduce((s, i) => s + i.price * i.quantity, 0), 0);
  
   const stats = [
     { label: 'Total Revenue',  value: `$${revenue.toFixed(2)}`, icon: '💰', color: '#10b981', sub: `${orders.filter(o => o.status !== 'CANCELLED').length} paid orders`, href: '/admin/orders' },
@@ -91,7 +91,7 @@ export default function AdminOverviewPage() {
           ) : (
             <div className={styles.orderList}>
               {recentOrders.map((order) => {
-                const total = order.items.reduce((s, i) => s + i.price * i.quantity, 0);
+                const total = (order.items ?? []).reduce((s, i) => s + i.price * i.quantity, 0);
                 return (
                   <Link key={order.id} href="/admin/orders" className={styles.orderRow}>
                     <div className={styles.orderRowLeft}>
@@ -153,7 +153,9 @@ export default function AdminOverviewPage() {
                   <div key={p.id} className={styles.stockRow}>
                     <div className={styles.stockThumb}>{p.image ? <img src={p.image} alt={p.name} /> : <span>📦</span>}</div>
                     <span className={styles.stockName}>{p.name}</span>
-                    <span className={`${styles.stockQty} ${p.quantity === 0 ? styles.stockQtyOut : ''}`}>{p.quantity === 0 ? 'Out' : `${p.quantity} left`}</span>
+                    <span className={`${styles.stockQty} ${p.quantity === 0 ? styles.stockQtyOut : ''}`}>
+                      {p.quantity === 0 ? 'Out' : `${p.quantity} left`}
+                    </span>
                   </div>
                 ))}
               </div>
