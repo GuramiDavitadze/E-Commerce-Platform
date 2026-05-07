@@ -1,0 +1,817 @@
+@use '@/styles/variables' as *;
+ 
+// ─── Page ─────────────────────────────────────────────────────────────────────
+ 
+.page {
+  padding: 2rem 2.5rem 4rem;
+  min-height: 100vh;
+  @media (max-width: 640px) { padding: 1.5rem 1.25rem 3rem; }
+}
+ 
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+ 
+.title {
+  font-size: 1.625rem;
+  font-weight: 800;
+  color: $primary-color;
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+ 
+.subtitle {
+  font-size: 0.8rem;
+  color: rgba($secondary-color, 0.7);
+  margin: 0.2rem 0 0;
+}
+ 
+.newBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.7rem 1.375rem;
+  background: $primary-color;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s ease, transform 0.1s ease;
+  &:hover { background: $secondary-color; transform: translateY(-1px); }
+}
+ 
+// ─── Quick stats ──────────────────────────────────────────────────────────────
+ 
+.quickStats {
+  display: flex;
+  align-items: center;
+  background: $surface;
+  border-radius: 12px;
+  box-shadow: $box-shadow;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.25rem;
+  gap: 0;
+  border: 1px solid rgba($primary-color, 0.05);
+  width: fit-content;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+ 
+.quickStat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1.25rem;
+  gap: 2px;
+}
+ 
+.quickStatValue {
+  font-size: 1.375rem;
+  font-weight: 800;
+  color: $primary-color;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+ 
+.quickStatLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba($secondary-color, 0.65);
+}
+ 
+.quickStatDivider {
+  width: 1px;
+  height: 32px;
+  background: rgba($primary-color, 0.08);
+  flex-shrink: 0;
+}
+ 
+.quickStatWarn .quickStatValue   { color: #d97706; }
+.quickStatDanger .quickStatValue { color: #dc2626; }
+ 
+// ─── Toolbar ──────────────────────────────────────────────────────────────────
+ 
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+ 
+.toolbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex-wrap: wrap;
+  flex: 1;
+}
+ 
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  flex-shrink: 0;
+}
+ 
+// Search
+.searchWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 220px;
+  flex: 1;
+}
+ 
+.searchIcon {
+  position: absolute;
+  left: 0.75rem;
+  font-size: 1.1rem;
+  color: rgba($secondary-color, 0.5);
+  pointer-events: none;
+}
+ 
+.searchInput {
+  width: 100%;
+  padding: 0.65rem 2.25rem 0.65rem 2.25rem;
+  border: 1.5px solid rgba($primary-color, 0.15);
+  border-radius: 10px;
+  font-size: 0.875rem;
+  color: $primary-color;
+  background: $surface;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  &:focus { border-color: $primary-color; box-shadow: 0 0 0 3px rgba($primary-color, 0.06); }
+  &::placeholder { color: rgba($secondary-color, 0.45); }
+}
+ 
+.searchClear {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: rgba($secondary-color, 0.5);
+  font-size: 0.7rem;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  &:hover { color: $primary-color; }
+}
+ 
+.filterSelect {
+  padding: 0.65rem 0.875rem;
+  border: 1.5px solid rgba($primary-color, 0.15);
+  border-radius: 10px;
+  font-size: 0.8rem;
+  color: $primary-color;
+  background: $surface;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+  &:focus { border-color: $primary-color; }
+}
+ 
+.clearBtn {
+  padding: 0.65rem 0.875rem;
+  background: none;
+  border: 1.5px solid rgba($primary-color, 0.15);
+  border-radius: 10px;
+  font-size: 0.775rem;
+  color: $secondary-color;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  &:hover { border-color: $primary-color; color: $primary-color; }
+}
+ 
+.resultCount {
+  font-size: 0.8rem;
+  color: rgba($secondary-color, 0.6);
+  white-space: nowrap;
+}
+ 
+.viewToggle {
+  display: flex;
+  background: rgba($primary-color, 0.06);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 2px;
+}
+ 
+.viewBtn {
+  width: 30px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  background: none;
+  color: $secondary-color;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  &:hover { color: $primary-color; }
+  &.viewBtnActive { background: $surface; color: $primary-color; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+}
+ 
+// ─── Table view ───────────────────────────────────────────────────────────────
+ 
+.tableWrap {
+  background: $surface;
+  border-radius: 14px;
+  box-shadow: $box-shadow;
+  overflow: hidden;
+  border: 1px solid rgba($primary-color, 0.05);
+}
+ 
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+ 
+  th {
+    padding: 0.875rem 1.25rem;
+    text-align: left;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: rgba($secondary-color, 0.65);
+    background: rgba($primary-color, 0.02);
+    border-bottom: 1px solid rgba($primary-color, 0.07);
+    white-space: nowrap;
+    user-select: none;
+  }
+ 
+  td {
+    padding: 0.9rem 1.25rem;
+    color: $secondary-color;
+    border-bottom: 1px solid rgba($primary-color, 0.05);
+    vertical-align: middle;
+  }
+ 
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba($primary-color, 0.015); }
+}
+ 
+.thSortable {
+  cursor: pointer;
+  &:hover { color: $primary-color !important; }
+}
+ 
+.sortIconActive   { margin-left: 4px; font-size: 0.7rem; color: $primary-color; }
+.sortIconInactive { margin-left: 4px; font-size: 0.7rem; opacity: 0.3; }
+ 
+.productCell { display: flex; align-items: center; gap: 0.875rem; }
+ 
+.productThumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: $background;
+  border: 1px solid rgba($primary-color, 0.08);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  img { width: 100%; height: 100%; object-fit: cover; }
+}
+ 
+.productInfo { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+ 
+.productName {
+  font-weight: 600;
+  color: $primary-color;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 240px;
+  font-size: 0.875rem;
+}
+ 
+.productDesc {
+  font-size: 0.73rem;
+  color: rgba($secondary-color, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 240px;
+}
+ 
+.categoryTag {
+  display: inline-block;
+  padding: 0.2rem 0.625rem;
+  background: rgba($primary-color, 0.07);
+  color: $secondary-color;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+ 
+.priceCell { color: $primary-color; font-size: 0.9rem; }
+.cellMuted { color: rgba($secondary-color, 0.6); font-size: 0.8rem; }
+ 
+// Stock badges
+.stockOut { color: #dc2626; font-size: 0.775rem; font-weight: 700; }
+.stockLow { color: #d97706; font-size: 0.775rem; font-weight: 700; }
+.stockOk  { color: $secondary-color; font-size: 0.875rem; font-weight: 600; }
+ 
+.statusPill {
+  padding: 0.25rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.pillActive   { background: rgba(16,185,129,0.1); color: #059669; }
+.pillInactive { background: rgba(107,114,128,0.1); color: #6b7280; }
+ 
+.actionBtns { display: flex; gap: 0.5rem; }
+ 
+.editBtn {
+  padding: 0.35rem 0.875rem;
+  background: rgba($primary-color, 0.07);
+  color: $primary-color;
+  border: none;
+  border-radius: 7px;
+  font-size: 0.775rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  &:hover { background: rgba($primary-color, 0.14); }
+}
+ 
+.deleteBtn {
+  padding: 0.35rem 0.875rem;
+  background: rgba(239,68,68,0.08);
+  color: #dc2626;
+  border: none;
+  border-radius: 7px;
+  font-size: 0.775rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  &:hover { background: rgba(239,68,68,0.15); }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+ 
+// ─── Grid view ────────────────────────────────────────────────────────────────
+ 
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+ 
+.productCard {
+  background: $surface;
+  border-radius: 14px;
+  box-shadow: $box-shadow;
+  overflow: hidden;
+  border: 1px solid rgba($primary-color, 0.05);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  &:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba($primary-color, 0.1); }
+}
+ 
+.cardImageWrap {
+  position: relative;
+  aspect-ratio: 4/3;
+  background: $background;
+  overflow: hidden;
+}
+ 
+.cardImage { width: 100%; height: 100%; object-fit: cover; }
+ 
+.cardImagePlaceholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem;
+  background: linear-gradient(135deg, rgba($primary-color, 0.03), rgba($accent, 0.05));
+}
+ 
+.cardStatusBadge {
+  position: absolute;
+  top: 8px; right: 8px;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  backdrop-filter: blur(4px);
+}
+.cardBadgeActive   { background: rgba(16,185,129,0.85); color: #fff; }
+.cardBadgeInactive { background: rgba(0,0,0,0.55);      color: #fff; }
+ 
+.cardBody { padding: 1rem; display: flex; flex-direction: column; gap: 0.375rem; flex: 1; }
+ 
+.cardCategory {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: $accent;
+}
+ 
+.cardName {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: $primary-color;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+ 
+.cardDesc {
+  font-size: 0.775rem;
+  color: rgba($secondary-color, 0.7);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.5;
+}
+ 
+.cardMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 0.625rem;
+}
+ 
+.cardPrice { font-size: 1rem; font-weight: 800; color: $primary-color; }
+ 
+.cardFooter {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid rgba($primary-color, 0.07);
+  background: rgba($primary-color, 0.015);
+ 
+  .editBtn, .deleteBtn { flex: 1; text-align: center; }
+}
+ 
+// ─── Skeleton ─────────────────────────────────────────────────────────────────
+ 
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+ 
+.skeletonCard {
+  height: 280px;
+  border-radius: 14px;
+  background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+ 
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+ 
+// ─── Empty ────────────────────────────────────────────────────────────────────
+ 
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 0.75rem;
+  text-align: center;
+}
+ 
+.emptyIcon   { font-size: 3rem; }
+.emptyTitle  { font-size: 1.125rem; font-weight: 700; color: $primary-color; margin: 0; }
+.emptyText   { font-size: 0.875rem; color: rgba($secondary-color, 0.65); margin: 0; }
+ 
+// ─── Delete confirm ───────────────────────────────────────────────────────────
+ 
+.confirmOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.15s ease;
+}
+ 
+.confirmBox {
+  background: $surface;
+  border-radius: 18px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+  animation: slideUp 0.2s ease;
+}
+ 
+.confirmIcon  { font-size: 2.5rem; margin-bottom: 0.75rem; }
+.confirmTitle { font-size: 1.125rem; font-weight: 800; color: $primary-color; margin: 0 0 0.625rem; }
+.confirmText  { font-size: 0.875rem; color: $secondary-color; margin: 0 0 1.5rem; line-height: 1.6; }
+ 
+.confirmBtns { display: flex; gap: 0.75rem; }
+ 
+.confirmCancel {
+  flex: 1;
+  padding: 0.75rem;
+  background: rgba($primary-color, 0.07);
+  border: none;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $secondary-color;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  &:hover { background: rgba($primary-color, 0.13); }
+}
+ 
+.confirmDelete {
+  flex: 1;
+  padding: 0.75rem;
+  background: #dc2626;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  &:hover:not(:disabled) { background: #b91c1c; }
+  &:disabled { opacity: 0.65; cursor: not-allowed; }
+}
+ 
+// ─── Modal ────────────────────────────────────────────────────────────────────
+ 
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(3px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.15s ease;
+}
+ 
+@keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+ 
+.modal {
+  background: $surface;
+  border-radius: 20px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.18);
+  width: 100%;
+  max-width: 620px;
+  max-height: 92vh;
+  overflow-y: auto;
+  animation: slideUp 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+ 
+.modalHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.625rem 1.875rem;
+  border-bottom: 1px solid rgba($primary-color, 0.08);
+  position: sticky;
+  top: 0;
+  background: $surface;
+  z-index: 1;
+  border-radius: 20px 20px 0 0;
+}
+ 
+.modalTitle {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: $primary-color;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+ 
+.modalSubtitle {
+  font-size: 0.775rem;
+  color: rgba($secondary-color, 0.7);
+  margin: 0.25rem 0 0;
+}
+ 
+.modalClose {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: rgba($primary-color, 0.07);
+  border: none;
+  color: $secondary-color;
+  font-size: 0.75rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+  &:hover { background: rgba($primary-color, 0.13); }
+}
+ 
+.modalBody {
+  padding: 1.625rem 1.875rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  flex: 1;
+}
+ 
+// ─── Image upload ─────────────────────────────────────────────────────────────
+ 
+.imageSection { display: flex; flex-direction: column; gap: 0.375rem; }
+ 
+.imageUploadArea {
+  position: relative;
+  border: 2px dashed rgba($primary-color, 0.18);
+  border-radius: 12px;
+  height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  &:hover { border-color: $primary-color; background: rgba($primary-color, 0.02); }
+}
+ 
+.imageUploadAreaFilled {
+  border-style: solid;
+  border-color: rgba($primary-color, 0.15);
+}
+ 
+.imagePreview { width: 100%; height: 100%; object-fit: cover; }
+ 
+.imageOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+ 
+  .imageUploadArea:hover & { opacity: 1; }
+}
+ 
+.imagePlaceholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.375rem;
+}
+.imagePlaceholderIcon { font-size: 2rem; }
+.imagePlaceholderText { font-size: 0.875rem; font-weight: 600; color: rgba($secondary-color, 0.6); }
+.imagePlaceholderSub  { font-size: 0.72rem; color: rgba($secondary-color, 0.4); }
+ 
+// ─── Form ─────────────────────────────────────────────────────────────────────
+ 
+.errorBanner {
+  padding: 0.75rem 1rem;
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 9px;
+  font-size: 0.825rem;
+  color: #dc2626;
+}
+ 
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  @media (max-width: 480px) { grid-template-columns: 1fr; }
+}
+ 
+.field { display: flex; flex-direction: column; gap: 0.375rem; }
+.fieldFull { grid-column: 1 / -1; }
+ 
+.label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: $primary-color;
+  letter-spacing: 0.01em;
+}
+ 
+.inputWrap { position: relative; display: flex; align-items: center; }
+.inputPrefix {
+  position: absolute;
+  left: 0.875rem;
+  font-size: 0.9rem;
+  color: rgba($secondary-color, 0.6);
+  font-weight: 500;
+  pointer-events: none;
+}
+.inputPrefixed { padding-left: 1.75rem !important; }
+ 
+.input {
+  padding: 0.7rem 0.9rem;
+  border: 1.5px solid rgba($primary-color, 0.15);
+  border-radius: 9px;
+  font-size: 0.9rem;
+  color: $primary-color;
+  background: $background;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  font-family: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  &:focus { border-color: $primary-color; box-shadow: 0 0 0 3px rgba($primary-color, 0.07); background: $surface; }
+  &::placeholder { color: rgba($secondary-color, 0.4); }
+  &.inputError { border-color: #dc2626; &:focus { box-shadow: 0 0 0 3px rgba(220,38,38,0.08); } }
+}
+ 
+.textarea { resize: vertical; min-height: 96px; }
+ 
+.fieldError { font-size: 0.73rem; color: #dc2626; }
+ 
+// ─── Modal footer ─────────────────────────────────────────────────────────────
+ 
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1.25rem 1.875rem;
+  border-top: 1px solid rgba($primary-color, 0.07);
+  background: rgba($primary-color, 0.01);
+  border-radius: 0 0 20px 20px;
+  position: sticky;
+  bottom: 0;
+}
+ 
+.cancelBtn {
+  padding: 0.75rem 1.375rem;
+  background: rgba($primary-color, 0.07);
+  color: $secondary-color;
+  border: none;
+  border-radius: 9px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  &:hover:not(:disabled) { background: rgba($primary-color, 0.13); }
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+}
+ 
+.submitBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.625rem;
+  background: $primary-color;
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  &:hover:not(:disabled) { background: $secondary-color; }
+  &:disabled { opacity: 0.65; cursor: not-allowed; }
+}
+ 
+.spinner {
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+ 
+@keyframes spin { to { transform: rotate(360deg); } }
