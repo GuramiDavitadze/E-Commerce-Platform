@@ -404,7 +404,7 @@ function GridView({
               {p.description.slice(0, 80)}{p.description.length > 80 ? '…' : ''}
             </p>
             <div className={styles.cardMeta}>
-              <span className={styles.cardPrice}>${p.price.toFixed(2)}</span>
+              <span className={styles.cardPrice}>${Number(p.price).toFixed(2)}</span>
               <StockBadge quantity={p.quantity} />
             </div>
           </div>
