@@ -43,7 +43,6 @@ const getAllProductsService = async (
       admin_id: true,
       category_id: true,
       updated_at: true,
-      created_at: true,
     },
     skip,
     take: limit,
