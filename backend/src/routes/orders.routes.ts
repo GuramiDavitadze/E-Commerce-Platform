@@ -9,7 +9,7 @@ router.get(
   controllers.getAllOrdersForAdminController,
 );
 router.post(
-  "/my-orders",
+  "/",
   middlewares.checkAuth,
   middlewares.checkOrderMiddleware,
   middlewares.transformData,
