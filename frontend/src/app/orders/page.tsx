@@ -1,13 +1,13 @@
 'use client';
- 
+
 import { useEffect } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useOrder, useCancelOrder } from '@/hooks/useOrders';
-import { useUser, useIsAdmin } from '@/store/authStore';
-import type { OrderStatus } from '@/types';
-import styles from './order.module.scss';
- 
+import { useMyOrders, useCancelOrder } from '@/hooks/useOrders';
+import { useUser } from '@/store/authStore';
+import type { Order, OrderStatus } from '@/types';
+import styles from './orders.module.scss';
+
 const STATUS_LABELS: Record<OrderStatus, string> = {
   PENDING: 'Pending',
   PROCESSING: 'Processing',
@@ -15,145 +15,190 @@ const STATUS_LABELS: Record<OrderStatus, string> = {
   DELIVERED: 'Delivered',
   CANCELLED: 'Cancelled',
 };
- 
-export default function OrderDetailPage() {
-  const { id } = useParams<{ id: string }>();
+
+export default function OrdersPage() {
   const router = useRouter();
   const user = useUser();
-  const isAdmin = useIsAdmin();
-  const { data, isLoading, isError } = useOrder(id);
+  const { data, isLoading, isError } = useMyOrders();
   const cancelOrder = useCancelOrder();
- 
+
   useEffect(() => {
     if (!user) router.replace('/login');
   }, [user, router]);
- 
+
   if (!user) return null;
- 
-  if (isLoading) {
-    return (
-      <div className={styles.page}>
-        <div className={styles.container}>
-          <div className={styles.loading}>Loading order…</div>
-        </div>
-      </div>
-    );
-  }
- 
-  if (isError || !data?.data) {
-    return (
-      <div className={styles.page}>
-        <div className={styles.container}>
-          <div className={styles.error}>
-            <h2>Order not found</h2>
-            <Link href="/orders" className={styles.backLink}>← Back to orders</Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
- 
-  const order = data.data;
-  const total = order.items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  const canCancel = order.status === 'PENDING';
- 
+
+  const orders = data?.data ?? [];
+
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        {/* Breadcrumb */}
-        <nav className={styles.breadcrumb}>
-          <Link href={isAdmin ? '/admin' : '/orders'} className={styles.breadcrumbLink}>
-            {isAdmin ? 'Admin' : 'My Orders'}
+        <div className={styles.pageHeader}>
+          <h1 className={styles.pageTitle}>My Orders</h1>
+          <Link href="/products" className={styles.shopLink}>
+            Continue shopping →
           </Link>
-          <span>/</span>
-          <span>#{order.id.slice(0, 8).toUpperCase()}</span>
-        </nav>
- 
-        <div className={styles.layout}>
-          {/* Left: items */}
-          <div className={styles.left}>
-            <div className={styles.card}>
-              <div className={styles.cardHead}>
-                <h2 className={styles.cardTitle}>Order items</h2>
-                <span className={styles.itemCount}>{order.items.length} item{order.items.length !== 1 ? 's' : ''}</span>
-              </div>
-              <div className={styles.items}>
-                {order.items.map((item) => (
-                  <div key={item.id} className={styles.item}>
-                    <div className={styles.itemImage}>
-                      {item.product?.image ? (
-                        <img src={item.product.image} alt={item.product?.name} />
-                      ) : (
-                        <span>📦</span>
-                      )}
-                    </div>
-                    <div className={styles.itemInfo}>
-                      <Link href={`/products/${item.product_id}`} className={styles.itemName}>
-                        {item.product?.name ?? `Product #${item.product_id.slice(0, 6)}`}
-                      </Link>
-                      <span className={styles.itemQty}>Quantity: {item.quantity}</span>
-                      <span className={styles.itemUnit}>${Number(item.price).toFixed(2)} each</span>
-                    </div>
-                    <span className={styles.itemTotal}>
-                      ${(Number(item.price) * item.quantity)}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <div className={styles.orderTotal}>
-                <span>Total</span>
-                <span>${total}</span>
-              </div>
-            </div>
+        </div>
+
+        {isLoading && (
+          <div className={styles.list}>
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className={styles.skeleton} />
+            ))}
           </div>
- 
-          {/* Right: summary */}
-          <div className={styles.right}>
-            <div className={styles.card}>
-              <h2 className={styles.cardTitle}>Order summary</h2>
-              <div className={styles.summaryRow}>
-                <span className={styles.summaryLabel}>Order ID</span>
-                <span className={styles.summaryValue} style={{ fontFamily: 'monospace', fontSize: '0.8rem' }}>
-                  #{order.id.slice(0, 8).toUpperCase()}
-                </span>
-              </div>
-              <div className={styles.summaryRow}>
-                <span className={styles.summaryLabel}>Date placed</span>
-                <span className={styles.summaryValue}>
-                  {new Date(order.created_at).toLocaleDateString('en-US', {
-                    year: 'numeric', month: 'long', day: 'numeric',
-                  })}
-                </span>
-              </div>
-              <div className={styles.summaryRow}>
-                <span className={styles.summaryLabel}>Status</span>
-                <span className={`${styles.badge} ${styles[`badge${order.status}`]}`}>
-                  {STATUS_LABELS[order.status]}
-                </span>
-              </div>
-              {isAdmin && order.user && (
-                <div className={styles.summaryRow}>
-                  <span className={styles.summaryLabel}>Customer</span>
-                  <span className={styles.summaryValue}>{order.user.fullname}</span>
-                </div>
-              )}
- 
-              {canCancel && (
-                <button
-                  className={styles.cancelBtn}
-                  onClick={() => {
-                    cancelOrder.mutate(order.id);
-                    router.push('/orders');
-                  }}
-                  disabled={cancelOrder.isPending}
-                >
-                  {cancelOrder.isPending ? 'Cancelling…' : 'Cancel order'}
-                </button>
-              )}
-            </div>
+        )}
+
+        {isError && (
+          <div className={styles.empty}>
+            <p>Failed to load orders. Please try again.</p>
           </div>
+        )}
+
+        {!isLoading && !isError && orders.length === 0 && (
+          <div className={styles.empty}>
+            <div className={styles.emptyIcon}>📦</div>
+            <h2 className={styles.emptyTitle}>No orders yet</h2>
+            <p className={styles.emptyText}>
+              When you place an order, it will appear here.
+            </p>
+            <Link href="/products" className={styles.browseBtn}>
+              Browse products
+            </Link>
+          </div>
+        )}
+
+        {!isLoading && orders.length > 0 && (
+          <div className={styles.list}>
+            {orders.map((order) => (
+              <OrderCard
+                key={order.id}
+                order={order}
+                onCancel={() => cancelOrder.mutate(order.id)}
+                cancelling={cancelOrder.isPending}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Order Card ───────────────────────────────────────────────────────────────
+
+function OrderCard({
+  order,
+  onCancel,
+  cancelling,
+}: {
+  order: Order;
+  onCancel: () => void;
+  cancelling: boolean;
+}) {
+  const total = (order.items ?? []).reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+  const canCancel = order.status === 'PENDING';
+
+  return (
+    <div className={styles.card}>
+      <div className={styles.cardHeader}>
+        <div className={styles.cardHeaderLeft}>
+          <span className={styles.orderId}>
+            Order #{order.id.slice(0, 8).toUpperCase()}
+          </span>
+          <span className={styles.orderDate}>
+            {new Date(order.created_at).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </span>
+        </div>
+        <div className={styles.cardHeaderRight}>
+          <StatusBadge status={order.status} />
+          <span className={styles.orderTotal}>${total.toFixed(2)}</span>
         </div>
       </div>
+
+      {/* Items */}
+      <div className={styles.items}>
+        {(order.items ?? []).map((item) => (
+          <div key={item.id} className={styles.item}>
+            <div className={styles.itemImage}>
+              {item.product?.image ? (
+                <img src={item.product.image} alt={item.product?.name ?? ''} />
+              ) : (
+                <span>📦</span>
+              )}
+            </div>
+            <div className={styles.itemInfo}>
+              <span className={styles.itemName}>
+                {item.product?.name ?? `Product #${item.product_id.slice(0, 6)}`}
+              </span>
+              <span className={styles.itemQty}>Qty: {item.quantity}</span>
+            </div>
+            <span className={styles.itemPrice}>
+              ${(item.price * item.quantity).toFixed(2)}
+            </span>
+          </div>
+        ))}
+      </div>
+
+      {/* Footer */}
+      <div className={styles.cardFooter}>
+        <Link href={`/orders/${order.id}`} className={styles.detailLink}>
+          View details
+        </Link>
+        {canCancel && (
+          <button
+            className={styles.cancelBtn}
+            onClick={onCancel}
+            disabled={cancelling}
+          >
+            {cancelling ? 'Cancelling…' : 'Cancel order'}
+          </button>
+        )}
+      </div>
+
+      {/* Progress bar */}
+      <OrderProgress status={order.status} />
+    </div>
+  );
+}
+
+function StatusBadge({ status }: { status: OrderStatus }) {
+  return (
+    <span className={`${styles.badge} ${styles[`badge${status}`]}`}>
+      {STATUS_LABELS[status]}
+    </span>
+  );
+}
+
+const STEPS: OrderStatus[] = ['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED'];
+
+function OrderProgress({ status }: { status: OrderStatus }) {
+  if (status === 'CANCELLED') return null;
+  const currentStep = STEPS.indexOf(status);
+
+  return (
+    <div className={styles.progress}>
+      {STEPS.map((step, i) => (
+        <div key={step} className={styles.progressStep}>
+          <div
+            className={`${styles.progressDot} ${i <= currentStep ? styles.progressDotActive : ''}`}
+          />
+          {i < STEPS.length - 1 && (
+            <div
+              className={`${styles.progressLine} ${i < currentStep ? styles.progressLineActive : ''}`}
+            />
+          )}
+          <span className={`${styles.progressLabel} ${i <= currentStep ? styles.progressLabelActive : ''}`}>
+            {STATUS_LABELS[step]}
+          </span>
+        </div>
+      ))}
     </div>
   );
 }
