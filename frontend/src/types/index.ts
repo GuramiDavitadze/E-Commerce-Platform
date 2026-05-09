@@ -111,7 +111,7 @@ export interface OrderResponse {
 }
 
 export interface CreateOrderPayload {
-  items: Array<{
+  products: Array<{
     product_id: string;
     quantity: number;
   }>;

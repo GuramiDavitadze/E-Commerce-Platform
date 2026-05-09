@@ -16,14 +16,12 @@ export default function CartPage() {
   const { items, removeItem, updateQuantity, clearCart, totalPrice, totalItems } = useCartStore();
   const createOrder = useCreateOrder();
  
-  const [placing, setPlacing]       = useState(false);
+  const [placing, setPlacing] = useState(false);
   const [orderError, setOrderError] = useState('');
-  const [couponApplied, setCouponApplied] = useState(false);
  
   const subtotal   = totalPrice();
-  const discount   = couponApplied ? subtotal * 0.1 : 0;
   const shipping   = subtotal >= 50 ? 0 : 4.99;
-  const total      = subtotal - discount + shipping;
+  const total      = subtotal + shipping;
   const itemCount  = totalItems();
  
 
@@ -38,9 +36,10 @@ export default function CartPage() {
     setPlacing(true);
     try {
       const res = await createOrder.mutateAsync({
-        items: items.map((i) => ({
+        products: items.map((i) => ({
           product_id: i.product.id,
-          quantity: i.quantity,
+            quantity: i.quantity,
+          price:i.product.price
         })),
       });
       clearCart();
@@ -149,12 +148,7 @@ export default function CartPage() {
                   <span>Subtotal</span>
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
-                {couponApplied && (
-                  <div className={`${styles.summaryRow} ${styles.summaryRowDiscount}`}>
-                    <span>Discount (WELCOME20)</span>
-                    <span>−${discount.toFixed(2)}</span>
-                  </div>
-                )}
+           
                 <div className={styles.summaryRow}>
                   <span>Shipping</span>
                   
