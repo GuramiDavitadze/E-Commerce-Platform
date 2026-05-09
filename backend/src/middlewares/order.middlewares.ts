@@ -27,7 +27,11 @@ const checkOrderMiddleware = async (
   products.forEach((product: OrderProductType) => {
     if (!product.product_id) {
       return res.status(400).json({ message: "Product id is not provided" });
-    }  
+    } else if (!product.price) {
+      return res.status(400).json({ message: "price is not provided" });
+    } else if (!Number(product.price)) {
+      return res.status(400).json({ message: "Provided data is invalid" });
+    }
   });
 
   next();
