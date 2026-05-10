@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api, uploadFile } from "@/lib/api";
 import type {
+  Product,
   ProductsResponse,
   ProductResponse,
   CreateProductPayload,
@@ -26,15 +27,31 @@ export const userKeys = {
 export function useAdminProducts() {
   return useQuery({
     queryKey: productKeys.list({ limit: 200 }),
-    queryFn: () => api.get<ProductsResponse>("/products?limit=200"),
+    queryFn: () =>
+      api.get<{ success: boolean; data: Product[] }>("/products?limit=200"),
   });
 }
 
 export function useCreateProduct() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (payload: CreateProductPayload) =>
-      api.post<ProductResponse>("/products", payload),
+    mutationFn: ({
+      payload,
+      imageFile,
+    }: {
+      payload: CreateProductPayload;
+      imageFile?: File | null;
+    }) => {
+      const fd = new FormData();
+      fd.append("name", payload.name);
+      fd.append("description", payload.description);
+      fd.append("price", String(payload.price));
+      fd.append("quantity", String(payload.quantity));
+      fd.append("category_id", payload.category_id);
+      fd.append("status", String(payload.status));
+      if (imageFile) fd.append("image", imageFile);
+      return uploadFile<ProductResponse>("/products", fd, "POST");
+    },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: productKeys.lists() });
     },
@@ -47,10 +64,27 @@ export function useUpdateProduct() {
     mutationFn: ({
       id,
       payload,
+      imageFile,
     }: {
       id: string;
       payload: UpdateProductPayload;
-    }) => api.patch<ProductResponse>(`/products/product/${id}`, payload),
+      imageFile?: File | null;
+    }) => {
+      const fd = new FormData();
+      if (payload.name !== undefined) fd.append("name", payload.name);
+      if (payload.description !== undefined)
+        fd.append("description", payload.description);
+      if (payload.price !== undefined)
+        fd.append("price", String(payload.price));
+      if (payload.quantity !== undefined)
+        fd.append("quantity", String(payload.quantity));
+      if (payload.category_id !== undefined)
+        fd.append("category_id", payload.category_id);
+      if (payload.status !== undefined)
+        fd.append("status", String(payload.status));
+      if (imageFile) fd.append("image", imageFile);
+      return uploadFile<ProductResponse>(`/products/${id}`, fd, "PUT");
+    },
     onSuccess: (_, { id }) => {
       qc.invalidateQueries({ queryKey: productKeys.lists() });
       qc.invalidateQueries({ queryKey: productKeys.detail(id) });
@@ -67,28 +101,14 @@ export function useDeleteProduct() {
     },
   });
 }
-
-export function useUploadProductImage() {
-  const qc = useQueryClient();
-  return useMutation({
-    mutationFn: ({ id, file }: { id: string; file: File }) => {
-      const fd = new FormData();
-      fd.append("image", file);
-      return uploadFile<ProductResponse>(`/products/${id}/image`, fd, "PATCH");
-    },
-    onSuccess: (_, { id }) => {
-      qc.invalidateQueries({ queryKey: productKeys.detail(id) });
-      qc.invalidateQueries({ queryKey: productKeys.lists() });
-    },
-  });
-}
+ 
 
 // ─── Admin: Users ─────────────────────────────────────────────────────────────
 
 export function useAdminUsers() {
   return useQuery({
     queryKey: userKeys.list(),
-    queryFn: () => api.get<UsersResponse>("/user/all"),
+    queryFn: () => api.get<UsersResponse>("/users"),
   });
 }
 

@@ -31,7 +31,7 @@ export interface RegisterPayload {
 
 // ─── Products ─────────────────────────────────────────────────────────────────
 
-export type ProductStatus = boolean;
+export type ProductStatus = "ACTIVE" | "INACTIVE";
 
 export interface Product {
   id: string;
@@ -111,7 +111,7 @@ export interface OrderResponse {
 }
 
 export interface CreateOrderPayload {
-  products: Array<{
+  items: Array<{
     product_id: string;
     quantity: number;
   }>;
@@ -161,10 +161,10 @@ export interface ProductFilters {
   minPrice?: number;
   maxPrice?: number;
   status?: ProductStatus;
-  skip?: number;
+  page?: number;
   limit?: number;
   sortBy?: string;
-  order?: "asc" | "desc";
+  sortOrder?: "asc" | "desc";
 }
 
 // ─── Cart (client-side only) ──────────────────────────────────────────────────
@@ -192,7 +192,7 @@ export interface CreateProductPayload {
   price: number;
   quantity: number;
   category_id: string;
-  status: ProductStatus;
+  status: boolean;
 }
 
 export interface UpdateProductPayload extends Partial<CreateProductPayload> {}

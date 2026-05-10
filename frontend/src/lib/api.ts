@@ -5,6 +5,7 @@ const BASE_URL =
   "https://e-commerce-full-stack-production-2d56.up.railway.app/api";
 
 const SECRET_API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
+console.log(SECRET_API_KEY);
 
 // ─── Core fetch wrapper ───────────────────────────────────────────────────────
 
@@ -46,7 +47,6 @@ async function request<T>(
   if (response.status === 204 || response.status === 205) {
     return undefined as T;
   }
-
   const json = await response.json();
 
   if (!response.ok) {

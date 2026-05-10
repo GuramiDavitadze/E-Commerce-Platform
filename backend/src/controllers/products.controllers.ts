@@ -29,9 +29,9 @@ const productCreationController = async (req: Request, res: Response) => {
     const data = {
       name,
       description,
-      price,
-      quantity,
-      status,
+      price:Number(price),
+      quantity:Number(quantity),
+      status:Boolean(status),
       image: imageUrl,
     };
 
@@ -47,6 +47,8 @@ const productCreationController = async (req: Request, res: Response) => {
         .status(404)
         .json({ message: "Category with this id does not exist!" });
     }
+    console.log(error);
+    
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };

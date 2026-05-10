@@ -1,62 +1,60 @@
 'use client';
  
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef } from 'react';
 import {
   useAdminProducts,
   useCreateProduct,
   useUpdateProduct,
   useDeleteProduct,
-  useUploadProductImage,
 } from '@/hooks/useAdmin';
 import { useCategories } from '@/hooks/useProducts';
-import type { Product, CreateProductPayload, ProductStatus } from '@/types';
+import type { Product, CreateProductPayload } from '@/types';
 import styles from './products.module.scss';
  
-type ViewMode = 'table' | 'grid';
-type SortKey = 'name' | 'price' | 'quantity' | 'created_at';
+type ViewMode  = 'table' | 'grid';
+type SortKey   = 'name' | 'price' | 'quantity' | 'created_at';
 type ModalMode = 'create' | 'edit';
  
 const EMPTY_FORM: CreateProductPayload = {
-  name: '',
-  description: '',
-  price: 0,
-  quantity: 0,
-  category_id: '',
-  status: true,
+  name: '', description: '', price: 0, quantity: 0, category_id: '', status: true,
 };
  
 export default function AdminProductsPage() {
-  const { data, isLoading, refetch } = useAdminProducts();
+  const { data, isLoading } = useAdminProducts();
   const { data: categoriesData } = useCategories();
   const deleteProduct = useDeleteProduct();
  
-  const [search, setSearch] = useState('');
+  const [search, setSearch]               = useState('');
   const [categoryFilter, setCategoryFilter] = useState('');
-  const [statusFilter, setStatusFilter] = useState<ProductStatus | ''>('');
-  const [sortKey, setSortKey] = useState<SortKey>('created_at');
-  const [sortDir, setSortDir] = useState<'asc' | 'desc'>('desc');
-  const [viewMode, setViewMode] = useState<ViewMode>('table');
-  const [modal, setModal] = useState<{ mode: ModalMode; product?: Product } | null>(null);
+  const [statusFilter, setStatusFilter]   = useState<'' | 'true' | 'false'>('');
+  const [sortKey, setSortKey]             = useState<SortKey>('created_at');
+  const [sortDir, setSortDir]             = useState<'asc' | 'desc'>('desc');
+  const [viewMode, setViewMode]           = useState<ViewMode>('table');
+  const [modal, setModal]                 = useState<{ mode: ModalMode; product?: Product } | null>(null);
   const [deleteConfirm, setDeleteConfirm] = useState<Product | null>(null);
  
-  const products:Product[]|any = data?.data ?? [];
+  const products: Product[]  = (data?.data as Product[] | undefined) ?? [];
   const categories = categoriesData?.data ?? [];
  
   // ─── Filter + sort ────────────────────────────────────────────────────────
  
   const filtered = products
-    .filter((p:Product) => {
+    .filter((p) => {
       const matchSearch =
         !search ||
         p.name.toLowerCase().includes(search.toLowerCase()) ||
         p.description.toLowerCase().includes(search.toLowerCase());
-      const matchCat = !categoryFilter || p.category?.content.toLowerCase() === categoryFilter.toLowerCase();
-      const matchStatus = typeof statusFilter !=="boolean" || p.status === statusFilter;
+      const matchCat =
+        !categoryFilter ||
+        p.category?.content.toLowerCase() === categoryFilter.toLowerCase();
+      const matchStatus =
+        statusFilter === '' ||
+        String(p.status) === statusFilter;
       return matchSearch && matchCat && matchStatus;
     })
-    .sort((a:any, b:any) => {
-      let aVal: string | number = a[sortKey] ?? '';
-      let bVal: string | number = b[sortKey] ?? '';
+    .sort((a, b) => {
+      let aVal: string | number = (a as any)[sortKey] ?? '';
+      let bVal: string | number = (b as any)[sortKey] ?? '';
       if (typeof aVal === 'string') aVal = aVal.toLowerCase();
       if (typeof bVal === 'string') bVal = bVal.toLowerCase();
       if (aVal < bVal) return sortDir === 'asc' ? -1 : 1;
@@ -70,18 +68,16 @@ export default function AdminProductsPage() {
   };
  
   const SortIcon = ({ col }: { col: SortKey }) =>
-    sortKey !== col ? (
-      <span className={styles.sortIconInactive}>↕</span>
-    ) : (
-      <span className={styles.sortIconActive}>{sortDir === 'asc' ? '↑' : '↓'}</span>
-    );
+    sortKey !== col
+      ? <span className={styles.sortIconInactive}>↕</span>
+      : <span className={styles.sortIconActive}>{sortDir === 'asc' ? '↑' : '↓'}</span>;
  
   // ─── Stats ────────────────────────────────────────────────────────────────
  
-  const totalActive   = products.filter((p:Product) => p.status).length;
-  const totalInactive = products.filter((p:Product) => !p.status).length;
-  const outOfStock    = products.filter((p:Product) => p.quantity === 0).length;
-  const lowStock      = products.filter((p:Product) => p.quantity > 0 && p.quantity <= 5).length;
+  const totalActive   = products.filter((p) =>  p.status).length;
+  const totalInactive = products.filter((p) => !p.status).length;
+  const outOfStock    = products.filter((p) => p.quantity === 0).length;
+  const lowStock      = products.filter((p) => p.quantity > 0 && p.quantity <= 5).length;
  
   // ─── Delete ───────────────────────────────────────────────────────────────
  
@@ -91,8 +87,6 @@ export default function AdminProductsPage() {
       onSuccess: () => setDeleteConfirm(null),
     });
   };
- 
-  // ─── Render ───────────────────────────────────────────────────────────────
  
   return (
     <div className={styles.page}>
@@ -133,7 +127,6 @@ export default function AdminProductsPage() {
       {/* Toolbar */}
       <div className={styles.toolbar}>
         <div className={styles.toolbarLeft}>
-          {/* Search */}
           <div className={styles.searchWrap}>
             <span className={styles.searchIcon}>⌕</span>
             <input
@@ -147,7 +140,6 @@ export default function AdminProductsPage() {
             )}
           </div>
  
-          {/* Category filter */}
           <select
             className={styles.filterSelect}
             value={categoryFilter}
@@ -159,19 +151,17 @@ export default function AdminProductsPage() {
             ))}
           </select>
  
-          {/* Status filter */}
           <select
             className={styles.filterSelect}
-            value={String(statusFilter)}
-            onChange={(e) => setStatusFilter(e.target.value ===''?"":e.target.value ==="true")}
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value as '' | 'true' | 'false')}
           >
             <option value="">All statuses</option>
             <option value="true">Active</option>
             <option value="false">Inactive</option>
           </select>
  
-          {/* Clear filters */}
-          {(search || categoryFilter || typeof statusFilter ==="boolean" ) && (
+          {(search || categoryFilter || statusFilter) && (
             <button
               className={styles.clearBtn}
               onClick={() => { setSearch(''); setCategoryFilter(''); setStatusFilter(''); }}
@@ -183,22 +173,17 @@ export default function AdminProductsPage() {
  
         <div className={styles.toolbarRight}>
           <span className={styles.resultCount}>{filtered.length} results</span>
-          {/* View toggle */}
           <div className={styles.viewToggle}>
             <button
               className={`${styles.viewBtn} ${viewMode === 'table' ? styles.viewBtnActive : ''}`}
               onClick={() => setViewMode('table')}
               title="Table view"
-            >
-              ☰
-            </button>
+            >☰</button>
             <button
               className={`${styles.viewBtn} ${viewMode === 'grid' ? styles.viewBtnActive : ''}`}
               onClick={() => setViewMode('grid')}
               title="Grid view"
-            >
-              ⊞
-            </button>
+            >⊞</button>
           </div>
         </div>
       </div>
@@ -206,9 +191,7 @@ export default function AdminProductsPage() {
       {/* Content */}
       {isLoading ? (
         <div className={styles.skeletonGrid}>
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className={styles.skeletonCard} />
-          ))}
+          {Array.from({ length: 8 }).map((_, i) => <div key={i} className={styles.skeletonCard} />)}
         </div>
       ) : filtered.length === 0 ? (
         <div className={styles.empty}>
@@ -241,7 +224,6 @@ export default function AdminProductsPage() {
         />
       )}
  
-      {/* Product modal */}
       {modal && (
         <ProductModal
           mode={modal.mode}
@@ -251,7 +233,6 @@ export default function AdminProductsPage() {
         />
       )}
  
-      {/* Delete confirm modal */}
       {deleteConfirm && (
         <div className={styles.confirmOverlay} onClick={() => setDeleteConfirm(null)}>
           <div className={styles.confirmBox} onClick={(e) => e.stopPropagation()}>
@@ -262,9 +243,7 @@ export default function AdminProductsPage() {
               This action cannot be undone.
             </p>
             <div className={styles.confirmBtns}>
-              <button className={styles.confirmCancel} onClick={() => setDeleteConfirm(null)}>
-                Cancel
-              </button>
+              <button className={styles.confirmCancel} onClick={() => setDeleteConfirm(null)}>Cancel</button>
               <button
                 className={styles.confirmDelete}
                 onClick={handleDeleteConfirm}
@@ -283,37 +262,25 @@ export default function AdminProductsPage() {
 // ─── Table View ───────────────────────────────────────────────────────────────
  
 function TableView({
-  products,
-  onEdit,
-  onDelete,
-  onSort,
-  SortIcon,
+  products, onEdit, onDelete, onSort, SortIcon,
 }: {
   products: Product[];
   onEdit: (p: Product) => void;
   onDelete: (p: Product) => void;
-  onSort: (key: 'name' | 'price' | 'quantity' | 'created_at') => void;
-  SortIcon: React.FC<{ col: 'name' | 'price' | 'quantity' | 'created_at' }>;
+  onSort: (key: SortKey) => void;
+  SortIcon: React.FC<{ col: SortKey }>;
 }) {
   return (
     <div className={styles.tableWrap}>
       <table className={styles.table}>
         <thead>
           <tr>
-            <th className={styles.thSortable} onClick={() => onSort('name')}>
-              Product <SortIcon col="name" />
-            </th>
+            <th className={styles.thSortable} onClick={() => onSort('name')}>Product <SortIcon col="name" /></th>
             <th>Category</th>
-            <th className={styles.thSortable} onClick={() => onSort('price')}>
-              Price <SortIcon col="price" />
-            </th>
-            <th className={styles.thSortable} onClick={() => onSort('quantity')}>
-              Stock <SortIcon col="quantity" />
-            </th>
+            <th className={styles.thSortable} onClick={() => onSort('price')}>Price <SortIcon col="price" /></th>
+            <th className={styles.thSortable} onClick={() => onSort('quantity')}>Stock <SortIcon col="quantity" /></th>
             <th>Status</th>
-            <th className={styles.thSortable} onClick={() => onSort('created_at')}>
-              Created <SortIcon col="created_at" />
-            </th>
+            <th className={styles.thSortable} onClick={() => onSort('created_at')}>Created <SortIcon col="created_at" /></th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -334,27 +301,19 @@ function TableView({
                 </div>
               </td>
               <td>
-                {p.category ? (
-                  <span className={styles.categoryTag}>{p.category.content}</span>
-                ) : (
-                  <span className={styles.cellMuted}>—</span>
-                )}
+                {p.category
+                  ? <span className={styles.categoryTag}>{p.category.content}</span>
+                  : <span className={styles.cellMuted}>—</span>}
               </td>
-              <td>
-                <strong className={styles.priceCell}>${Number(p.price).toFixed(2)}</strong>
-              </td>
-              <td>
-                <StockBadge quantity={p.quantity} />
-              </td>
+              <td><strong className={styles.priceCell}>${Number(p.price).toFixed(2)}</strong></td>
+              <td><StockBadge quantity={p.quantity} /></td>
               <td>
                 <span className={`${styles.statusPill} ${p.status ? styles.pillActive : styles.pillInactive}`}>
-                  {p.status  ? '● Active' : '○ Inactive'}
+                  {p.status ? '● Active' : '○ Inactive'}
                 </span>
               </td>
               <td className={styles.cellMuted}>
-                {new Date(p.created_at).toLocaleDateString('en-US', {
-                  month: 'short', day: 'numeric', year: 'numeric',
-                })}
+                {new Date(p.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
               </td>
               <td>
                 <div className={styles.actionBtns}>
@@ -373,9 +332,7 @@ function TableView({
 // ─── Grid View ────────────────────────────────────────────────────────────────
  
 function GridView({
-  products,
-  onEdit,
-  onDelete,
+  products, onEdit, onDelete,
 }: {
   products: Product[];
   onEdit: (p: Product) => void;
@@ -386,19 +343,15 @@ function GridView({
       {products.map((p) => (
         <div key={p.id} className={styles.productCard}>
           <div className={styles.cardImageWrap}>
-            {p.image ? (
-              <img src={p.image} alt={p.name} className={styles.cardImage} />
-            ) : (
-              <div className={styles.cardImagePlaceholder}>📦</div>
-            )}
-            <span className={`${styles.cardStatusBadge} ${p.status  ? styles.cardBadgeActive : styles.cardBadgeInactive}`}>
-              {p.status}
+            {p.image
+              ? <img src={p.image} alt={p.name} className={styles.cardImage} />
+              : <div className={styles.cardImagePlaceholder}>📦</div>}
+            <span className={`${styles.cardStatusBadge} ${p.status ? styles.cardBadgeActive : styles.cardBadgeInactive}`}>
+              {p.status ? 'Active' : 'Inactive'}
             </span>
           </div>
           <div className={styles.cardBody}>
-            {p.category && (
-              <span className={styles.cardCategory}>{p.category.content}</span>
-            )}
+            {p.category && <span className={styles.cardCategory}>{p.category.content}</span>}
             <h3 className={styles.cardName}>{p.name}</h3>
             <p className={styles.cardDesc}>
               {p.description.slice(0, 80)}{p.description.length > 80 ? '…' : ''}
@@ -429,10 +382,7 @@ function StockBadge({ quantity }: { quantity: number }) {
 // ─── Product Modal ────────────────────────────────────────────────────────────
  
 function ProductModal({
-  mode,
-  product,
-  categories,
-  onClose,
+  mode, product, categories, onClose,
 }: {
   mode: ModalMode;
   product?: Product;
@@ -441,7 +391,6 @@ function ProductModal({
 }) {
   const createProduct = useCreateProduct();
   const updateProduct = useUpdateProduct();
-  const uploadImage   = useUploadProductImage();
   const fileRef = useRef<HTMLInputElement>(null);
  
   const [form, setForm] = useState<CreateProductPayload>(
@@ -452,13 +401,13 @@ function ProductModal({
           price: product.price,
           quantity: product.quantity,
           category_id: product.category_id,
-          status: product.status,
+          status: Boolean(product.status),
         }
       : EMPTY_FORM
   );
-  const [errors, setErrors] = useState<Partial<Record<keyof CreateProductPayload, string>>>({});
-  const [apiError, setApiError] = useState('');
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [errors, setErrors]         = useState<Partial<Record<keyof CreateProductPayload, string>>>({});
+  const [apiError, setApiError]     = useState('');
+  const [imageFile, setImageFile]   = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(product?.image ?? null);
  
   const set = <K extends keyof CreateProductPayload>(key: K, val: CreateProductPayload[K]) => {
@@ -475,10 +424,10 @@ function ProductModal({
  
   const validate = (): boolean => {
     const errs: typeof errors = {};
-    if (!form.name.trim())    errs.name = 'Name is required';
-    if (!form.category_id)    errs.category_id = 'Category is required';
-    if (form.price < 0)       errs.price = 'Price must be 0 or more';
-    if (form.quantity < 0)    errs.quantity = 'Quantity must be 0 or more';
+    if (!form.name.trim()) errs.name = 'Name is required';
+    if (!form.category_id) errs.category_id = 'Category is required';
+    if (form.price < 0)    errs.price = 'Price must be 0 or more';
+    if (form.quantity < 0) errs.quantity = 'Quantity must be 0 or more';
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -490,15 +439,10 @@ function ProductModal({
  
     try {
       if (mode === 'create') {
-        const res = await createProduct.mutateAsync(form);
-        if (imageFile && res.data?.id) {
-          await uploadImage.mutateAsync({ id: res.data.id, file: imageFile });
-        }
+        // Everything — fields + image — goes in one FormData request
+        await createProduct.mutateAsync({ payload: form, imageFile });
       } else if (product) {
-        await updateProduct.mutateAsync({ id: product.id, payload: form });
-        if (imageFile) {
-          await uploadImage.mutateAsync({ id: product.id, file: imageFile });
-        }
+        await updateProduct.mutateAsync({ id: product.id, payload: form, imageFile });
       }
       onClose();
     } catch (err: any) {
@@ -506,19 +450,20 @@ function ProductModal({
     }
   };
  
-  const isPending = createProduct.isPending || updateProduct.isPending || uploadImage.isPending;
+  const isPending = createProduct.isPending || updateProduct.isPending;
  
   return (
     <div className={styles.modalOverlay} onClick={(e) => e.target === e.currentTarget && onClose()}>
       <div className={styles.modal}>
-        {/* Header */}
         <div className={styles.modalHead}>
           <div>
             <h2 className={styles.modalTitle}>
               {mode === 'create' ? 'New product' : 'Edit product'}
             </h2>
             <p className={styles.modalSubtitle}>
-              {mode === 'create' ? 'Fill in the details below to create a new product' : `Editing: ${product?.name}`}
+              {mode === 'create'
+                ? 'Fill in the details below to create a new product'
+                : `Editing: ${product?.name}`}
             </p>
           </div>
           <button className={styles.modalClose} onClick={onClose} aria-label="Close">✕</button>
@@ -536,9 +481,7 @@ function ProductModal({
                 {imagePreview ? (
                   <>
                     <img src={imagePreview} alt="Preview" className={styles.imagePreview} />
-                    <div className={styles.imageOverlay}>
-                      <span>Change image</span>
-                    </div>
+                    <div className={styles.imageOverlay}><span>Change image</span></div>
                   </>
                 ) : (
                   <div className={styles.imagePlaceholder}>
@@ -547,22 +490,14 @@ function ProductModal({
                     <span className={styles.imagePlaceholderSub}>PNG, JPG, WebP up to 10MB</span>
                   </div>
                 )}
-                <input
-                  ref={fileRef}
-                  type="file"
-                  accept="image/*"
-                  style={{ display: 'none' }}
-                  onChange={handleImagePick}
-                />
+                <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImagePick} />
               </div>
             </div>
  
-            {/* API error */}
             {apiError && <div className={styles.errorBanner}>{apiError}</div>}
  
-            {/* Form fields */}
             <div className={styles.formGrid}>
-              {/* Name - full width */}
+              {/* Name */}
               <div className={`${styles.field} ${styles.fieldFull}`}>
                 <label className={styles.label}>Product name *</label>
                 <input
@@ -596,7 +531,7 @@ function ProductModal({
                 <select
                   className={styles.input}
                   value={String(form.status)}
-                  onChange={(e) => set('status', e.target.value==="true")}
+                  onChange={(e) => set('status', e.target.value === 'true')}
                 >
                   <option value="true">Active — visible to customers</option>
                   <option value="false">Inactive — hidden from store</option>
@@ -633,7 +568,7 @@ function ProductModal({
                 {errors.quantity && <span className={styles.fieldError}>{errors.quantity}</span>}
               </div>
  
-              {/* Description - full width */}
+              {/* Description */}
               <div className={`${styles.field} ${styles.fieldFull}`}>
                 <label className={styles.label}>Description</label>
                 <textarea
@@ -647,19 +582,14 @@ function ProductModal({
             </div>
           </div>
  
-          {/* Footer */}
           <div className={styles.modalFooter}>
             <button type="button" className={styles.cancelBtn} onClick={onClose} disabled={isPending}>
               Cancel
             </button>
             <button type="submit" className={styles.submitBtn} disabled={isPending}>
-              {isPending ? (
-                <><span className={styles.spinner} /> Saving…</>
-              ) : mode === 'create' ? (
-                'Create product'
-              ) : (
-                'Save changes'
-              )}
+              {isPending
+                ? <><span className={styles.spinner} /> Saving…</>
+                : mode === 'create' ? 'Create product' : 'Save changes'}
             </button>
           </div>
         </form>
@@ -667,3 +597,4 @@ function ProductModal({
     </div>
   );
 }
+ 
