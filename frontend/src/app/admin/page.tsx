@@ -20,12 +20,12 @@ export default function AdminOverviewPage() {
   const { data: usersData } = useAdminUsers();
  
   const orders   = ordersData?.data ?? [];
-  const products = productsData?.data.products ?? [];
+  const products = productsData?.data ?? [];
   const users    = usersData?.data ?? [];
  
   const revenue = orders
     .filter((o) => o.status !== 'CANCELLED')
-    .reduce((sum, o) => sum + (o.items ?? []).reduce((s, i) => s + i.price * i.quantity, 0), 0);
+    .reduce((sum, o) => sum + (o.order_items ?? []).reduce((s, i) => s + i.price * i.quantity, 0), 0);
  
   const stats = [
     { label: 'Total Revenue',  value: `$${revenue.toFixed(2)}`, icon: '💰', color: '#10b981', sub: `${orders.filter(o => o.status !== 'CANCELLED').length} paid orders`, href: '/admin/orders' },
@@ -91,7 +91,7 @@ export default function AdminOverviewPage() {
           ) : (
             <div className={styles.orderList}>
               {recentOrders.map((order) => {
-                const total = (order.items ?? []).reduce((s, i) => s + i.price * i.quantity, 0);
+                const total = (order.order_items ?? []).reduce((s, i) => s + i.price * i.quantity, 0);
                 return (
                   <Link key={order.id} href="/admin/orders" className={styles.orderRow}>
                     <div className={styles.orderRowLeft}>
