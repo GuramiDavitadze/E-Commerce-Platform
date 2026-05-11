@@ -35,10 +35,7 @@ export default function ProductsPage() {
   const addItem = useCartStore((s) => s.addItem);
  
   const products = data?.data ?? [];
-  // const pagination = data?.data.pagination;
   const categories = categoriesData?.data ?? [];
-  console.log(data);
-  
  
   const updateFilter = useCallback(
     (updates: Partial<ProductFilters>) => {
