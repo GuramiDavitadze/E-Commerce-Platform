@@ -101,7 +101,7 @@ export default function AdminOrdersPage() {
             </thead>
             <tbody>
               {filtered.map((order,index) => {
-                const total = (order.items ?? []).reduce((s, i) => s + i.price * i.quantity, 0);
+                const total = (order.order_items ?? []).reduce((s, i) => s + i.price * i.quantity, 0);
                 const isOpen = expanded === order.id;
                 return (
                   <Fragment key={index}>
@@ -118,7 +118,7 @@ export default function AdminOrdersPage() {
                           </div>
                         </div>
                       </td>
-                      <td className={styles.cellCenter}>{order.items?.length}</td>
+                      <td className={styles.cellCenter}>{order.order_items?.length}</td>
                       <td><strong>${total.toFixed(2)}</strong></td>
                       <td className={styles.cellMuted}>
                         {new Date(order.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
@@ -155,20 +155,22 @@ export default function AdminOrdersPage() {
 }
 
 function OrderItems({ order }: { order: Order }) {
+  console.log(order);
+  
   return (
     <tr className={styles.itemsRow}>
       <td colSpan={7}>
         <div className={styles.itemsPanel}>
           <p className={styles.itemsPanelTitle}>Order items</p>
           <div className={styles.itemsGrid}>
-            {order.items.map((item) => (
+            {order.order_items.map((item) => (
               <div key={item.id} className={styles.itemCard}>
                 <div className={styles.itemThumb}>
                   {item.product?.image ? <img src={item.product.image} alt="" /> : <span>📦</span>}
                 </div>
                 <div className={styles.itemInfo}>
                   <span className={styles.itemName}>{item.product?.name ?? `Product #${item.product_id.slice(0, 6)}`}</span>
-                  <span className={styles.itemMeta}>Qty: {item.quantity} · ${item.price.toFixed(2)} each</span>
+                  <span className={styles.itemMeta}>Qty: {item.quantity} · ${Number(item.price).toFixed(2)} each</span>
                 </div>
                 <span className={styles.itemTotal}>${(item.price * item.quantity).toFixed(2)}</span>
               </div>
