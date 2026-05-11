@@ -40,6 +40,7 @@ router.get(
 router.put(
   "/product/:product_id",
   middleware.checkUser,
+  upload.single("image"),
   middleware.productUpdateMiddleware,
   controller.updateProductByIdController,
 );
