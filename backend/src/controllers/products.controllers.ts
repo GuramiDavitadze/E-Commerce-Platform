@@ -73,8 +73,9 @@ const getAllProductsController = async (req: Request, res: Response) => {
     const limit = Number(req.query.limit) || 30;
     const skip = Number(req.query.skip) || 0;
     const order = (req.query.order as string) || "asc";
+    const category = (req.query.category as string) || "";
     const [products, totalCount] = await Promise.all([
-      getAllProductsService(limit, skip, order),
+      getAllProductsService(limit, skip, order, category),
       getCountOfProductsService(),
     ]);
     return res

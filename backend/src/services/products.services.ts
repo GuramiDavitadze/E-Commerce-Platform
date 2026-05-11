@@ -1,5 +1,9 @@
 import prisma from "../config/prisma";
-import { ProductsType,ProductType,UpdateProductType } from "../types/product.types";
+import {
+  ProductsType,
+  ProductType,
+  UpdateProductType,
+} from "../types/product.types";
 
 const productCreationService = async (
   data: ProductType,
@@ -37,6 +41,7 @@ const getAllProductsService = async (
   limit: number,
   skip: number,
   order: string,
+  category_slug: string,
 ) => {
   return await prisma.product.findMany({
     omit: {
@@ -54,6 +59,9 @@ const getAllProductsService = async (
           content: true,
         },
       },
+    },
+    where: {
+      ...(category_slug ? { category: { category_slug } } : {}),
     },
   });
 };
