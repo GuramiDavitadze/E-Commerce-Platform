@@ -29,9 +29,9 @@ const productCreationController = async (req: Request, res: Response) => {
     const data = {
       name,
       description,
-      price:Number(price),
-      quantity:Number(quantity),
-      status:Boolean(status),
+      price: Number(price),
+      quantity: Number(quantity),
+      status: Boolean(status),
       image: imageUrl,
     };
 
@@ -48,7 +48,7 @@ const productCreationController = async (req: Request, res: Response) => {
         .json({ message: "Category with this id does not exist!" });
     }
     console.log(error);
-    
+
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -128,10 +128,10 @@ const updateProductByIdController = async (req: Request, res: Response) => {
     const data: UpdateProductType = {};
     if (name !== undefined) data.name = name;
     if (image !== undefined) data.image = imageUrl;
-    if (quantity !== undefined) data.quantity = quantity;
+    if (quantity !== undefined) data.quantity = Number(quantity);
     if (description !== undefined) data.description = description;
-    if (status !== undefined) data.status = status;
-    if (price !== undefined) data.price = price;
+    if (status !== undefined) data.status = status === "false" ? false : true;
+    if (price !== undefined) data.price = Number(price);
     const resp = await updateProductByIdService(data, product_id as string);
     res
       .status(200)
@@ -140,6 +140,8 @@ const updateProductByIdController = async (req: Request, res: Response) => {
     if (error.code === "P2025") {
       return res.status(404).json({ message: "Product Not Found" });
     }
+    console.log(error);
+
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -154,7 +156,7 @@ const deleteProductByIdController = async (req: Request, res: Response) => {
       return res.status(404).json({ message: `Product Not Found` });
     }
     console.log(error);
-    
+
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
