@@ -92,7 +92,6 @@ export async function uploadFile<T>(
     credentials: "include",
     headers: {
       "secret-api-key": SECRET_API_KEY,
-      // Note: do NOT set Content-Type here — browser sets it with boundary
     },
     body: formData,
   });

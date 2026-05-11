@@ -83,7 +83,7 @@ export function useUpdateProduct() {
       if (payload.status !== undefined)
         fd.append("status", String(payload.status));
       if (imageFile) fd.append("image", imageFile);
-      return uploadFile<ProductResponse>(`/products/${id}`, fd, "PUT");
+      return uploadFile<ProductResponse>(`/products/product/${id}`, fd, "PUT");
     },
     onSuccess: (_, { id }) => {
       qc.invalidateQueries({ queryKey: productKeys.lists() });
@@ -95,7 +95,7 @@ export function useUpdateProduct() {
 export function useDeleteProduct() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => api.delete(`/products/${id}`),
+    mutationFn: (id: string) => api.delete(`/products/product/${id}`),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: productKeys.lists() });
     },
