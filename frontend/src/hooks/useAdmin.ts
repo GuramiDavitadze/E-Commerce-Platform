@@ -140,7 +140,7 @@ export function useCreateCategory() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (payload: CreateCategoryPayload) =>
-      api.post("/categories", payload),
+      api.post("/category", payload),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: categoryKeys.all });
     },
@@ -156,7 +156,7 @@ export function useUpdateCategory() {
     }: {
       id: string;
       payload: UpdateCategoryPayload;
-    }) => api.put(`/categories/${id}`, payload),
+    }) => api.patch(`/category/${id}`, payload),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: categoryKeys.all });
     },
@@ -166,7 +166,7 @@ export function useUpdateCategory() {
 export function useDeleteCategory() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => api.delete(`/categories/${id}`),
+    mutationFn: (id: string) => api.delete(`/category/${id}`),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: categoryKeys.all });
     },
