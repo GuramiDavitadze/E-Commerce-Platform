@@ -37,7 +37,7 @@ router.get(
   controller.searchProductController,
 );
 
-router.patch(
+router.put(
   "/product/:product_id",
   middleware.checkUser,
   middleware.productUpdateMiddleware,
