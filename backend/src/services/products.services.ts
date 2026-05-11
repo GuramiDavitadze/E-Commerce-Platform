@@ -41,7 +41,6 @@ const getAllProductsService = async (
   return await prisma.product.findMany({
     omit: {
       admin_id: true,
-      category_id: true,
       updated_at: true,
     },
     skip,
