@@ -185,7 +185,7 @@ const CATEGORY_COLORS = [
   '#EEF2FF', '#FFF7ED', '#F0FDF4', '#FFF1F2',
   '#F0F9FF', '#FEFCE8', '#FAF5FF', '#FDF2F8',
 ];
-const CATEGORY_ICONS = ['🎧', '👗', '🏠', '💄', '📱', '🎮', '🌿', '🍳'];
+
  
 function CategoriesSection({ categories }: { categories: Category[] }) {
   if (categories.length === 0) return null;
@@ -211,9 +211,7 @@ function CategoriesSection({ categories }: { categories: Category[] }) {
               className={styles.categoryCard}
               style={{ '--cat-bg': CATEGORY_COLORS[i % CATEGORY_COLORS.length] } as React.CSSProperties}
             >
-              <span className={styles.categoryCardIcon}>
-                {CATEGORY_ICONS[i % CATEGORY_ICONS.length]}
-              </span>
+
               <span className={styles.categoryCardName}>{cat.content}</span>
               <span className={styles.categoryCardArrow}>→</span>
             </Link>
