@@ -24,12 +24,13 @@ export const categoryKeys = {
 // ─── Products ─────────────────────────────────────────────────────────────────
 
 export function useProducts(filters: ProductFilters = {}) {
+  
   return useQuery({
     queryKey: productKeys.list(filters),
     queryFn: () => {
       const url = buildUrl("/products", {
         // search: filters.search,
-        // category: filters.category,
+        category: filters.category,
         // minPrice: filters.minPrice,
         // maxPrice: filters.maxPrice,
         // status: filters.status,

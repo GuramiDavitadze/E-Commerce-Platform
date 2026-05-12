@@ -22,7 +22,7 @@ export default function ProductsPage() {
     maxPrice: searchParams.get('maxPrice')
       ? Number(searchParams.get('maxPrice'))
       : undefined,
-    skip: searchParams.get('page') ? Number(searchParams.get('page')) : 1,
+    skip: searchParams.get('page') ? Number(searchParams.get('page')) : 0,
     limit: 12,
     sortBy: searchParams.get('sortBy') || 'price',
     order: (searchParams.get('order') as 'asc' | 'desc') || 'desc',
@@ -33,13 +33,16 @@ export default function ProductsPage() {
   const { data, isLoading, isError } = useProducts(filters);
   const { data: categoriesData } = useCategories();
   const addItem = useCartStore((s) => s.addItem);
- 
+  
   const products = data?.data ?? [];
+  // const pagination = data?.data.pagination;
   const categories = categoriesData?.data ?? [];
  
   const updateFilter = useCallback(
     (updates: Partial<ProductFilters>) => {
       const next = { ...filters, ...updates, page: 1 };
+      console.log(next);
+      
       setFilters(next);
       // Sync URL
       const params = new URLSearchParams();

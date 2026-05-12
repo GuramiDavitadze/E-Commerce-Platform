@@ -78,6 +78,7 @@ const getAllProductsController = async (req: Request, res: Response) => {
       getAllProductsService(limit, skip, order, category),
       getCountOfProductsService(),
     ]);
+
     return res
       .status(200)
       .json({ data: products, limit, total: totalCount, skip });

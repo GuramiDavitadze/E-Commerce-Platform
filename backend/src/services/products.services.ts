@@ -48,20 +48,21 @@ const getAllProductsService = async (
       admin_id: true,
       updated_at: true,
     },
+    where: {
+      ...(category_slug ? { category: { category_slug } } : {}),
+    },
     skip,
     take: limit,
     orderBy: {
       price: order === "desc" ? "desc" : "asc",
     },
+
     include: {
       category: {
         select: {
           content: true,
         },
       },
-    },
-    where: {
-      ...(category_slug ? { category: { category_slug } } : {}),
     },
   });
 };
