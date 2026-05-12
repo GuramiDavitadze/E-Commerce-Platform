@@ -31,8 +31,8 @@ export function useProducts(filters: ProductFilters = {}) {
       const url = buildUrl("/products", {
         // search: filters.search,
         category: filters.category,
-        // minPrice: filters.minPrice,
-        // maxPrice: filters.maxPrice,
+        minPrice: filters.minPrice,
+        maxPrice: filters.maxPrice,
         // status: filters.status,
         skip: filters.skip ?? 0,
         limit: filters.limit ?? 12,

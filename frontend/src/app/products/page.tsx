@@ -41,8 +41,6 @@ export default function ProductsPage() {
   const updateFilter = useCallback(
     (updates: Partial<ProductFilters>) => {
       const next = { ...filters, ...updates, page: 1 };
-      console.log(next);
-      
       setFilters(next);
       // Sync URL
       const params = new URLSearchParams();
@@ -197,13 +195,15 @@ export default function ProductsPage() {
                 className={styles.resetBtn}
                 onClick={() => {
                   setSearchInput('');
+                  router.replace(pathname);
                   setFilters({
                     skip: 0,
                     limit: 12,
                     sortBy: 'created_at',
                     order: 'desc',
+                    minPrice:undefined
                   });
-                  router.replace(pathname);
+                  
                 }}
               >
                 Clear filters
