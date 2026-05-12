@@ -42,15 +42,15 @@ const getAllProductsService = async (
   skip: number,
   order: string,
   category_slug: string,
+  minPrice: number | undefined,
+  maxPrice: number | undefined,
 ) => {
   return await prisma.product.findMany({
     omit: {
       admin_id: true,
       updated_at: true,
     },
-    where: {
-      ...(category_slug ? { category: { category_slug } } : {}),
-    },
+
     skip,
     take: limit,
     orderBy: {
@@ -63,6 +63,17 @@ const getAllProductsService = async (
           content: true,
         },
       },
+    },
+    where: {
+      ...(category_slug ? { category: { category_slug } } : {}),
+      ...(minPrice !== undefined || maxPrice !== undefined
+        ? {
+            price: {
+              ...(minPrice !== undefined && { gte: minPrice }),
+              ...(maxPrice !== undefined && { lte: maxPrice }),
+            },
+          }
+        : {}),
     },
   });
 };
