@@ -103,17 +103,19 @@ const productsFilterMiddleware = async (
 ) => {
   const sortBy = req.query.sortBy as string;
   const order: string = (req.query.order as string)?.toLowerCase() ?? "asc";
-  if (!sortBy) {
-    return next();
-  }
-  if (!order) {
-    return next();
-  }
-  if ((sortBy as string).toLowerCase() !== "price") {
-    return res
-      .status(400)
-      .json({ message: "At this time we only have price sorting" });
-  }
+  const allowedSortFileds = ["created_at", "price", "name"];
+  if (!allowedSortFileds.includes(sortBy)) req.query.sortBy = "created_at";
+  // if (!sortBy) {
+  //   return next();
+  // }
+  // if (!order) {
+  //   return next();
+  // }
+  // if ((sortBy as string).toLowerCase() !== "price") {
+  //   return res
+  //     .status(400)
+  //     .json({ message: "At this time we only have price sorting" });
+  // }
   return next();
 };
 
