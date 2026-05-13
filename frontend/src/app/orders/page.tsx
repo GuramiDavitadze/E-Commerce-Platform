@@ -94,8 +94,10 @@ function OrderCard({
   order: Order;
   onCancel: () => void;
   cancelling: boolean;
-}) {
-  const total = (order.items ?? []).reduce(
+  }) {
+  console.log(order);
+  
+  const total = (order.order_items ?? []).reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
