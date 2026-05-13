@@ -1,5 +1,9 @@
 import prisma from "../config/prisma";
-import { ProductsType,ProductType,UpdateProductType } from "../types/product.types";
+import {
+  ProductsType,
+  ProductType,
+  UpdateProductType,
+} from "../types/product.types";
 
 const productCreationService = async (
   data: ProductType,
@@ -37,25 +41,42 @@ const getAllProductsService = async (
   limit: number,
   skip: number,
   order: string,
+  category_slug: string,
+  minPrice: number | undefined,
+  maxPrice: number | undefined,
+  sortBy: string,
 ) => {
+  console.log(sortBy);
+
   return await prisma.product.findMany({
     omit: {
       admin_id: true,
-      category_id: true,
       updated_at: true,
-      created_at: true,
     },
+
     skip,
     take: limit,
     orderBy: {
-      price: order === "desc" ? "desc" : "asc",
+      [sortBy]: order === "desc" ? "desc" : "asc",
     },
+
     include: {
       category: {
         select: {
           content: true,
         },
       },
+    },
+    where: {
+      ...(category_slug ? { category: { category_slug } } : {}),
+      ...(minPrice !== undefined || maxPrice !== undefined
+        ? {
+            price: {
+              ...(minPrice !== undefined && { gte: minPrice }),
+              ...(maxPrice !== undefined && { lte: maxPrice }),
+            },
+          }
+        : {}),
     },
   });
 };

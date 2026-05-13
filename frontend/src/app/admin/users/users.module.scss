@@ -1,0 +1,675 @@
+@use '@/styles/variables' as *;
+
+.page {
+    padding: 2rem 2.5rem 4rem;
+    min-height: 100vh;
+}
+
+// ─── Header ───────────────────────────────────────────────────────────────────
+
+.header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.title {
+    font-size: 1.625rem;
+    font-weight: 800;
+    color: $primary-color;
+    margin: 0;
+    letter-spacing: -0.025em;
+}
+
+.subtitle {
+    font-size: 0.8rem;
+    color: rgba($secondary-color, 0.7);
+    margin: 0.2rem 0 0;
+}
+
+// ─── Stats row ────────────────────────────────────────────────────────────────
+
+.statsRow {
+    display: flex;
+    align-items: center;
+    background: $surface;
+    border-radius: 14px;
+    box-shadow: $box-shadow;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+    width: fit-content;
+    border: 1px solid rgba($primary-color, 0.05);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1.25rem;
+    gap: 2px;
+}
+
+.statValue {
+    font-size: 1.375rem;
+    font-weight: 800;
+    color: $primary-color;
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.statLabel {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba($secondary-color, 0.6);
+}
+
+.statDivider {
+    width: 1px;
+    height: 32px;
+    background: rgba($primary-color, 0.08);
+    flex-shrink: 0;
+}
+
+.statAccent .statValue {
+    color: $accent;
+}
+
+.statGreen .statValue {
+    color: #059669;
+}
+
+.statRed .statValue {
+    color: #dc2626;
+}
+
+// ─── Toolbar ─────────────────────────────────────────────────────────────────
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+}
+
+.searchWrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-width: 260px;
+    flex: 1;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 0.75rem;
+    font-size: 1.1rem;
+    color: rgba($secondary-color, 0.45);
+    pointer-events: none;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.65rem 2.25rem;
+    border: 1.5px solid rgba($primary-color, 0.15);
+    border-radius: 10px;
+    font-size: 0.875rem;
+    color: $primary-color;
+    background: $surface;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease;
+
+    &:focus {
+        border-color: $primary-color;
+    }
+
+    &::placeholder {
+        color: rgba($secondary-color, 0.4);
+    }
+}
+
+.searchClear {
+    position: absolute;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: rgba($secondary-color, 0.5);
+    font-size: 0.7rem;
+    cursor: pointer;
+
+    &:hover {
+        color: $primary-color;
+    }
+}
+
+.filters {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.filterGroup {
+    display: flex;
+    background: rgba($primary-color, 0.05);
+    border-radius: 9px;
+    padding: 3px;
+    gap: 2px;
+}
+
+.filterBtn {
+    padding: 0.4rem 0.875rem;
+    border-radius: 7px;
+    border: none;
+    background: none;
+    font-size: 0.775rem;
+    font-weight: 500;
+    color: $secondary-color;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+
+    &:hover {
+        color: $primary-color;
+        background: rgba($primary-color, 0.06);
+    }
+
+    &.filterBtnActive {
+        background: $surface;
+        color: $primary-color;
+        font-weight: 700;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+}
+
+.resultCount {
+    font-size: 0.8rem;
+    color: rgba($secondary-color, 0.6);
+    white-space: nowrap;
+    margin-left: auto;
+}
+
+// ─── Table ────────────────────────────────────────────────────────────────────
+
+.tableWrap {
+    background: $surface;
+    border-radius: 14px;
+    box-shadow: $box-shadow;
+    overflow: hidden;
+    border: 1px solid rgba($primary-color, 0.05);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+
+    th {
+        padding: 0.875rem 1.25rem;
+        text-align: left;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        color: rgba($secondary-color, 0.65);
+        background: rgba($primary-color, 0.02);
+        border-bottom: 1px solid rgba($primary-color, 0.07);
+        white-space: nowrap;
+    }
+
+    td {
+        padding: 0.9rem 1.25rem;
+        color: $secondary-color;
+        border-bottom: 1px solid rgba($primary-color, 0.05);
+        vertical-align: middle;
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+
+    tr:hover td {
+        background: rgba($primary-color, 0.015);
+    }
+}
+
+.rowInactive td {
+    opacity: 0.6;
+}
+
+// ─── User cell ────────────────────────────────────────────────────────────────
+
+.userCell {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba($primary-color, 0.08);
+    color: $primary-color;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 2px solid rgba($primary-color, 0.1);
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.userInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.userNameRow {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.userName {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $primary-color;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+}
+
+.userEmail {
+    font-size: 0.75rem;
+    color: rgba($secondary-color, 0.65);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+.selfTag {
+    padding: 0.1rem 0.45rem;
+    background: rgba($accent, 0.15);
+    color: darken(#F59E0B, 20%);
+    border-radius: 20px;
+    font-size: 0.62rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    flex-shrink: 0;
+}
+
+// ─── Badges ───────────────────────────────────────────────────────────────────
+
+.roleBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.roleAdmin {
+    background: rgba($accent, 0.12);
+    color: darken(#F59E0B, 20%);
+}
+
+.roleCustomer {
+    background: rgba($primary-color, 0.07);
+    color: $secondary-color;
+}
+
+.statusDot {
+    font-size: 0.775rem;
+    font-weight: 600;
+}
+
+.statusActive {
+    color: #059669;
+}
+
+.statusInactive {
+    color: rgba($secondary-color, 0.5);
+}
+
+.cellMuted {
+    color: rgba($secondary-color, 0.6);
+    font-size: 0.8rem;
+}
+
+.selfNote {
+    font-size: 0.75rem;
+    color: rgba($secondary-color, 0.4);
+    font-style: italic;
+}
+
+// ─── Action buttons ───────────────────────────────────────────────────────────
+
+.actionBtns {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.activateBtn {
+    padding: 0.35rem 0.875rem;
+    background: rgba(16, 185, 129, 0.1);
+    color: #059669;
+    border: none;
+    border-radius: 7px;
+    font-size: 0.775rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    white-space: nowrap;
+
+    &:hover:not(:disabled) {
+        background: rgba(16, 185, 129, 0.18);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.deactivateBtn {
+    padding: 0.35rem 0.875rem;
+    background: rgba(239, 68, 68, 0.08);
+    color: #dc2626;
+    border: none;
+    border-radius: 7px;
+    font-size: 0.775rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    white-space: nowrap;
+
+    &:hover:not(:disabled) {
+        background: rgba(239, 68, 68, 0.15);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.roleBtn {
+    padding: 0.35rem 0.875rem;
+    background: rgba($primary-color, 0.07);
+    color: $primary-color;
+    border: none;
+    border-radius: 7px;
+    font-size: 0.775rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+    white-space: nowrap;
+
+    &:hover:not(:disabled) {
+        background: rgba($primary-color, 0.14);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+// ─── States ───────────────────────────────────────────────────────────────────
+
+.skeletonList {
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+}
+
+.skeletonRow {
+    height: 52px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.errorState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 4rem;
+    text-align: center;
+    color: $secondary-color;
+}
+
+.retryBtn {
+    padding: 0.6rem 1.25rem;
+    background: $primary-color;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 380px;
+    gap: 0.75rem;
+    text-align: center;
+}
+
+.emptyIcon {
+    font-size: 3rem;
+}
+
+.emptyTitle {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: $primary-color;
+    margin: 0;
+}
+
+.emptyText {
+    font-size: 0.875rem;
+    color: rgba($secondary-color, 0.65);
+    margin: 0;
+}
+
+// ─── Confirm modal ────────────────────────────────────────────────────────────
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(3px);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.confirmBox {
+    background: $surface;
+    border-radius: 18px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.confirmIcon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.confirmTitle {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: $primary-color;
+    margin: 0 0 0.625rem;
+}
+
+.confirmText {
+    font-size: 0.875rem;
+    color: $secondary-color;
+    margin: 0 0 1.5rem;
+    line-height: 1.65;
+}
+
+.confirmBtns {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.confirmCancel {
+    flex: 1;
+    padding: 0.75rem;
+    background: rgba($primary-color, 0.07);
+    border: none;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $secondary-color;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover:not(:disabled) {
+        background: rgba($primary-color, 0.13);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+.confirmPrimary {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: $primary-color;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover:not(:disabled) {
+        background: $secondary-color;
+    }
+
+    &:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+    }
+}
+
+.confirmDanger {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: #dc2626;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover:not(:disabled) {
+        background: #b91c1c;
+    }
+
+    &:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+    }
+}
+
+.spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}

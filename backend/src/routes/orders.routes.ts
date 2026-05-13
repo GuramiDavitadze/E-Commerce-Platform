@@ -3,8 +3,13 @@ import * as middlewares from "../middlewares";
 import * as controllers from "../controllers";
 const router = Router();
 
+router.get(
+  "/admin",
+  middlewares.checkUser,
+  controllers.getAllOrdersForAdminController,
+);
 router.post(
-  "/my-orders",
+  "/",
   middlewares.checkAuth,
   middlewares.checkOrderMiddleware,
   middlewares.transformData,
@@ -25,11 +30,7 @@ router.patch(
   middlewares.checkAuth,
   controllers.cancelOrderController,
 );
-router.get(
-  "/admin",
-  middlewares.checkUser,
-  controllers.getAllOrdersForAdminController,
-);
+
 router.patch(
   "/:order_id/status",
   middlewares.checkUser,

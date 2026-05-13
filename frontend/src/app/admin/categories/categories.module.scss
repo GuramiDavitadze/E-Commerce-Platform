@@ -1,0 +1,567 @@
+@use '@/styles/variables' as *;
+
+.page {
+    padding: 2rem 2.5rem 4rem;
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.title {
+    font-size: 1.625rem;
+    font-weight: 800;
+    color: $primary-color;
+    margin: 0;
+    letter-spacing: -0.025em;
+}
+
+.subtitle {
+    font-size: 0.8rem;
+    color: rgba($secondary-color, 0.7);
+    margin: 0.2rem 0 0;
+}
+
+.newBtn {
+    padding: 0.7rem 1.375rem;
+    background: $primary-color;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s ease, transform 0.1s ease;
+
+    &:hover {
+        background: $secondary-color;
+        transform: translateY(-1px);
+    }
+}
+
+// ─── Search ───────────────────────────────────────────────────────────────────
+
+.searchWrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 380px;
+    margin-bottom: 1.5rem;
+}
+
+.searchIcon {
+    position: absolute;
+    left: 0.75rem;
+    font-size: 1.1rem;
+    color: rgba($secondary-color, 0.45);
+    pointer-events: none;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 0.65rem 2.25rem;
+    border: 1.5px solid rgba($primary-color, 0.15);
+    border-radius: 10px;
+    font-size: 0.875rem;
+    color: $primary-color;
+    background: $surface;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease;
+
+    &:focus {
+        border-color: $primary-color;
+    }
+
+    &::placeholder {
+        color: rgba($secondary-color, 0.4);
+    }
+}
+
+.searchClear {
+    position: absolute;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    color: rgba($secondary-color, 0.5);
+    font-size: 0.7rem;
+    cursor: pointer;
+
+    &:hover {
+        color: $primary-color;
+    }
+}
+
+// ─── Grid ─────────────────────────────────────────────────────────────────────
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+}
+
+.card {
+    background: $surface;
+    border-radius: 14px;
+    box-shadow: $box-shadow;
+    border: 1px solid rgba($primary-color, 0.06);
+    padding: 1.375rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba($primary-color, 0.1);
+    }
+}
+
+
+.cardBody {
+    flex: 1;
+    min-width: 0;
+}
+
+.cardName {
+    font-size: 1rem;
+    font-weight: 700;
+    color: $primary-color;
+    margin-bottom: -7px;
+}
+
+.cardSlug {
+    font-size: 0.75rem;
+    color: rgba($secondary-color, 0.6);
+    font-family: monospace;
+}
+
+.cardActions {
+    margin-top: 15px;
+    display: flex;
+    gap: 5px ;
+}
+
+.editBtn {
+    padding: 0.35rem 0.875rem;
+    background: rgba($primary-color, 0.07);
+    color: $primary-color;
+    border: none;
+    border-radius: 7px;
+    font-size: 0.775rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover {
+        background: rgba($primary-color, 0.14);
+    }
+}
+
+.deleteBtn {
+    padding: 0.35rem 0.875rem;
+    background: rgba(239, 68, 68, 0.08);
+    color: #dc2626;
+    border: none;
+    border-radius: 7px;
+    font-size: 0.775rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover {
+        background: rgba(239, 68, 68, 0.15);
+    }
+}
+
+// ─── States ───────────────────────────────────────────────────────────────────
+
+.skeletonCard {
+    height: 84px;
+    border-radius: 14px;
+    background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.errorState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 4rem;
+    text-align: center;
+    color: $secondary-color;
+}
+
+.retryBtn {
+    padding: 0.6rem 1.25rem;
+    background: $primary-color;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 380px;
+    gap: 0.75rem;
+    text-align: center;
+}
+
+.emptyIcon {
+    font-size: 3rem;
+}
+
+.emptyTitle {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: $primary-color;
+    margin: 0;
+}
+
+.emptyText {
+    font-size: 0.875rem;
+    color: rgba($secondary-color, 0.65);
+    margin: 0;
+}
+
+// ─── Modal & Overlay ──────────────────────────────────────────────────────────
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(3px);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.modal {
+    background: $surface;
+    border-radius: 18px;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18);
+    width: 100%;
+    max-width: 460px;
+    animation: slideUp 0.2s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modalHead {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.5rem 1.75rem;
+    border-bottom: 1px solid rgba($primary-color, 0.08);
+}
+
+.modalTitle {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: $primary-color;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.modalSub {
+    font-size: 0.775rem;
+    color: rgba($secondary-color, 0.7);
+    margin: 0.25rem 0 0;
+}
+
+.modalClose {
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+    background: rgba($primary-color, 0.07);
+    border: none;
+    color: $secondary-color;
+    font-size: 0.75rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s ease;
+
+    &:hover {
+        background: rgba($primary-color, 0.14);
+    }
+}
+
+.modalBody {
+    padding: 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.125rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+}
+
+.label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: $primary-color;
+    letter-spacing: 0.01em;
+}
+
+.slugWrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.slugPrefix {
+    position: absolute;
+    left: 0.875rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba($secondary-color, 0.5);
+    pointer-events: none;
+}
+
+.slugInput {
+    padding-left: 1.625rem !important;
+    font-family: monospace;
+    letter-spacing: 0.02em;
+}
+
+.input {
+    padding: 0.7rem 0.9rem;
+    border: 1.5px solid rgba($primary-color, 0.15);
+    border-radius: 9px;
+    font-size: 0.9rem;
+    color: $primary-color;
+    background: $background;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:focus {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.07);
+        background: $surface;
+    }
+
+    &::placeholder {
+        color: rgba($secondary-color, 0.4);
+    }
+
+    &.inputError {
+        border-color: #dc2626;
+    }
+}
+
+.fieldHint {
+    font-size: 0.72rem;
+    color: rgba($secondary-color, 0.55);
+}
+
+.fieldError {
+    font-size: 0.73rem;
+    color: #dc2626;
+}
+
+.errorBanner {
+    padding: 0.75rem 1rem;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 9px;
+    font-size: 0.825rem;
+    color: #dc2626;
+}
+
+.modalFooter {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1.25rem 1.75rem;
+    border-top: 1px solid rgba($primary-color, 0.07);
+}
+
+.cancelBtn {
+    padding: 0.7rem 1.25rem;
+    background: rgba($primary-color, 0.07);
+    color: $secondary-color;
+    border: none;
+    border-radius: 9px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover:not(:disabled) {
+        background: rgba($primary-color, 0.13);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+}
+
+.submitBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.7rem 1.5rem;
+    background: $primary-color;
+    color: #fff;
+    border: none;
+    border-radius: 9px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover:not(:disabled) {
+        background: $secondary-color;
+    }
+
+    &:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+    }
+}
+
+.spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// ─── Delete confirm ───────────────────────────────────────────────────────────
+
+.confirmBox {
+    background: $surface;
+    border-radius: 18px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.2s ease;
+}
+
+.confirmIcon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.confirmTitle {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: $primary-color;
+    margin: 0 0 0.625rem;
+}
+
+.confirmText {
+    font-size: 0.875rem;
+    color: $secondary-color;
+    margin: 0 0 1.5rem;
+    line-height: 1.6;
+}
+
+.confirmBtns {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.confirmCancel {
+    flex: 1;
+    padding: 0.75rem;
+    background: rgba($primary-color, 0.07);
+    border: none;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $secondary-color;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover {
+        background: rgba($primary-color, 0.13);
+    }
+}
+
+.confirmDelete {
+    flex: 1;
+    padding: 0.75rem;
+    background: #dc2626;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.15s ease;
+
+    &:hover:not(:disabled) {
+        background: #b91c1c;
+    }
+
+    &:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+    }
+}

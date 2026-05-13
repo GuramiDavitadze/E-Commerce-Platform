@@ -1,0 +1,371 @@
+@use '@/styles/variables' as *;
+
+.page {
+    background: $background;
+    min-height: 100vh;
+    padding: 2rem 0 5rem;
+}
+
+.container {
+    width: $width;
+    max-width: $max-width;
+    margin: 0 auto;
+}
+
+.pageHeader {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.pageTitle {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: $primary-color;
+    margin: 0;
+    letter-spacing: -0.02em;
+}
+
+.shopLink {
+    font-size: 0.875rem;
+    color: $secondary-color;
+    text-decoration: none;
+    font-weight: 500;
+
+    &:hover {
+        color: $primary-color;
+    }
+}
+
+// ─── List ─────────────────────────────────────────────────────────────────────
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+// ─── Skeleton ─────────────────────────────────────────────────────────────────
+
+.skeleton {
+    height: 220px;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+// ─── Empty ────────────────────────────────────────────────────────────────────
+
+.empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 2rem;
+    text-align: center;
+    gap: 0.75rem;
+}
+
+.emptyIcon {
+    font-size: 3rem;
+}
+
+.emptyTitle {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: $primary-color;
+    margin: 0;
+}
+
+.emptyText {
+    color: $secondary-color;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.browseBtn {
+    margin-top: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: $primary-color;
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background 0.15s ease;
+
+    &:hover {
+        background: $secondary-color;
+    }
+}
+
+// ─── Order card ───────────────────────────────────────────────────────────────
+
+.card {
+    background: $surface;
+    border-radius: 14px;
+    box-shadow: $box-shadow;
+    overflow: hidden;
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba($primary-color, 0.07);
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.cardHeaderLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.orderId {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: $primary-color;
+    letter-spacing: 0.04em;
+    font-family: monospace;
+}
+
+.orderDate {
+    font-size: 0.8rem;
+    color: rgba($secondary-color, 0.7);
+}
+
+.cardHeaderRight {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.orderTotal {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: $primary-color;
+}
+
+// ─── Status badges ────────────────────────────────────────────────────────────
+
+.badge {
+    padding: 0.275rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badgePENDING {
+    background: rgba(245, 158, 11, 0.12);
+    color: darken(#F59E0B, 15%);
+}
+
+.badgePROCESSING {
+    background: rgba(59, 130, 246, 0.12);
+    color: #2563eb;
+}
+
+.badgeSHIPPED {
+    background: rgba(139, 92, 246, 0.12);
+    color: #7c3aed;
+}
+
+.badgeDELIVERED {
+    background: rgba(22, 163, 74, 0.12);
+    color: #16a34a;
+}
+
+.badgeCANCELLED {
+    background: rgba(220, 38, 38, 0.08);
+    color: #dc2626;
+}
+
+// ─── Items ────────────────────────────────────────────────────────────────────
+
+.items {
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.itemImage {
+    width: 52px;
+    height: 52px;
+    border-radius: 8px;
+    background: $background;
+    border: 1px solid rgba($primary-color, 0.08);
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+.itemInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.itemName {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: $primary-color;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.itemQty {
+    font-size: 0.775rem;
+    color: rgba($secondary-color, 0.75);
+}
+
+.itemPrice {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $primary-color;
+    flex-shrink: 0;
+}
+
+// ─── Card footer ──────────────────────────────────────────────────────────────
+
+.cardFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba($primary-color, 0.07);
+    gap: 0.75rem;
+}
+
+.detailLink {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $primary-color;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.cancelBtn {
+    padding: 0.45rem 1rem;
+    background: none;
+    border: 1.5px solid rgba(220, 38, 38, 0.35);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #dc2626;
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    &:hover:not(:disabled) {
+        background: rgba(220, 38, 38, 0.06);
+        border-color: #dc2626;
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+// ─── Progress tracker ─────────────────────────────────────────────────────────
+
+.progress {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem 1.5rem 1.25rem;
+    border-top: 1px solid rgba($primary-color, 0.07);
+    background: rgba($primary-color, 0.015);
+}
+
+.progressStep {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+}
+
+.progressDot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba($secondary-color, 0.2);
+    border: 2px solid rgba($secondary-color, 0.2);
+    z-index: 1;
+    transition: all 0.2s ease;
+
+    &.progressDotActive {
+        background: $accent;
+        border-color: $accent;
+        box-shadow: 0 0 0 3px rgba($accent, 0.2);
+    }
+}
+
+.progressLine {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background: rgba($secondary-color, 0.15);
+
+    &.progressLineActive {
+        background: $accent;
+    }
+}
+
+.progressLabel {
+    margin-top: 0.5rem;
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: rgba($secondary-color, 0.5);
+    text-align: center;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+    &.progressLabelActive {
+        color: $primary-color;
+        font-weight: 700;
+    }
+}

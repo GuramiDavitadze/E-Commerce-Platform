@@ -1,5 +1,5 @@
 {
-    "/api/orders/my-orders": {
+    "/api/orders/": {
         "post": {
             "summary": "Make New Order",
             "tags": [
@@ -58,7 +58,9 @@
                     "description": "Internal Server Error"
                 }
             }
-        },
+        }
+    },
+    "api/orders/my-orders": {
         "get": {
             "summary": "Get All Orders",
             "tags": [

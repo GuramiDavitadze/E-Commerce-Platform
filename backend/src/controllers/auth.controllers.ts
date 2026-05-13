@@ -74,7 +74,7 @@ const getMeController = async (req: Request, res: Response) => {
     const user = req.user;
 
     const data = await UserServices.getMeService(user?.id);
-    res.status(200).json(data);
+    res.status(200).json({ data });
   } catch {
     return res.status(500).json({ message: "Internal Server error" });
   }

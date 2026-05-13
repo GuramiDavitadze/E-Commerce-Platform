@@ -29,9 +29,9 @@ const productCreationController = async (req: Request, res: Response) => {
     const data = {
       name,
       description,
-      price,
-      quantity,
-      status,
+      price: Number(price),
+      quantity: Number(quantity),
+      status: Boolean(status),
       image: imageUrl,
     };
 
@@ -47,6 +47,8 @@ const productCreationController = async (req: Request, res: Response) => {
         .status(404)
         .json({ message: "Category with this id does not exist!" });
     }
+    console.log(error);
+
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -71,10 +73,23 @@ const getAllProductsController = async (req: Request, res: Response) => {
     const limit = Number(req.query.limit) || 30;
     const skip = Number(req.query.skip) || 0;
     const order = (req.query.order as string) || "asc";
+    const category = (req.query.category as string) || "";
+    const minPrice = Number(req.query.minPrice) || undefined;
+    const maxPrice = Number(req.query.maxPrice) || undefined;
+    const sortBy = req.query.sortBy as string;
     const [products, totalCount] = await Promise.all([
-      getAllProductsService(limit, skip, order),
+      getAllProductsService(
+        limit,
+        skip,
+        order,
+        category,
+        minPrice,
+        maxPrice,
+        sortBy,
+      ),
       getCountOfProductsService(),
     ]);
+
     return res
       .status(200)
       .json({ data: products, limit, total: totalCount, skip });
@@ -126,10 +141,10 @@ const updateProductByIdController = async (req: Request, res: Response) => {
     const data: UpdateProductType = {};
     if (name !== undefined) data.name = name;
     if (image !== undefined) data.image = imageUrl;
-    if (quantity !== undefined) data.quantity = quantity;
+    if (quantity !== undefined) data.quantity = Number(quantity);
     if (description !== undefined) data.description = description;
-    if (status !== undefined) data.status = status;
-    if (price !== undefined) data.price = status;
+    if (status !== undefined) data.status = status === "false" ? false : true;
+    if (price !== undefined) data.price = Number(price);
     const resp = await updateProductByIdService(data, product_id as string);
     res
       .status(200)
@@ -138,6 +153,8 @@ const updateProductByIdController = async (req: Request, res: Response) => {
     if (error.code === "P2025") {
       return res.status(404).json({ message: "Product Not Found" });
     }
+    console.log(error);
+
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -151,6 +168,8 @@ const deleteProductByIdController = async (req: Request, res: Response) => {
     if (error.code === "P2025") {
       return res.status(404).json({ message: `Product Not Found` });
     }
+    console.log(error);
+
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
