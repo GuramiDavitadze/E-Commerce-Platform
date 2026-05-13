@@ -47,8 +47,6 @@ const productCreationController = async (req: Request, res: Response) => {
         .status(404)
         .json({ message: "Category with this id does not exist!" });
     }
-    console.log(error);
-
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -153,8 +151,6 @@ const updateProductByIdController = async (req: Request, res: Response) => {
     if (error.code === "P2025") {
       return res.status(404).json({ message: "Product Not Found" });
     }
-    console.log(error);
-
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -168,8 +164,6 @@ const deleteProductByIdController = async (req: Request, res: Response) => {
     if (error.code === "P2025") {
       return res.status(404).json({ message: `Product Not Found` });
     }
-    console.log(error);
-
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };

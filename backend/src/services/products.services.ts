@@ -46,8 +46,6 @@ const getAllProductsService = async (
   maxPrice: number | undefined,
   sortBy: string,
 ) => {
-  console.log(sortBy);
-
   return await prisma.product.findMany({
     omit: {
       admin_id: true,

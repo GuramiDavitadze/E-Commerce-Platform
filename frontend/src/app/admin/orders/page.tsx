@@ -155,8 +155,6 @@ export default function AdminOrdersPage() {
 }
 
 function OrderItems({ order }: { order: Order }) {
-  console.log(order);
-  
   return (
     <tr className={styles.itemsRow}>
       <td colSpan={7}>

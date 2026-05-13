@@ -5,8 +5,6 @@ const BASE_URL =
   "https://e-commerce-full-stack-production-2d56.up.railway.app/api";
 
 const SECRET_API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
-console.log(SECRET_API_KEY);
-
 // ─── Core fetch wrapper ───────────────────────────────────────────────────────
 
 interface RequestOptions extends Omit<RequestInit, "body"> {
