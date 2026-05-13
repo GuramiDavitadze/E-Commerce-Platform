@@ -1,7 +1,9 @@
 import type { ApiError } from "@/types";
 
 const BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ||"";
+  process.env.NEXT_PUBLIC_API_BASE_URL || "";
+  console.log(BASE_URL);
+  
 const SECRET_API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 // ─── Core fetch wrapper ───────────────────────────────────────────────────────
 
