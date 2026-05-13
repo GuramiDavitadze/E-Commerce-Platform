@@ -73,7 +73,7 @@ export default function OrderDetailPage() {
   }
  
   const order     = data.data;
-  const items     = order.items ?? [];
+  const items     = order.order_items ?? [];
   const subtotal  = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
   const canCancel = order.status === 'PENDING';
   const isCancelled = order.status === 'CANCELLED';
