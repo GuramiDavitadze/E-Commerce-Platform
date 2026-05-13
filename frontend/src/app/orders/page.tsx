@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useMyOrders, useCancelOrder } from '@/hooks/useOrders';
-import { useUser } from '@/store/authStore';
+import { useHasHydrated, useUser } from '@/store/authStore';
 import type { Order, OrderStatus } from '@/types';
 import styles from './orders.module.scss';
 
@@ -21,9 +21,10 @@ export default function OrdersPage() {
   const user = useUser();
   const { data, isLoading, isError } = useMyOrders();
   const cancelOrder = useCancelOrder();
-
+  const hasHydrated = useHasHydrated() 
   useEffect(() => {
-    if (!user) router.replace('/login');
+    
+    if (!user && hasHydrated) router.replace('/login');
   }, [user, router]);
 
   if (!user) return null;
@@ -95,8 +96,6 @@ function OrderCard({
   onCancel: () => void;
   cancelling: boolean;
   }) {
-  console.log(order);
-  
   const total = (order.order_items ?? []).reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -126,7 +125,7 @@ function OrderCard({
 
       {/* Items */}
       <div className={styles.items}>
-        {(order.items ?? []).map((item) => (
+        {(order.order_items ?? []).map((item) => (
           <div key={item.id} className={styles.item}>
             <div className={styles.itemImage}>
               {item.product?.image ? (
