@@ -34,7 +34,7 @@ async function request<T>(
     ...(extraHeaders as Record<string, string>),
   };
 
-  const response = await fetch(`${BASE_URL}${path}`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}${path}`, {
     ...rest,
     credentials: "include",
     headers,
