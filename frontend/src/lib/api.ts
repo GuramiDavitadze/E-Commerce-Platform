@@ -1,9 +1,7 @@
 import type { ApiError } from "@/types";
 
 const BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ||
-  "https://e-commerce-full-stack-production-2d56.up.railway.app/api";
-
+  process.env.NEXT_PUBLIC_API_BASE_URL ||"";
 const SECRET_API_KEY = process.env.NEXT_PUBLIC_API_KEY || "";
 // ─── Core fetch wrapper ───────────────────────────────────────────────────────
 
