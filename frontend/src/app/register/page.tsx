@@ -112,7 +112,7 @@ export default function RegisterPage() {
       name: 'password',
       label: 'Password',
       type: 'password',
-      placeholder: '6+ characters',
+      placeholder: '8+ characters',
       autoComplete: 'new-password',
     },
     {
